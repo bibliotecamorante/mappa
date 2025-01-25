@@ -102,7 +102,7 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const biblioCoords = [41.732522, 12.271879]; // Coordinate della Biblioteca Elsa Morante
+            const biblioCoords = [41.732522, 12.271879];
             
             const map = L.map('map').setView(biblioCoords, 14);
             
@@ -117,9 +117,12 @@
 
             // Impostazione dinamica del link di donazione
             const donationLink = document.getElementById('donazione-link');
-            const currentURL = window.location.href;
             
-            if (currentURL.includes('termini.html')) {
+            // Ottieni l'host e il percorso completo della pagina corrente
+            const currentHost = window.location.hostname;
+            const currentPath = window.location.pathname;
+            
+            if (currentHost === 'bibliotecamorante.github.io' && currentPath === '/donazione/termini.html') {
                 donationLink.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
             } else {
                 donationLink.href = 'https://bibliotecamorante.github.io/donazione/';
@@ -129,24 +132,20 @@
         function searchRoute() {
             const startPoint = document.getElementById('start-point').value;
             
-            // Coordinata della biblioteca
             const biblioCoords = [41.732522, 12.271879];
             
-            // Utilizzare un servizio di geocodifica per convertire l'indirizzo in coordinate
             axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(startPoint)}`)
                 .then(response => {
                     if (response.data.length > 0) {
                         const startLat = parseFloat(response.data[0].lat);
                         const startLon = parseFloat(response.data[0].lon);
                         
-                        // Rimuovere eventuali percorsi esistenti
                         map.eachLayer((layer) => {
                             if (layer instanceof L.Routing.Plan || layer instanceof L.Routing.Line) {
                                 map.removeLayer(layer);
                             }
                         });
                         
-                        // Creare il percorso
                         L.Routing.control({
                             waypoints: [
                                 L.latLng(startLat, startLon),
