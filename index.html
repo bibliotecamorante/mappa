@@ -152,34 +152,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-function handleBackNavigation() {
-    // Use localStorage to store and retrieve the previous page
-    const previousPage = localStorage.getItem('previousPage');
-    
-    if (previousPage === 'donazione') {
-        window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-    } else if (previousPage === 'termini') {
-        window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-    } else {
-        // Default fallback to browser's back functionality
-        window.history.back();
-    }
-}
-
-// Modify the event listener to capture more specific referrer information
-document.addEventListener('DOMContentLoaded', function() {
-    const referrer = document.referrer;
-    if (referrer.includes('bibliotecamorante.github.io/donazione/')) {
-        if (referrer.includes('termini.html')) {
-            localStorage.setItem('previousPage', 'termini');
-        } else {
-            localStorage.setItem('previousPage', 'donazione');
+        function handleBackNavigation() {
+            const referrer = document.referrer;
+            
+            switch (true) {
+                case referrer === 'https://bibliotecamorante.github.io/donazione/':
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                    break;
+                case referrer === 'https://bibliotecamorante.github.io/donazione/termini.html':
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+                    break;
+                default:
+                    window.history.back();
+            }
         }
-    } else {
-        // Clear previous page if coming from an unrelated site
-        localStorage.removeItem('previousPage');
-    }
-});
+
         document.addEventListener('DOMContentLoaded', function() {
             const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
             
