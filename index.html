@@ -118,11 +118,10 @@
             // Impostazione dinamica del link di donazione
             const donationLink = document.getElementById('donazione-link');
             
-            // Ottieni l'host e il percorso completo della pagina corrente
-            const currentHost = window.location.hostname;
-            const currentPath = window.location.pathname;
+            // Usa referrer per determinare correttamente il link
+            const referrer = document.referrer;
             
-            if (currentHost === 'bibliotecamorante.github.io' && currentPath === '/donazione/termini.html') {
+            if (referrer.includes('/donazione/termini.html')) {
                 donationLink.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
             } else {
                 donationLink.href = 'https://bibliotecamorante.github.io/donazione/';
