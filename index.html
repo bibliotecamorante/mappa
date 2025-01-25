@@ -135,8 +135,8 @@
     </style>
 </head>
 <body>
-  <div class="search-box">
-        <a href="#" onclick="window.history.back(); return false;">
+     <div class="search-box">
+        <a href="#" id="backButton">
             <img src="left.svg" alt="Pagina precedente" class="icon">
         </a>
         <div class="separator"></div>
@@ -152,9 +152,32 @@
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
-    <script>
+ <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
+            const backButton = document.getElementById('backButton');
+            
+            backButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const referrer = document.referrer;
+                const currentDomain = window.location.origin;
+                
+                // Specific navigation for Biblioteca Morante GitHub Pages
+                if (referrer.startsWith('https://bibliotecamorante.github.io/donazione/')) {
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                } else if (referrer.startsWith('https://bibliotecamorante.github.io/donazione/termini.html')) {
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                } else if (referrer && new URL(referrer).origin !== currentDomain) {
+                    // For other external domains, use browser history
+                    window.history.back();
+                } else {
+                    // Fallback: try to go to homepage if no specific rule matches
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                }
+            });
+
+            // Rest of the existing map initialization code...
+            const biblioCoords = [41.732522, 12.271879];
             
             const map = L.map('map').setView(biblioCoords, 14);
             
