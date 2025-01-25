@@ -161,17 +161,22 @@
                 
                 const referrer = document.referrer;
                 
-                if (referrer === 'https://bibliotecamorante.github.io/donazione/') {
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-                } else if (referrer === 'https://bibliotecamorante.github.io/donazione/termini.html') {
-                    window.history.back();
-                } else if (referrer && new URL(referrer).origin !== window.location.origin) {
-                    window.history.back();
-                } else {
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                switch (referrer) {
+                    case 'https://bibliotecamorante.github.io/donazione/':
+                        window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                        break;
+                    case 'https://bibliotecamorante.github.io/donazione/termini.html':
+                        window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+                        break;
+                    default:
+                        if (referrer && new URL(referrer).origin !== window.location.origin) {
+                            window.history.back();
+                        } else {
+                            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                        }
                 }
             });
-
+            
             // Rest of the existing map initialization code...
             const biblioCoords = [41.732522, 12.271879];
             
