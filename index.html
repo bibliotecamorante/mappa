@@ -152,7 +152,7 @@
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
-    <script>
+     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const backButton = document.getElementById('backButton');
             
@@ -160,19 +160,34 @@
                 e.preventDefault();
                 
                 const referrer = document.referrer;
+                const currentOrigin = window.location.origin;
                 
-                switch (true) {
-                    case referrer === 'https://bibliotecamorante.github.io/donazione/':
+                try {
+                    const referrerUrl = new URL(referrer);
+                    
+                    // Specific GitHub Pages navigation
+                    if (referrer === 'https://bibliotecamorante.github.io/donazione/') {
                         window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-                        break;
-                    case referrer === 'https://bibliotecamorante.github.io/donazione/termini.html':
+                        return;
+                    }
+                    
+                    if (referrer === 'https://bibliotecamorante.github.io/donazione/termini.html') {
                         window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-                        break;
-                    case referrer && new URL(referrer).origin !== window.location.origin:
-                        window.history.back();
-                        break;
-                    default:
-                        window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                        return;
+                    }
+                    
+                    // External domains navigation
+                    if (referrerUrl.origin !== currentOrigin) {
+                        window.history.go(-1);
+                        return;
+                    }
+                    
+                    // Default fallback
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                    
+                } catch (error) {
+                    // Fallback if URL parsing fails
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
                 }
             });
             
