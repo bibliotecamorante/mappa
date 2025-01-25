@@ -161,19 +161,18 @@
                 
                 const referrer = document.referrer;
                 
-                switch (referrer) {
-                    case 'https://bibliotecamorante.github.io/donazione/':
+                switch (true) {
+                    case referrer === 'https://bibliotecamorante.github.io/donazione/':
                         window.location.href = 'https://bibliotecamorante.github.io/donazione/';
                         break;
-                    case 'https://bibliotecamorante.github.io/donazione/termini.html':
+                    case referrer === 'https://bibliotecamorante.github.io/donazione/termini.html':
                         window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
                         break;
+                    case referrer && new URL(referrer).origin !== window.location.origin:
+                        window.history.back();
+                        break;
                     default:
-                        if (referrer && new URL(referrer).origin !== window.location.origin) {
-                            window.history.back();
-                        } else {
-                            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-                        }
+                        window.location.href = 'https://bibliotecamorante.github.io/donazione/';
                 }
             });
             
