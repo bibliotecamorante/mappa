@@ -152,20 +152,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-        function handleBackNavigation() {
-            const referrer = document.referrer;
-            
-            switch (true) {
-                case referrer === 'https://bibliotecamorante.github.io/donazione/':
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-                    break;
-                case referrer === 'https://bibliotecamorante.github.io/donazione/termini.html':
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-                    break;
-                default:
-                    window.history.back();
-            }
-        }
+function handleBackNavigation() {
+    const referrer = document.referrer;
+    
+    switch (true) {
+        case referrer.includes('https://bibliotecamorante.github.io/donazione/'):
+            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+            break;
+        case referrer.includes('https://bibliotecamorante.github.io/donazione/termini.html'):
+            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+            break;
+        default:
+            window.history.back();
+    }
+}
 
         document.addEventListener('DOMContentLoaded', function() {
             const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
