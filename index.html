@@ -152,7 +152,7 @@
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const backButton = document.getElementById('backButton');
             
@@ -164,7 +164,7 @@
                 if (referrer === 'https://bibliotecamorante.github.io/donazione/') {
                     window.location.href = 'https://bibliotecamorante.github.io/donazione/';
                 } else if (referrer === 'https://bibliotecamorante.github.io/donazione/termini.html') {
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+                    window.history.back();
                 } else if (referrer && new URL(referrer).origin !== window.location.origin) {
                     window.history.back();
                 } else {
