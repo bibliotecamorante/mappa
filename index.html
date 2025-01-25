@@ -59,7 +59,6 @@
             background-color: #ccc;
             margin: 0 10px;
         }
-        /* Rest of the existing styles remain the same */
         .legend {
             background-color: rgba(255, 255, 255, 0.8);
             padding: 6px 8px;
@@ -81,12 +80,11 @@
             margin-right: 4px;
             background-color: #970a2c;
         }
-        /* Rest of the existing styles... */
     </style>
 </head>
 <body>
     <div class="search-box">
-        <a href="https://bibliotecamorante.github.io/donazione/" target="_blank">
+        <a id="donazione-link" href="#" target="_blank">
             <img src="left.svg" alt="Donazione" class="icon">
         </a>
         <div class="separator"></div>
@@ -103,9 +101,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-        // Existing JavaScript remains exactly the same as in the original file
         document.addEventListener('DOMContentLoaded', function() {
-            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
+            const biblioCoords = [41.732522, 12.271879]; // Coordinate della Biblioteca Elsa Morante
             
             const map = L.map('map').setView(biblioCoords, 14);
             
@@ -114,8 +111,77 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Rest of the existing script remains the same...
+            // Marker della biblioteca
+            const libraryMarker = L.marker(biblioCoords).addTo(map);
+            libraryMarker.bindPopup("<b>Biblioteca Elsa Morante</b><br>Municipio X, Roma").openPopup();
+
+            // Impostazione dinamica del link di donazione
+            const donationLink = document.getElementById('donazione-link');
+            const currentURL = window.location.href;
+            
+            if (currentURL.includes('termini.html')) {
+                donationLink.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+            } else {
+                donationLink.href = 'https://bibliotecamorante.github.io/donazione/';
+            }
         });
+
+        function searchRoute() {
+            const startPoint = document.getElementById('start-point').value;
+            
+            // Coordinata della biblioteca
+            const biblioCoords = [41.732522, 12.271879];
+            
+            // Utilizzare un servizio di geocodifica per convertire l'indirizzo in coordinate
+            axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(startPoint)}`)
+                .then(response => {
+                    if (response.data.length > 0) {
+                        const startLat = parseFloat(response.data[0].lat);
+                        const startLon = parseFloat(response.data[0].lon);
+                        
+                        // Rimuovere eventuali percorsi esistenti
+                        map.eachLayer((layer) => {
+                            if (layer instanceof L.Routing.Plan || layer instanceof L.Routing.Line) {
+                                map.removeLayer(layer);
+                            }
+                        });
+                        
+                        // Creare il percorso
+                        L.Routing.control({
+                            waypoints: [
+                                L.latLng(startLat, startLon),
+                                L.latLng(biblioCoords[0], biblioCoords[1])
+                            ],
+                            routeWhileDragging: true,
+                            show: true,
+                            addWaypoints: false,
+                            showAlternatives: true,
+                            fitSelectedRoutes: true,
+                            language: 'it',
+                            createMarker: function(i, waypoint, n) {
+                                const markerOptions = {
+                                    draggable: true
+                                };
+                                if (i === 0) {
+                                    markerOptions.icon = L.icon({
+                                        iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+                                        iconSize: [25, 41],
+                                        iconAnchor: [12, 41],
+                                        popupAnchor: [1, -34]
+                                    });
+                                }
+                                return L.marker(waypoint.latLng, markerOptions);
+                            }
+                        }).addTo(map);
+                    } else {
+                        alert('Indirizzo non trovato. Riprova.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Errore nella ricerca del percorso:', error);
+                    alert('Si è verificato un errore nella ricerca del percorso.');
+                });
+        }
     </script>
 </body>
 </html>
