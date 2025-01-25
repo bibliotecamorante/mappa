@@ -47,6 +47,19 @@
             cursor: pointer;
             font-size: 14px;
         }
+        .search-box .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .search-box .separator {
+            width: 1px;
+            height: 24px;
+            background-color: #ccc;
+            margin: 0 10px;
+        }
+        /* Rest of the existing styles remain the same */
         .legend {
             background-color: rgba(255, 255, 255, 0.8);
             padding: 6px 8px;
@@ -123,6 +136,13 @@
 </head>
 <body>
     <div class="search-box">
+        <a href="https://parvares.github.io/donazione/">
+            <img src="left.svg" alt="Donazione" class="icon">
+        </a>
+        <div class="separator"></div>
+        <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" target="_blank">
+            <img src="home.svg" alt="Biblioteca Home" class="icon">
+        </a>
         <input type="text" id="start-point" placeholder="Inserisci punto di partenza">
         <button onclick="searchRoute()">Trova Percorso</button>
     </div>
