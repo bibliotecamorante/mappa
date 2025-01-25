@@ -59,7 +59,6 @@
             background-color: #ccc;
             margin: 0 10px;
         }
-        /* Rest of the existing styles remain the same */
         .legend {
             background-color: rgba(255, 255, 255, 0.8);
             padding: 6px 8px;
@@ -135,8 +134,8 @@
     </style>
 </head>
 <body>
-     <div class="search-box">
-        <a href="#" id="backButton">
+  <div class="search-box">
+        <a href="#" onclick="handleBackNavigation(); return false;">
             <img src="left.svg" alt="Pagina precedente" class="icon">
         </a>
         <div class="separator"></div>
@@ -151,28 +150,25 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-
-   <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const backButton = document.getElementById('backButton');
-            
-            backButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const referrer = document.referrer;
     
-  switch (true) {
-    case referrer === 'https://bibliotecamorante.github.io/donazione/':
-        window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-        break;
-    case referrer === 'https://bibliotecamorante.github.io/donazione/termini.html':
-        window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-        break;
-}
-
+    <script>
+        function handleBackNavigation() {
+            const referrer = document.referrer;
             
-            // Rest of the existing map initialization code...
-            const biblioCoords = [41.732522, 12.271879];
+            switch (true) {
+                case referrer === 'https://bibliotecamorante.github.io/donazione/':
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                    break;
+                case referrer === 'https://bibliotecamorante.github.io/donazione/termini.html':
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+                    break;
+                default:
+                    window.history.back();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
             
             const map = L.map('map').setView(biblioCoords, 14);
             
@@ -206,7 +202,7 @@
                 closeButton: true
             })
                 .setLatLng(markerCoords)
-.setContent(`
+                .setContent(`
     <b>Biblioteca Elsa Morante</b><br>
     Via Adolfo Cozza, 7<br>
     <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
