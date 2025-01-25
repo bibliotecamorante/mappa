@@ -153,19 +153,32 @@
     
     <script>
 function handleBackNavigation() {
-    const referrer = document.referrer;
+    // Use localStorage to store and retrieve the previous page
+    const previousPage = localStorage.getItem('previousPage');
     
     switch (true) {
-        case referrer.includes('https://bibliotecamorante.github.io/donazione/'):
+        case previousPage === 'donazione':
             window.location.href = 'https://bibliotecamorante.github.io/donazione/';
             break;
-        case referrer.includes('https://bibliotecamorante.github.io/donazione/termini.html'):
+        case previousPage === 'termini':
             window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
             break;
         default:
             window.history.back();
     }
 }
+
+// Before navigating to the map page, store the origin
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a referrer and it matches our specific pages
+    if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
+        if (document.referrer.includes('termini.html')) {
+            localStorage.setItem('previousPage', 'termini');
+        } else {
+            localStorage.setItem('previousPage', 'donazione');
+        }
+    }
+});
 
         document.addEventListener('DOMContentLoaded', function() {
             const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
