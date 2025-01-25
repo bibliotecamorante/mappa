@@ -151,6 +151,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+   <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backButton = document.getElementById('backButton');
+            
+            backButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const referrer = document.referrer;
     
   switch (true) {
     case referrer === 'https://bibliotecamorante.github.io/donazione/':
