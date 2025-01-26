@@ -38,15 +38,19 @@
             border-radius: 3px;
             font-size: 14px;
         }
-        .search-box button {
-            background-color: #4285F4;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+        
+.search-box button {
+    background-color: #4285F4; 
+    color: white; 
+    border: none;  /* This removes any border */
+    padding: 5px 10px; 
+    border-radius: 3px; 
+    cursor: pointer; 
+    font-size: 14px;
+    appearance: none;  /* Removes browser-specific styling */
+    -webkit-appearance: none;  /* For WebKit browsers */
+    -moz-appearance: none;  /* For Firefox */
+}
         .search-box .icon {
             width: 24px;
             height: 24px;
