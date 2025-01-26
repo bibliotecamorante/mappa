@@ -152,59 +152,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-function handleBackNavigation() {
-    console.log('Previous localStorage value:', localStorage.getItem('previousPage'));
-    
-    const previousPage = localStorage.getItem('previousPage');
-    console.log('Handling back navigation for page:', previousPage);
-
-    switch (true) {
-        case previousPage === 'donazione':
-            console.log('Navigating to donazione page');
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-            break;
-        case previousPage === 'termini':
-            console.log('Navigating to termini page');
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-            break;
-        default:
-            console.log('Using default back navigation');
-            window.history.back();
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Referrer:', document.referrer);
+    const backLink = document.getElementById('navback');
     
-    // Check if there's a referrer and it matches our specific pages
     if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
-        if (document.referrer.includes('termini.html')) {
-            console.log('Setting previousPage to termini');
-            localStorage.setItem('previousPage', 'termini');
-        } else {
-            console.log('Setting previousPage to donazione');
-            localStorage.setItem('previousPage', 'donazione');
-        }
-    }
-
-    // Modify the href for the back navigation link
-    const backLink = document.querySelector('.search-box a[onclick^="handleBackNavigation"]');
-    if (backLink) {
-        const previousPage = localStorage.getItem('previousPage');
-        console.log('Setting back link href for page:', previousPage);
+        const previousPage = document.referrer.includes('termini.html') ? 'termini' : 'donazione';
+        localStorage.setItem('previousPage', previousPage);
         
-        switch (previousPage) {
-            case 'donazione':
-                backLink.href = 'https://bibliotecamorante.github.io/donazione/';
-                break;
-            case 'termini':
-                backLink.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-                break;
-            default:
-                backLink.href = '#';
-        }
-        
-        console.log('Back link href:', backLink.href);
+        backLink.href = previousPage === 'termini' 
+            ? 'https://bibliotecamorante.github.io/donazione/termini.html'
+            : 'https://bibliotecamorante.github.io/donazione/';
+    } else {
+        backLink.onclick = () => window.history.back();
     }
 });
 
