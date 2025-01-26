@@ -163,7 +163,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ? 'https://bibliotecamorante.github.io/donazione/termini.html'
             : 'https://bibliotecamorante.github.io/donazione/';
     } else {
-        backLink.onclick = () => window.history.back();
+        backLink.href = localStorage.getItem('previousPage') === 'termini'
+            ? 'https://bibliotecamorante.github.io/donazione/termini.html'
+            : 'https://bibliotecamorante.github.io/donazione/';
     }
 });
 
