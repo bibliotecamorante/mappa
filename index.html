@@ -132,13 +132,16 @@
             color: #333;
         }
 
-        a {
-    -webkit-touch-callout: none;
+a {
     -webkit-user-select: none;
-    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    pointer-events: none;
+}
+
+a:hover {
+    cursor: default;
 }
     </style>
 </head>
