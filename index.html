@@ -152,22 +152,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const backLink = document.getElementById('navback');
+function handleBackNavigation() {
+    // Use localStorage to store and retrieve the previous page
+    const previousPage = localStorage.getItem('previousPage');
     
-    if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
-        const previousPage = document.referrer.includes('termini.html') ? 'termini' : 'donazione';
-        localStorage.setItem('previousPage', previousPage);
-        
-        backLink.href = previousPage === 'termini' 
-            ? 'https://bibliotecamorante.github.io/donazione/termini.html'
-            : 'https://bibliotecamorante.github.io/donazione/';
-    } else {
-        backLink.href = localStorage.getItem('previousPage') === 'termini'
-            ? 'https://bibliotecamorante.github.io/donazione/termini.html'
-            : 'https://bibliotecamorante.github.io/donazione/';
+    switch (true) {
+        case previousPage === 'donazione':
+            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+            break;
+        case previousPage === 'termini':
+            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+            break;
+        default:
+            window.history.back();
     }
-});
+}
 
 // Before navigating to the map page, store the origin
 document.addEventListener('DOMContentLoaded', function() {
