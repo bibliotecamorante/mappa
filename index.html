@@ -153,9 +153,7 @@
     
     <script>
 function handleBackNavigation() {
-    // Use localStorage to store and retrieve the previous page
     const previousPage = localStorage.getItem('previousPage');
-    
     switch (true) {
         case previousPage === 'donazione':
             window.location.href = 'https://bibliotecamorante.github.io/donazione/';
@@ -167,6 +165,19 @@ function handleBackNavigation() {
             window.history.back();
     }
 }
+
+// Aggiungi un attributo href con il percorso corretto
+document.querySelector('.search-box a[onclick^="handleBackNavigation"]').setAttribute('href', function() {
+    const previousPage = localStorage.getItem('previousPage');
+    switch (previousPage) {
+        case 'donazione':
+            return 'https://bibliotecamorante.github.io/donazione/';
+        case 'termini':
+            return 'https://bibliotecamorante.github.io/donazione/termini.html';
+        default:
+            return '#';
+    }
+}());
 
 // Before navigating to the map page, store the origin
 document.addEventListener('DOMContentLoaded', function() {
