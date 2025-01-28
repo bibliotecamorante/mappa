@@ -65,10 +65,6 @@
             font: 14px/16px Arial, Helvetica, sans-serif;
             box-shadow: 0 0 15px rgba(0,0,0,0.2);
             border-radius: 5px;
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            z-index: 1000;
         }
         .legend-item {
             display: flex;
@@ -80,65 +76,33 @@
             margin-right: 4px;
             background-color: #970a2c;
         }
-        .leaflet-routing-container {
-            position: relative;
+        .routing-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255, 77, 77, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 1000;
         }
-.routing-close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 24px;
-    height: 24px;
-    background-color: rgba(255, 77, 77, 0.7);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-    z-index: 1000;
-    transition: background-color 0.3s;
-}
-
-.routing-close-btn:hover {
-    background-color: rgba(255, 26, 26, 0.8);
-}
         .custom-popup .leaflet-popup-content-wrapper {
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
         }
-        .custom-popup .leaflet-popup-tip {
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-        .custom-popup {
-            margin-bottom: 30px;
-        }
-        .custom-popup .leaflet-popup-close-button {
-            color: #ff4d4d;
-            font-size: 20px;
-            font-weight: bold;
-            opacity: 1;
-            right: 8px;
-            top: 8px;
-        }
-        .custom-popup .leaflet-popup-close-button:hover {
-            color: #ff1a1a;
-        }
-        .hours-info {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #333;
-        }
-
-
     </style>
 </head>
 <body>
-  <div class="search-box">
-        <a href="#" onclick="handleBackNavigation(); return false;" title="Torna indietro">
+    <div class="search-box">
+        <a href="#" onclick="handleBackNavigation()" title="Torna indietro">
             <img src="left.svg" alt="Pagina precedente" class="icon">
         </a>
         <div class="separator"></div>
@@ -146,227 +110,161 @@
             <img src="home.svg" alt="Biblioteca Home" class="icon">
         </a>
         <input type="text" id="start-point" placeholder="Inserisci punto di partenza">
-        <button onclick="searchRoute()" title="Trova percorso fino alla Biblioteca Morante">Trova Percorso</button>
+        <button onclick="searchRoute()">Trova Percorso</button>
     </div>
     <div id="map"></div>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    
+
     <script>
-function handleBackNavigation() {
-    // Use localStorage to store and retrieve the previous page
-    const previousPage = localStorage.getItem('previousPage');
-    
-    switch (true) {
-        case previousPage === 'donazione':
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-            break;
-        case previousPage === 'termini':
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-            break;
-        default:
-            window.history.back();
-    }
-}
+        let map;
+        const biblioCoords = [41.732522, 12.271879];
+        let routingControl = null;
 
-// Before navigating to the map page, store the origin
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if there's a referrer and it matches our specific pages
-    if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
-        if (document.referrer.includes('termini.html')) {
-            localStorage.setItem('previousPage', 'termini');
-        } else {
-            localStorage.setItem('previousPage', 'donazione');
+        function handleBackNavigation() {
+            const previousPage = localStorage.getItem('previousPage');
+            if (previousPage === 'donazione') {
+                window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+            } else if (previousPage === 'termini') {
+                window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+            } else {
+                window.history.back();
+            }
         }
-    }
-});
 
+        function initMap() {
+            map = L.map('map').setView(biblioCoords, 14);
 
-        document.addEventListener('DOMContentLoaded', function () {
-    const biblioCoords = [41.732522, 12.271879]; // Coordinate della Biblioteca Elsa Morante
-    const map = L.map('map').setView(biblioCoords, 14);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Percorso tratteggiato
-    const percorso = [
-        biblioCoords,
-        [41.732154, 12.271675],
-        [41.732282, 12.271254],
-        [41.732240, 12.271230],
-        [41.732276, 12.271090],
-        [41.732092, 12.270980],
-    ];
-
-    const dashedPath = L.polyline(percorso, {
-        color: '#0000FF',
-        weight: 4,
-        opacity: 0.8,
-        dashArray: '10, 10'
-    }).addTo(map);
-
-    // Marker e popup
-    const markerCoords = percorso[percorso.length - 1];
-    const marker = L.marker(markerCoords).addTo(map);
-
-    const popup = L.popup({
-        className: 'custom-popup',
-        offset: [0, -10],
-        closeButton: true
-    })
-        .setLatLng(markerCoords)
-        .setContent(`
-            <b>Biblioteca Elsa Morante</b><br>
-            Via Adolfo Cozza, 7<br>
-            <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
-        `)
-        .openOn(map);
-
-    // Carica i confini del Municipio X da GeoJSON
-    fetch('municipio_x.geojson') // Assicurati che il percorso del file sia corretto
-        .then(response => response.json())
-        .then(data => {
-            L.geoJSON(data, {
-                style: {
-                    color: '#970a2c',
-                    weight: 3,
-                    opacity: 0.7
-                }
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Aggiungi la legenda
-            const legend = L.control({ position: 'bottomright' });
-            legend.onAdd = function () {
-                this._div = L.DomUtil.create('div', 'legend');
-                this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
-                return this._div;
-            };
-            legend.addTo(map);
-        })
-        .catch(error => console.error('Errore nel caricamento del file GeoJSON:', error));
-});
-        
-            let routingControl = null;
-            
-            window.searchRoute = async function() {
-                const startPoint = document.getElementById('start-point').value;
+            const percorso = [
+                biblioCoords,
+                [41.732154, 12.271675],
+                [41.732282, 12.271254],
+                [41.732240, 12.271230],
+                [41.732276, 12.271090],
+                [41.732092, 12.270980],
+            ];
+
+            L.polyline(percorso, {
+                color: '#0000FF',
+                weight: 4,
+                opacity: 0.8,
+                dashArray: '10, 10'
+            }).addTo(map);
+
+            const marker = L.marker(biblioCoords).addTo(map);
+            marker.bindPopup(`
+                <b>Biblioteca Elsa Morante</b><br>
+                Via Adolfo Cozza, 7<br>
+                <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
+            `, { className: 'custom-popup' }).openPopup();
+
+            loadMunicipioX();
+        }
+
+        async function loadMunicipioX() {
+            try {
+                const response = await fetch('municipio_x.geojson');
+                const data = await response.json();
                 
-                if (routingControl) {
-                    map.removeControl(routingControl);
-                }
-
-                try {
-                    const response = await axios.get('https://nominatim.openstreetmap.org/search', {
-                        params: {
-                            q: startPoint,
-                            format: 'json',
-                            limit: 1
-                        }
-                    });
-
-                    if (response.data.length > 0) {
-                        const startCoords = [
-                            parseFloat(response.data[0].lat), 
-                            parseFloat(response.data[0].lon)
-                        ];
-
-                        routingControl = L.Routing.control({
-                            waypoints: [
-                                L.latLng(startCoords[0], startCoords[1]),
-                                L.latLng(biblioCoords[0], biblioCoords[1])
-                            ],
-                            routeWhileDragging: true,
-                            language: 'it',
-                            show: true,
-                            addWaypoints: false,
-                            draggableWaypoints: false,
-                            fitSelectedRoutes: true,
-                            lineOptions: {
-                                styles: [{color: '#0000FF', opacity: 0.8, weight: 5}]
-                            },
-                            createMarker: function(i, waypoint, n) {
-                                const closeBtn = document.createElement('button');
-                                closeBtn.innerHTML = '✕';
-                                closeBtn.className = 'routing-close-btn';
-                                closeBtn.onclick = function() {
-                                    map.removeControl(routingControl);
-                                };
-
-                                // Append close button to routing container
-                                setTimeout(() => {
-                                    const container = document.querySelector('.leaflet-routing-container');
-                                    if (container) {
-                                        container.appendChild(closeBtn);
-                                    }
-                                }, 100);
-
-                                return null; // No markers for waypoints
-                            }
-                        }).addTo(map);
-                    } else {
-                        alert('Indirizzo non trovato. Riprova.');
+                L.geoJSON(data, {
+                    style: {
+                        color: '#970a2c',
+                        weight: 3,
+                        opacity: 0.7
                     }
-                } catch (error) {
-                    console.error('Errore nella ricerca del percorso:', error);
-                    alert('Errore nel trovare il percorso. Riprova.');
-                }
+                }).addTo(map);
+
+                const legend = L.control({ position: 'bottomright' });
+                legend.onAdd = function() {
+                    const div = L.DomUtil.create('div', 'legend');
+                    div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
+                    return div;
+                };
+                legend.addTo(map);
+            } catch (error) {
+                console.error('Errore nel caricamento del GeoJSON:', error);
+            }
+        }
+
+        async function searchRoute() {
+            const startPoint = document.getElementById('start-point').value;
+            if (!startPoint) return;
+
+            if (routingControl) {
+                map.removeControl(routingControl);
             }
 
-            document.getElementById('start-point').addEventListener('keypress', function(event) {
+            try {
+                const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+                    params: {
+                        q: startPoint,
+                        format: 'json',
+                        limit: 1
+                    }
+                });
+
+                if (response.data.length > 0) {
+                    const startCoords = [
+                        parseFloat(response.data[0].lat),
+                        parseFloat(response.data[0].lon)
+                    ];
+
+                    routingControl = L.Routing.control({
+                        waypoints: [
+                            L.latLng(startCoords[0], startCoords[1]),
+                            L.latLng(biblioCoords[0], biblioCoords[1])
+                        ],
+                        routeWhileDragging: true,
+                        language: 'it',
+                        show: true,
+                        addWaypoints: false,
+                        draggableWaypoints: false,
+                        lineOptions: {
+                            styles: [{color: '#0000FF', opacity: 0.8, weight: 5}]
+                        }
+                    }).addTo(map);
+
+                    const closeBtn = document.createElement('button');
+                    closeBtn.innerHTML = '✕';
+                    closeBtn.className = 'routing-close-btn';
+                    closeBtn.onclick = () => map.removeControl(routingControl);
+
+                    setTimeout(() => {
+                        const container = document.querySelector('.leaflet-routing-container');
+                        if (container) {
+                            container.appendChild(closeBtn);
+                        }
+                    }, 100);
+                } else {
+                    alert('Indirizzo non trovato. Riprova.');
+                }
+            } catch (error) {
+                console.error('Errore nella ricerca del percorso:', error);
+                alert('Errore nel trovare il percorso. Riprova.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            
+            if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
+                localStorage.setItem('previousPage', 
+                    document.referrer.includes('termini.html') ? 'termini' : 'donazione'
+                );
+            }
+
+            document.getElementById('start-point').addEventListener('keypress', (event) => {
                 if (event.key === 'Enter') {
                     searchRoute();
                 }
             });
-
-            document.getElementById('start-point').focus();
-
-            fetch('https://overpass-api.de/api/interpreter', {
-                method: 'POST',
-                body: `[out:json][timeout:25];
-                       relation(1460885);
-                       out body;
-                       >;
-                       out skel qt;`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.elements.length > 0) {
-                    const ways = data.elements.filter(e => e.type === "way");
-                    const nodes = data.elements.filter(e => e.type === "node");
-
-                    const boundaries = ways.map(way => {
-                        return way.nodes.map(nodeId => {
-                            const node = nodes.find(n => n.id === nodeId);
-                            return [node.lat, node.lon];
-                        });
-                    });
-
-                    boundaries.forEach(boundary => {
-                        L.polyline(boundary, {
-                            color: '#970a2c',
-                            weight: 3,
-                            opacity: 0.7
-                        }).addTo(map);
-                    });
-
-                    const legend = L.control({position: 'bottomright'});
-                    legend.onAdd = function() {
-                        this._div = L.DomUtil.create('div', 'legend');
-                        this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
-                        return this._div;
-                    };
-                    legend.addTo(map);
-
-                    const bounds = L.latLngBounds(boundaries.flat());
-                    map.fitBounds(bounds);
-                }
-            })
-            .catch(error => console.error('Errore nel caricamento dei confini:', error));
         });
     </script>
 </body>
