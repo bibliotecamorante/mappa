@@ -80,32 +80,28 @@
             margin-right: 4px;
             background-color: #970a2c;
         }
-        .leaflet-routing-container {
-            position: relative;
+        .routing-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(255, 77, 77, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 1000;
+            transition: background-color 0.3s;
         }
-.routing-close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 24px;
-    height: 24px;
-    background-color: rgba(255, 77, 77, 0.7);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-    z-index: 1000;
-    transition: background-color 0.3s;
-}
-
-.routing-close-btn:hover {
-    background-color: rgba(255, 26, 26, 0.8);
-}
+        .routing-close-btn:hover {
+            background-color: rgba(255, 26, 26, 0.8);
+        }
         .custom-popup .leaflet-popup-content-wrapper {
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 8px;
@@ -127,17 +123,10 @@
         .custom-popup .leaflet-popup-close-button:hover {
             color: #ff1a1a;
         }
-        .hours-info {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #333;
-        }
-
-
     </style>
 </head>
 <body>
-  <div class="search-box">
+    <div class="search-box">
         <a href="#" onclick="handleBackNavigation(); return false;" title="Torna indietro">
             <img src="left.svg" alt="Pagina precedente" class="icon">
         </a>
@@ -155,38 +144,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-function handleBackNavigation() {
-    // Use localStorage to store and retrieve the previous page
-    const previousPage = localStorage.getItem('previousPage');
-    
-    switch (true) {
-        case previousPage === 'donazione':
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-            break;
-        case previousPage === 'termini':
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-            break;
-        default:
-            window.history.back();
-    }
-}
-
-// Before navigating to the map page, store the origin
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if there's a referrer and it matches our specific pages
-    if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
-        if (document.referrer.includes('termini.html')) {
-            localStorage.setItem('previousPage', 'termini');
-        } else {
-            localStorage.setItem('previousPage', 'donazione');
+        function handleBackNavigation() {
+            const previousPage = localStorage.getItem('previousPage');
+            switch (true) {
+                case previousPage === 'donazione':
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+                    break;
+                case previousPage === 'termini':
+                    window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+                    break;
+                default:
+                    window.history.back();
+            }
         }
-    }
-});
 
-
-        
         document.addEventListener('DOMContentLoaded', function() {
-            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
+            if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
+                if (document.referrer.includes('termini.html')) {
+                    localStorage.setItem('previousPage', 'termini');
+                } else {
+                    localStorage.setItem('previousPage', 'donazione');
+                }
+            }
+
+            const biblioCoords = [41.732522, 12.271879];
             
             const map = L.map('map').setView(biblioCoords, 14);
             
@@ -195,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
+            // Percorso pedonale alla biblioteca
             const percorso = [
                 biblioCoords,
                 [41.732154, 12.271675],
@@ -211,6 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 dashArray: '10, 10'
             }).addTo(map);
 
+            // Marker della biblioteca
             const markerCoords = percorso[percorso.length - 1];
             const marker = L.marker(markerCoords).addTo(map);
             
@@ -221,11 +204,162 @@ document.addEventListener('DOMContentLoaded', function() {
             })
                 .setLatLng(markerCoords)
                 .setContent(`
-    <b>Biblioteca Elsa Morante</b><br>
-    Via Adolfo Cozza, 7<br>
-    <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
-`)
+                    <b>Biblioteca Elsa Morante</b><br>
+                    Via Adolfo Cozza, 7<br>
+                    <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
+                `)
                 .openOn(map);
+
+            // Confini del Municipio X
+            const municipioBoundaries = [
+    [
+        [41.7325, 12.2718],
+        [41.7326, 12.2719],
+        [41.7327, 12.2720],
+        [41.7328, 12.2721],
+        [41.7330, 12.2724],
+        [41.7331, 12.2726],
+        [41.7333, 12.2728],
+        [41.7335, 12.2730],
+        [41.7336, 12.2731],
+        [41.7338, 12.2733],
+        [41.7340, 12.2735],
+        [41.7342, 12.2737],
+        [41.7344, 12.2740],
+        [41.7346, 12.2742],
+        [41.7348, 12.2745],
+        [41.7350, 12.2747],
+        [41.7352, 12.2750],
+        [41.7354, 12.2752],
+        [41.7356, 12.2755],
+        [41.7358, 12.2757],
+        [41.7360, 12.2760],
+        [41.7362, 12.2762],
+        [41.7364, 12.2765],
+        [41.7366, 12.2767],
+        [41.7368, 12.2770],
+        [41.7370, 12.2772],
+        [41.7372, 12.2775],
+        [41.7374, 12.2777],
+        [41.7376, 12.2780],
+        [41.7378, 12.2782],
+        [41.7380, 12.2785],
+        [41.7382, 12.2787],
+        [41.7384, 12.2790],
+        [41.7386, 12.2792],
+        [41.7388, 12.2795],
+        [41.7390, 12.2797],
+        [41.7392, 12.2800],
+        [41.7394, 12.2802],
+        [41.7396, 12.2805],
+        [41.7398, 12.2807],
+        [41.7400, 12.2810],
+        [41.7402, 12.2812],
+        [41.7404, 12.2815],
+        [41.7406, 12.2817],
+        [41.7408, 12.2820],
+        [41.7410, 12.2822],
+        [41.7412, 12.2825],
+        [41.7414, 12.2827],
+        [41.7416, 12.2830],
+        [41.7418, 12.2832],
+        [41.7420, 12.2835],
+        [41.7422, 12.2837],
+        [41.7424, 12.2840],
+        [41.7426, 12.2842],
+        [41.7428, 12.2845],
+        [41.7430, 12.2847],
+        [41.7432, 12.2850],
+        [41.7434, 12.2852],
+        [41.7436, 12.2855],
+        [41.7438, 12.2857],
+        [41.7440, 12.2860]
+    ],
+    [
+        [41.7440, 12.2860],
+        [41.7442, 12.2862],
+        [41.7444, 12.2865],
+        [41.7446, 12.2867],
+        [41.7448, 12.2870],
+        [41.7450, 12.2872],
+        [41.7452, 12.2875],
+        [41.7454, 12.2877],
+        [41.7456, 12.2880],
+        [41.7458, 12.2882],
+        [41.7460, 12.2885],
+        [41.7462, 12.2887],
+        [41.7464, 12.2890],
+        [41.7466, 12.2892],
+        [41.7468, 12.2895],
+        [41.7470, 12.2897],
+        [41.7472, 12.2900],
+        [41.7474, 12.2902],
+        [41.7476, 12.2905],
+        [41.7478, 12.2907],
+        [41.7480, 12.2910],
+        [41.7482, 12.2912],
+        [41.7484, 12.2915],
+        [41.7486, 12.2917],
+        [41.7488, 12.2920],
+        [41.7490, 12.2922],
+        [41.7492, 12.2925],
+        [41.7494, 12.2927],
+        [41.7496, 12.2930],
+        [41.7498, 12.2932],
+        [41.7500, 12.2935]
+    ],
+    [
+        [41.7500, 12.2935],
+        [41.7498, 12.2937],
+        [41.7496, 12.2940],
+        [41.7494, 12.2942],
+        [41.7492, 12.2945],
+        [41.7490, 12.2947],
+        [41.7488, 12.2950],
+        [41.7486, 12.2952],
+        [41.7484, 12.2955],
+        [41.7482, 12.2957],
+        [41.7480, 12.2960],
+        [41.7478, 12.2962],
+        [41.7476, 12.2965],
+        [41.7474, 12.2967],
+        [41.7472, 12.2970],
+        [41.7470, 12.2972],
+        [41.7468, 12.2975],
+        [41.7466, 12.2977],
+        [41.7464, 12.2980],
+        [41.7462, 12.2982],
+        [41.7460, 12.2985],
+        [41.7458, 12.2987],
+        [41.7456, 12.2990],
+        [41.7454, 12.2992],
+        [41.7452, 12.2995],
+        [41.7450, 12.2997],
+        [41.7448, 12.3000],
+        [41.7446, 12.3002],
+        [41.7444, 12.3005],
+        [41.7442, 12.3007],
+        [41.7440, 12.3010]
+    ]
+];
+
+            // Disegna i confini
+            municipioBoundaries.forEach(boundary => {
+                L.polyline(boundary, {
+                    color: '#970a2c',
+                    weight: 3,
+                    opacity: 0.7
+                }).addTo(map);
+            });
+
+            // Aggiungi la legenda
+            const legend = L.control({position: 'bottomright'});
+            legend.onAdd = function() {
+                this._div = L.DomUtil.create('div', 'legend');
+                this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
+                return this._div;
+            };
+            legend.addTo(map);
 
             let routingControl = null;
             
@@ -273,7 +407,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                     map.removeControl(routingControl);
                                 };
 
-                                // Append close button to routing container
                                 setTimeout(() => {
                                     const container = document.querySelector('.leaflet-routing-container');
                                     if (container) {
@@ -281,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     }
                                 }, 100);
 
-                                return null; // No markers for waypoints
+                                return null;
                             }
                         }).addTo(map);
                     } else {
@@ -291,7 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('Errore nella ricerca del percorso:', error);
                     alert('Errore nel trovare il percorso. Riprova.');
                 }
-            }
+            };
 
             document.getElementById('start-point').addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
@@ -300,49 +433,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             document.getElementById('start-point').focus();
-
-            fetch('https://overpass-api.de/api/interpreter', {
-                method: 'POST',
-                body: `[out:json][timeout:25];
-                       relation(1460885);
-                       out body;
-                       >;
-                       out skel qt;`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.elements.length > 0) {
-                    const ways = data.elements.filter(e => e.type === "way");
-                    const nodes = data.elements.filter(e => e.type === "node");
-
-                    const boundaries = ways.map(way => {
-                        return way.nodes.map(nodeId => {
-                            const node = nodes.find(n => n.id === nodeId);
-                            return [node.lat, node.lon];
-                        });
-                    });
-
-                    boundaries.forEach(boundary => {
-                        L.polyline(boundary, {
-                            color: '#970a2c',
-                            weight: 3,
-                            opacity: 0.7
-                        }).addTo(map);
-                    });
-
-                    const legend = L.control({position: 'bottomright'});
-                    legend.onAdd = function() {
-                        this._div = L.DomUtil.create('div', 'legend');
-                        this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
-                        return this._div;
-                    };
-                    legend.addTo(map);
-
-                    const bounds = L.latLngBounds(boundaries.flat());
-                    map.fitBounds(bounds);
-                }
-            })
-            .catch(error => console.error('Errore nel caricamento dei confini:', error));
         });
     </script>
 </body>
