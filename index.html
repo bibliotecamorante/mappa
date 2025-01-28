@@ -184,49 +184,73 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+        document.addEventListener('DOMContentLoaded', function () {
+    const biblioCoords = [41.732522, 12.271879]; // Coordinate della Biblioteca Elsa Morante
+    const map = L.map('map').setView(biblioCoords, 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Percorso tratteggiato
+    const percorso = [
+        biblioCoords,
+        [41.732154, 12.271675],
+        [41.732282, 12.271254],
+        [41.732240, 12.271230],
+        [41.732276, 12.271090],
+        [41.732092, 12.270980],
+    ];
+
+    const dashedPath = L.polyline(percorso, {
+        color: '#0000FF',
+        weight: 4,
+        opacity: 0.8,
+        dashArray: '10, 10'
+    }).addTo(map);
+
+    // Marker e popup
+    const markerCoords = percorso[percorso.length - 1];
+    const marker = L.marker(markerCoords).addTo(map);
+
+    const popup = L.popup({
+        className: 'custom-popup',
+        offset: [0, -10],
+        closeButton: true
+    })
+        .setLatLng(markerCoords)
+        .setContent(`
+            <b>Biblioteca Elsa Morante</b><br>
+            Via Adolfo Cozza, 7<br>
+            <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
+        `)
+        .openOn(map);
+
+    // Carica i confini del Municipio X da GeoJSON
+    fetch('municipio_x.geojson') // Assicurati che il percorso del file sia corretto
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                style: {
+                    color: '#970a2c',
+                    weight: 3,
+                    opacity: 0.7
+                }
+            }).addTo(map);
+
+            // Aggiungi la legenda
+            const legend = L.control({ position: 'bottomright' });
+            legend.onAdd = function () {
+                this._div = L.DomUtil.create('div', 'legend');
+                this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
+                return this._div;
+            };
+            legend.addTo(map);
+        })
+        .catch(error => console.error('Errore nel caricamento del file GeoJSON:', error));
+});
         
-        document.addEventListener('DOMContentLoaded', function() {
-            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
-            
-            const map = L.map('map').setView(biblioCoords, 14);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            const percorso = [
-                biblioCoords,
-                [41.732154, 12.271675],
-                [41.732282, 12.271254],
-                [41.732240, 12.271230],
-                [41.732276, 12.271090],
-                [41.732092, 12.270980],
-            ];
-
-            const dashedPath = L.polyline(percorso, {
-                color: '#0000FF',
-                weight: 4,
-                opacity: 0.8,
-                dashArray: '10, 10'
-            }).addTo(map);
-
-            const markerCoords = percorso[percorso.length - 1];
-            const marker = L.marker(markerCoords).addTo(map);
-            
-            const popup = L.popup({
-                className: 'custom-popup',
-                offset: [0, -10],
-                closeButton: true
-            })
-                .setLatLng(markerCoords)
-                .setContent(`
-    <b>Biblioteca Elsa Morante</b><br>
-    Via Adolfo Cozza, 7<br>
-    <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
-`)
-                .openOn(map);
-
             let routingControl = null;
             
             window.searchRoute = async function() {
