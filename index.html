@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+<!-- Head section remains the same -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
+        /* Previous styles remain the same */
         body, html {
             margin: 0;
             padding: 0;
@@ -72,10 +74,9 @@
         }
         .legend-item span {
             width: 16px;
-            height: 16px;
+            height: 2px;  /* Changed to show just a line */
             margin-right: 4px;
-            background-color: rgba(151, 10, 44, 0.2);
-            border: 2px solid #970a2c;
+            background-color: #970a2c;
         }
         .routing-close-btn {
             position: absolute;
@@ -99,9 +100,15 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
         }
+        
+        /* Override any fill styles from Leaflet */
+        .leaflet-interactive {
+            fill: none !important;
+        }
     </style>
 </head>
 <body>
+    <!-- Body content remains the same -->
     <div class="search-box">
         <a href="#" onclick="handleBackNavigation()" title="Torna indietro">
             <img src="left.svg" alt="Pagina precedente" class="icon">
@@ -174,20 +181,36 @@
                 const response = await fetch('municipio_x.geojson');
                 const data = await response.json();
                 
-                L.geoJSON(data, {
-                    style: {
-                        color: '#970a2c',         // Colore del bordo
-                        weight: 2,                // Spessore del bordo
-                        opacity: 1,               // Opacità del bordo
-                        fillColor: '#970a2c',     // Colore di riempimento
-                        fillOpacity: 0.2          // Opacità del riempimento
-                    }
+                // Extract only the boundaries from the GeoJSON
+                const boundaries = [];
+                if (data.type === 'FeatureCollection') {
+                    data.features.forEach(feature => {
+                        if (feature.geometry.type === 'Polygon') {
+                            feature.geometry.coordinates[0].forEach(coord => {
+                                boundaries.push([coord[1], coord[0]]);
+                            });
+                        } else if (feature.geometry.type === 'MultiPolygon') {
+                            feature.geometry.coordinates.forEach(polygon => {
+                                polygon[0].forEach(coord => {
+                                    boundaries.push([coord[1], coord[0]]);
+                                });
+                            });
+                        }
+                    });
+                }
+
+                // Create a polyline with the boundaries
+                L.polyline(boundaries, {
+                    color: '#970a2c',
+                    weight: 3,
+                    opacity: 0.7,
+                    fill: false
                 }).addTo(map);
 
                 const legend = L.control({ position: 'bottomright' });
                 legend.onAdd = function() {
                     const div = L.DomUtil.create('div', 'legend');
-                    div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
+                    div.innerHTML = '<div class="legend-item"><span></span>Confini Municipio X</div>';
                     return div;
                 };
                 legend.addTo(map);
@@ -196,6 +219,7 @@
             }
         }
 
+        // Rest of the code remains the same
         async function searchRoute() {
             const startPoint = document.getElementById('start-point').value;
             if (!startPoint) return;
