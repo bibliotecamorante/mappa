@@ -80,28 +80,32 @@
             margin-right: 4px;
             background-color: #970a2c;
         }
-        .routing-close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            background-color: rgba(255, 77, 77, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-            z-index: 1000;
-            transition: background-color 0.3s;
+        .leaflet-routing-container {
+            position: relative;
         }
-        .routing-close-btn:hover {
-            background-color: rgba(255, 26, 26, 0.8);
-        }
+.routing-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(255, 77, 77, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+.routing-close-btn:hover {
+    background-color: rgba(255, 26, 26, 0.8);
+}
         .custom-popup .leaflet-popup-content-wrapper {
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 8px;
@@ -123,10 +127,17 @@
         .custom-popup .leaflet-popup-close-button:hover {
             color: #ff1a1a;
         }
+        .hours-info {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #333;
+        }
+
+
     </style>
 </head>
 <body>
-    <div class="search-box">
+  <div class="search-box">
         <a href="#" onclick="handleBackNavigation(); return false;" title="Torna indietro">
             <img src="left.svg" alt="Pagina precedente" class="icon">
         </a>
@@ -144,30 +155,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     
     <script>
-        function handleBackNavigation() {
-            const previousPage = localStorage.getItem('previousPage');
-            switch (true) {
-                case previousPage === 'donazione':
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-                    break;
-                case previousPage === 'termini':
-                    window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-                    break;
-                default:
-                    window.history.back();
-            }
+function handleBackNavigation() {
+    // Use localStorage to store and retrieve the previous page
+    const previousPage = localStorage.getItem('previousPage');
+    
+    switch (true) {
+        case previousPage === 'donazione':
+            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
+            break;
+        case previousPage === 'termini':
+            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
+            break;
+        default:
+            window.history.back();
+    }
+}
+
+// Before navigating to the map page, store the origin
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a referrer and it matches our specific pages
+    if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
+        if (document.referrer.includes('termini.html')) {
+            localStorage.setItem('previousPage', 'termini');
+        } else {
+            localStorage.setItem('previousPage', 'donazione');
         }
+    }
+});
 
+
+        
         document.addEventListener('DOMContentLoaded', function() {
-            if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
-                if (document.referrer.includes('termini.html')) {
-                    localStorage.setItem('previousPage', 'termini');
-                } else {
-                    localStorage.setItem('previousPage', 'donazione');
-                }
-            }
-
-            const biblioCoords = [41.732522, 12.271879];
+            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
             
             const map = L.map('map').setView(biblioCoords, 14);
             
@@ -176,7 +195,6 @@
                 attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // Percorso pedonale alla biblioteca
             const percorso = [
                 biblioCoords,
                 [41.732154, 12.271675],
@@ -193,7 +211,6 @@
                 dashArray: '10, 10'
             }).addTo(map);
 
-            // Marker della biblioteca
             const markerCoords = percorso[percorso.length - 1];
             const marker = L.marker(markerCoords).addTo(map);
             
@@ -204,221 +221,11 @@
             })
                 .setLatLng(markerCoords)
                 .setContent(`
-                    <b>Biblioteca Elsa Morante</b><br>
-                    Via Adolfo Cozza, 7<br>
-                    <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
-                `)
+    <b>Biblioteca Elsa Morante</b><br>
+    Via Adolfo Cozza, 7<br>
+    <small>Lun-Ven 09:00-18:30 • Sab 09:00-13:00</small>
+`)
                 .openOn(map);
-
-            // Confini del Municipio X
-// Coordinate precise del perimetro del Municipio X
-const municipioBoundaries = [
-    [41.7424, 12.2308],
-    [41.7425, 12.2317],
-    [41.7439, 12.2326],
-    [41.7453, 12.2335],
-    [41.7467, 12.2344],
-    [41.7481, 12.2353],
-    [41.7495, 12.2362],
-    [41.7509, 12.2371],
-    [41.7523, 12.2380],
-    [41.7537, 12.2389],
-    [41.7551, 12.2398],
-    [41.7565, 12.2407],
-    [41.7579, 12.2416],
-    [41.7593, 12.2425],
-    [41.7607, 12.2434],
-    [41.7621, 12.2443],
-    [41.7635, 12.2452],
-    [41.7649, 12.2461],
-    [41.7663, 12.2470],
-    [41.7677, 12.2479],
-    [41.7691, 12.2488],
-    [41.7705, 12.2497],
-    [41.7719, 12.2506],
-    [41.7733, 12.2515],
-    [41.7747, 12.2524],
-    [41.7761, 12.2533],
-    [41.7775, 12.2542],
-    [41.7789, 12.2551],
-    [41.7803, 12.2560],
-    [41.7817, 12.2569],
-    [41.7831, 12.2578],
-    [41.7845, 12.2587],
-    [41.7859, 12.2596],
-    [41.7873, 12.2605],
-    [41.7887, 12.2614],
-    [41.7901, 12.2623],
-    [41.7915, 12.2632],
-    [41.7929, 12.2641],
-    [41.7943, 12.2650],
-    [41.7957, 12.2659],
-    [41.7971, 12.2668],
-    [41.7985, 12.2677],
-    [41.7999, 12.2686],
-    [41.8013, 12.2695],
-    [41.8027, 12.2704],
-    [41.8041, 12.2713],
-    [41.8055, 12.2722],
-    [41.8069, 12.2731],
-    [41.8083, 12.2740],
-    [41.8097, 12.2749],
-    // Sud-Est
-    [41.8083, 12.2758],
-    [41.8069, 12.2767],
-    [41.8055, 12.2776],
-    [41.8041, 12.2785],
-    [41.8027, 12.2794],
-    [41.8013, 12.2803],
-    [41.7999, 12.2812],
-    [41.7985, 12.2821],
-    [41.7971, 12.2830],
-    [41.7957, 12.2839],
-    [41.7943, 12.2848],
-    [41.7929, 12.2857],
-    [41.7915, 12.2866],
-    [41.7901, 12.2875],
-    [41.7887, 12.2884],
-    [41.7873, 12.2893],
-    [41.7859, 12.2902],
-    [41.7845, 12.2911],
-    [41.7831, 12.2920],
-    [41.7817, 12.2929],
-    [41.7803, 12.2938],
-    [41.7789, 12.2947],
-    [41.7775, 12.2956],
-    [41.7761, 12.2965],
-    [41.7747, 12.2974],
-    [41.7733, 12.2983],
-    [41.7719, 12.2992],
-    [41.7705, 12.3001],
-    [41.7691, 12.3010],
-    [41.7677, 12.3019],
-    [41.7663, 12.3028],
-    [41.7649, 12.3037],
-    [41.7635, 12.3046],
-    [41.7621, 12.3055],
-    [41.7607, 12.3064],
-    [41.7593, 12.3073],
-    [41.7579, 12.3082],
-    [41.7565, 12.3091],
-    [41.7551, 12.3100],
-    [41.7537, 12.3109],
-    [41.7523, 12.3118],
-    [41.7509, 12.3127],
-    [41.7495, 12.3136],
-    [41.7481, 12.3145],
-    [41.7467, 12.3154],
-    [41.7453, 12.3163],
-    [41.7439, 12.3172],
-    [41.7425, 12.3181],
-    // Sud-Ovest
-    [41.7411, 12.3172],
-    [41.7397, 12.3163],
-    [41.7383, 12.3154],
-    [41.7369, 12.3145],
-    [41.7355, 12.3136],
-    [41.7341, 12.3127],
-    [41.7327, 12.3118],
-    [41.7313, 12.3109],
-    [41.7299, 12.3100],
-    [41.7285, 12.3091],
-    [41.7271, 12.3082],
-    [41.7257, 12.3073],
-    [41.7243, 12.3064],
-    [41.7229, 12.3055],
-    [41.7215, 12.3046],
-    [41.7201, 12.3037],
-    [41.7187, 12.3028],
-    [41.7173, 12.3019],
-    [41.7159, 12.3010],
-    [41.7145, 12.3001],
-    [41.7131, 12.2992],
-    [41.7117, 12.2983],
-    [41.7103, 12.2974],
-    [41.7089, 12.2965],
-    [41.7075, 12.2956],
-    [41.7061, 12.2947],
-    [41.7047, 12.2938],
-    [41.7033, 12.2929],
-    [41.7019, 12.2920],
-    [41.7005, 12.2911],
-    [41.6991, 12.2902],
-    [41.6977, 12.2893],
-    [41.6963, 12.2884],
-    [41.6949, 12.2875],
-    [41.6935, 12.2866],
-    [41.6921, 12.2857],
-    [41.6907, 12.2848],
-    [41.6893, 12.2839],
-    [41.6879, 12.2830],
-    [41.6865, 12.2821],
-    [41.6851, 12.2812],
-    // Nord-Ovest
-    [41.6865, 12.2803],
-    [41.6879, 12.2794],
-    [41.6893, 12.2785],
-    [41.6907, 12.2776],
-    [41.6921, 12.2767],
-    [41.6935, 12.2758],
-    [41.6949, 12.2749],
-    [41.6963, 12.2740],
-    [41.6977, 12.2731],
-    [41.6991, 12.2722],
-    [41.7005, 12.2713],
-    [41.7019, 12.2704],
-    [41.7033, 12.2695],
-    [41.7047, 12.2686],
-    [41.7061, 12.2677],
-    [41.7075, 12.2668],
-    [41.7089, 12.2659],
-    [41.7103, 12.2650],
-    [41.7117, 12.2641],
-    [41.7131, 12.2632],
-    [41.7145, 12.2623],
-    [41.7159, 12.2614],
-    [41.7173, 12.2605],
-    [41.7187, 12.2596],
-    [41.7201, 12.2587],
-    [41.7215, 12.2578],
-    [41.7229, 12.2569],
-    [41.7243, 12.2560],
-    [41.7257, 12.2551],
-    [41.7271, 12.2542],
-    [41.7285, 12.2533],
-    [41.7299, 12.2524],
-    [41.7313, 12.2515],
-    [41.7327, 12.2506],
-    [41.7341, 12.2497],
-    [41.7355, 12.2488],
-    [41.7369, 12.2479],
-    [41.7383, 12.2470],
-    [41.7397, 12.2461],
-    [41.7411, 12.2452],
-    // Chiusura del poligono
-    [41.7424, 12.2308]  // Stesso punto iniziale per chiudere il poligono
-];
-
-// Utilizzo:
-const municipioPolygon = L.polygon(municipioBoundaries, {
-    color: '#970a2c',
-    weight: 3,
-    opacity: 0.7,
-    fillColor: '#970a2c',
-    fillOpacity: 0.1
-}).addTo(map);
-
-// Centra la mappa sui confini del municipio
-map.fitBounds(municipioPolygon.getBounds());
-
-            // Aggiungi la legenda
-            const legend = L.control({position: 'bottomright'});
-            legend.onAdd = function() {
-                this._div = L.DomUtil.create('div', 'legend');
-                this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
-                return this._div;
-            };
-            legend.addTo(map);
 
             let routingControl = null;
             
@@ -466,6 +273,7 @@ map.fitBounds(municipioPolygon.getBounds());
                                     map.removeControl(routingControl);
                                 };
 
+                                // Append close button to routing container
                                 setTimeout(() => {
                                     const container = document.querySelector('.leaflet-routing-container');
                                     if (container) {
@@ -473,7 +281,7 @@ map.fitBounds(municipioPolygon.getBounds());
                                     }
                                 }, 100);
 
-                                return null;
+                                return null; // No markers for waypoints
                             }
                         }).addTo(map);
                     } else {
@@ -483,7 +291,7 @@ map.fitBounds(municipioPolygon.getBounds());
                     console.error('Errore nella ricerca del percorso:', error);
                     alert('Errore nel trovare il percorso. Riprova.');
                 }
-            };
+            }
 
             document.getElementById('start-point').addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
@@ -492,6 +300,49 @@ map.fitBounds(municipioPolygon.getBounds());
             });
 
             document.getElementById('start-point').focus();
+
+            fetch('https://overpass-api.de/api/interpreter', {
+                method: 'POST',
+                body: `[out:json][timeout:25];
+                       relation(1460885);
+                       out body;
+                       >;
+                       out skel qt;`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.elements.length > 0) {
+                    const ways = data.elements.filter(e => e.type === "way");
+                    const nodes = data.elements.filter(e => e.type === "node");
+
+                    const boundaries = ways.map(way => {
+                        return way.nodes.map(nodeId => {
+                            const node = nodes.find(n => n.id === nodeId);
+                            return [node.lat, node.lon];
+                        });
+                    });
+
+                    boundaries.forEach(boundary => {
+                        L.polyline(boundary, {
+                            color: '#970a2c',
+                            weight: 3,
+                            opacity: 0.7
+                        }).addTo(map);
+                    });
+
+                    const legend = L.control({position: 'bottomright'});
+                    legend.onAdd = function() {
+                        this._div = L.DomUtil.create('div', 'legend');
+                        this._div.innerHTML = '<div class="legend-item"><span></span>Municipio X</div>';
+                        return this._div;
+                    };
+                    legend.addTo(map);
+
+                    const bounds = L.latLngBounds(boundaries.flat());
+                    map.fitBounds(bounds);
+                }
+            })
+            .catch(error => console.error('Errore nel caricamento dei confini:', error));
         });
     </script>
 </body>
