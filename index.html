@@ -95,10 +95,7 @@ body,html{margin:0;padding:0;height:100%;width:100%}
 </head>
 <body>
   <div class="search-box">
-        <a href="#" onclick="handleBackNavigation(); return false;" title="Torna indietro">
-            <img src="left.svg" alt="Pagina precedente" class="icon">
-        </a>
-        <div class="separator"></div>
+       
         <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Morante">
             <img src="home.svg" alt="Biblioteca Home" class="icon">
         </a>
@@ -161,33 +158,7 @@ async function loadAndShowBorder(municipalityNumber, map) {
     }
 }
         
-function handleBackNavigation() {
-    // Use localStorage to store and retrieve the previous page
-    const previousPage = localStorage.getItem('previousPage');
-    
-    switch (true) {
-        case previousPage === 'donazione':
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/';
-            break;
-        case previousPage === 'termini':
-            window.location.href = 'https://bibliotecamorante.github.io/donazione/termini.html';
-            break;
-        default:
-            window.history.back();
-    }
-}
 
-// Before navigating to the map page, store the origin
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if there's a referrer and it matches our specific pages
-    if (document.referrer.includes('bibliotecamorante.github.io/donazione/')) {
-        if (document.referrer.includes('termini.html')) {
-            localStorage.setItem('previousPage', 'termini');
-        } else {
-            localStorage.setItem('previousPage', 'donazione');
-        }
-    }
-});
 
 
         
