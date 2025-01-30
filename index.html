@@ -15,11 +15,92 @@ body,html{margin:0;padding:0;height:100%;width:100%}
 .search-box button{background-color:#4285f4;color:#fff;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;font-size:14px}
 .search-box .icon{width:24px;height:24px;margin-right:10px;cursor:pointer}
 .search-box .separator{width:1px;height:24px;background-color:#ccc;margin:0 10px}
-.legend{background-color:rgba(255,255,255,.9);padding:10px 15px;font:14px/16px Arial,Helvetica,sans-serif;box-shadow:0 0 15px rgba(0,0,0,.2);border-radius:5px;position:absolute;bottom:30px;right:10px;z-index:1000;max-height:80vh;overflow-y:auto}
-.legend h4{margin:0 0 10px 0;font-size:16px}
-.legend-item{display:flex;align-items:center;margin:5px 0}
-.legend-item span{width:16px;height:16px;margin-right:8px;border-radius:3px}
-.legend-item .text{font-size:13px}
+.legend {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 18px 22px;
+    font: 13px/15px 'Segoe UI', system-ui, sans-serif;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    position: absolute;
+    bottom: 25px;
+    right: 15px;
+    z-index: 1000;
+    max-height: 65vh;
+    overflow-y: auto;
+    width: 300px;
+    border: 1px solid rgba(0,0,0,0.1);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+
+.legend-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255,255,255,0.7);
+    border: 1px solid transparent;
+}
+
+.legend-item:hover {
+    background: rgba(241, 242, 246,0.6);
+    transform: translateX(3px);
+    border-color: #dfe4ea;
+}
+
+.legend-item.highlighted {
+    background: #f8f9fa;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    border-color: #ced6e0;
+}
+
+.legend-item span {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.legend-item:hover span {
+    transform: scale(1.1);
+}
+
+.legend-item .text {
+    font-size: 13px;
+    color: #4a5568;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+}
+
+.municipio-highlight {
+    stroke-width: 4px !important;
+    stroke-opacity: 0.9 !important;
+    filter: drop-shadow(0 0 12px rgba(0,0,0,0.15));
+    animation: pulseBorder 1.5s ease-in-out infinite;
+}
+
+.municipio-selected {
+    stroke-width: 5px !important;
+    stroke-opacity: 1 !important;
+    fill-opacity: 0.2 !important;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.3));
+}
+
+@keyframes pulseBorder {
+    0% { stroke-width: 4px; }
+    50% { stroke-width: 5px; }
+    100% { stroke-width: 4px; }
+}
 .leaflet-routing-container{position:relative}
 .routing-close-btn {
     position: absolute;
@@ -95,7 +176,7 @@ body,html{margin:0;padding:0;height:100%;width:100%}
 </head>
 <body>
   <div class="search-box">
-       
+        
         <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Morante">
             <img src="home.svg" alt="Biblioteca Home" class="icon">
         </a>
@@ -134,7 +215,7 @@ async function loadAndShowBorder(municipalityNumber, map) {
             6: '#d33682',  // magenta
             7: '#ff7c4e',  // arancione
             8: '#22a825',  // verde
-            9: '#c82937',  // rosso
+            9: '#2b83cb',  // blue
             10: '#287fc7', // blu
             11: '#cac12e', // giallo
             12: '#a329ca', // viola
@@ -148,7 +229,7 @@ async function loadAndShowBorder(municipalityNumber, map) {
                 color: municipalityColors[municipalityNumber],
                 weight: 3,
                 opacity: 0.65,
-                fillOpacity: 0.2
+                fillOpacity: 0.2  
             }
         }).addTo(map);
 
@@ -162,574 +243,181 @@ async function loadAndShowBorder(municipalityNumber, map) {
 
 
         
-        document.addEventListener('DOMContentLoaded', function() {
-            const biblioCoords = [41.732522, 12.271879]; // punto di origine del percorso tratteggiato
-            
-            const map = L.map('map').setView(biblioCoords, 14);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-
-            const percorso = [
-                biblioCoords,
-                [41.732154, 12.271675],
-                [41.732282, 12.271254],
-                [41.732240, 12.271230],
-                [41.732276, 12.271090],
-                [41.732092, 12.270980],
-            ];
-
-            const dashedPath = L.polyline(percorso, {
-                color: '#0000FF',
-                weight: 4,
-                opacity: 0.8,
-                dashArray: '10, 10'
-            }).addTo(map);
-
-
-            
-// Primo marker (Biblioteca Morante) - codice esistente
-const markerCoords = percorso[percorso.length - 1];
-const marker = L.marker(markerCoords, {
-    title: 'Biblioteca Elsa Morante'
-}).addTo(map);
-
-const popup = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Elsa Morante</h3>
-        <p style="font-size: 15px;">
-            Via Adolfo Cozza 7
-            <br>00121 Municipio ROMA X
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-marker.bindPopup(popup);
-
-// Secondo marker (Biblioteca Onofri)
-const onofriCoords = [41.775700, 12.348255];
-const markerOnofri = L.marker(onofriCoords, {
-    title: 'Biblioteca Sandro Onofri'
-}).addTo(map);
-
-const popupOnofri = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Sandro Onofri</h3>
-        <p style="font-size: 15px;">
-            Via Umberto Lilloni, 39/45
-            <br>00125 Municipio ROMA X
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Sandro%20Onofri/RMBO1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerOnofri.bindPopup(popupOnofri);
-
-// Nuovo marker di colore diverso (Biblioteca Pasolini)
-const pasoliniCoords = [41.785285, 12.440257];
-const redIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerPasolini = L.marker(pasoliniCoords, {
-    title: 'Biblioteca Pier Paolo Pasolini',
-    icon: redIcon
-}).addTo(map).on('click', () => loadAndShowBorder(9, map));
-
-const popupPasolini = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Pier Paolo Pasolini</h3>
-        <p style="font-size: 15px;">
-            Viale Caduti per la Resistenza, 410/A
-            <br>00128 Municipio ROMA IX
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Pier%20Paolo%20Pasolini/RMBN1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerPasolini.bindPopup(popupPasolini);
-
-
-// Nuovo marker di colore rosso (Biblioteca Laurentina)
-const laurentinaCoords = [41.812215, 12.469236];
-
-const markerLaurentina = L.marker(laurentinaCoords, {
-    title: 'Biblioteca Laurentina',
-    icon: redIcon // Usa la stessa icona rossa definita sopra
-}).addTo(map).on('click', () => loadAndShowBorder(9, map));
-
-const popupLaurentina = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Laurentina</h3>
-        <p style="font-size: 15px;">
-            Piazzale Elsa Morante
-            <br>00143 Municipio ROMA IX
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Laurentina/RMBN2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerLaurentina.bindPopup(popupLaurentina);
-
-// Nuovo marker di colore verde (Biblioteca Arcipelago Auditorium)
-const arcipelagoCoords = [41.840736, 12.484340];
-const greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerArcipelago = L.marker(arcipelagoCoords, {
-    title: 'Biblioteca Arcipelago Auditorium',
-    icon: greenIcon
-}).addTo(map).on('click', () => loadAndShowBorder(8, map));
-
-const popupArcipelago = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Arcipelago Auditorium</h3>
-        <p style="font-size: 15px;">
-            Via Benedetto Croce, 50
-            <br>00142 Municipio ROMA VIII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Arcipelago%20Auditorium/RMBM1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerArcipelago.bindPopup(popupArcipelago);
-
-// Nuovo marker di colore verde (Biblioteca Joyce Lussu)
-const joyceLussuCoords = [41.856922, 12.486069];
-const markerJoyceLussu = L.marker(joyceLussuCoords, {
-    title: 'Biblioteca Joyce Lussu',
-    icon: greenIcon // Usa la stessa icona verde definita sopra
-}).addTo(map).on('click', () => loadAndShowBorder(8, map));
-
-const popupJoyceLussu = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Joyce Lussu</h3>
-        <p style="font-size: 15px;">
-            Via Costantino, 49A
-            <br>00145 Municipio ROMA VIII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Joyce%20Lussu/RMBM2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerJoyceLussu.bindPopup(popupJoyceLussu);
-
-            
-// Nuovo marker di colore giallo (Biblioteca Renato Nicolini)
-const renatoNicoliniCoords = [41.8501037, 12.4140277];
-const yellowIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png', // Usa l'icona gialla
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-
-const markerRenatoNicolini = L.marker(renatoNicoliniCoords, {
-    title: 'Biblioteca Renato Nicolini',
-    icon: yellowIcon // Usa l'icona gialla
-}).addTo(map).on('click', () => loadAndShowBorder(11, map));
-
-// Popup per la Biblioteca Renato Nicolini
-const popupRenatoNicolini = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Renato Nicolini</h3>
-        <p style="font-size: 15px;">
-            Via M. Mazzacurati, 76
-            <br>00148 Municipio ROMA XI
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Renato%20Nicolini/RMBQ2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerRenatoNicolini.bindPopup(popupRenatoNicolini);
-
-            
-// Nuove coordinate per la Biblioteca Guglielmo Marconi
-const guglielmoMarconiCoords = [41.862264, 12.465228];
-
-// Nuovo marker con icona gialla
-const markerGuglielmoMarconi = L.marker(guglielmoMarconiCoords, {
-    title: 'Biblioteca Guglielmo Marconi',
-    icon: yellowIcon // Usa l'icona gialla
-}).addTo(map).on('click', () => loadAndShowBorder(11, map));
-
-// Popup per la Biblioteca Guglielmo Marconi
-const popupGuglielmoMarconi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Guglielmo Marconi</h3>
-        <p style="font-size: 15px;">
-            Via Gerolamo Cardano, 135
-            <br>00146 Municipio ROMA XI
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Guglielmo%20Marconi/RMBQ1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerGuglielmoMarconi.bindPopup(popupGuglielmoMarconi);
-            
-// Nuovo marker di colore viola (Biblioteca Colli Portuensi)
-const colliPortuensiCoords = [41.867787, 12.444878];
-const purpleIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png', // Usa l'icona viola
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerColliPortuensi = L.marker(colliPortuensiCoords, {
-    title: 'Biblioteca Colli Portuensi',
-    icon: purpleIcon // Usa l'icona viola
-}).addTo(map).on('click', () => loadAndShowBorder(12, map));
-
-
-// Popup per la Biblioteca Colli Portuensi
-const popupColliPortuensi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Colli Portuensi</h3>
-        <p style="font-size: 15px;">
-            Viale dei Colli Portuensi, 275
-            <br>00151 Municipio ROMA XII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Colli%20Portuensi/RMBR1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerColliPortuensi.bindPopup(popupColliPortuensi);
-
-// Nuovo marker di colore viola (Biblioteca Longhena)
-const longhenaCoords = [41.86939, 12.41024];
-const markerLonghena = L.marker(longhenaCoords, {
-    title: 'Biblioteca Longhena',
-    icon: purpleIcon // Usa l'icona viola
-}).addTo(map).on('click', () => loadAndShowBorder(12, map));
-
-// Popup per la Biblioteca Longhena
-const popupLonghena = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Longhena</h3>
-        <p style="font-size: 15px;">
-            Via B. Longhena, 98
-            <br>00163 Municipio ROMA XII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Longhena/RMBR2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerLonghena.bindPopup(popupLonghena);
-
-// Nuovo marker di colore viola (Biblioteca Villino Corsini - Villa Pamphilj)
-const villinoCorsiniCoords = [41.888458, 12.455285];
-const markerVillinoCorsini = L.marker(villinoCorsiniCoords, {
-    title: 'Biblioteca Villino Corsini - Villa Pamphilj',
-    icon: purpleIcon // Usa l'icona viola
-}).addTo(map).on('click', () => loadAndShowBorder(12, map));
-
-// Popup per la Biblioteca Villino Corsini - Villa Pamphilj
-const popupVillinoCorsini = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Villino Corsini - Villa Pamphilj</h3>
-        <p style="font-size: 15px;">
-            Largo 3 giugno 1849, snc
-            <br>00164 Municipio ROMA XII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Villino%20Corsini%20-%20Villa%20Pamphilj/RMBR3">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerVillinoCorsini.bindPopup(popupVillinoCorsini);
-
-
-// Nuovo marker di colore arancione (Biblioteca Cornelia)
-const corneliaCoords = [41.907000, 12.393447];
-const orangeIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png', // URL per l'icona arancione
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerCornelia = L.marker(corneliaCoords, {
-    title: 'Biblioteca Cornelia',
-    icon: orangeIcon // Usa l'icona arancione
-}).addTo(map).on('click', () => loadAndShowBorder(13, map));
-
-// Popup per la Biblioteca Cornelia
-const popupCornelia = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Cornelia</h3>
-        <p style="font-size: 15px;">
-            Via Gaetano Mazzoni, 85 (presso Sala polifunzionale Ex Campari)
-            <br>00166 Municipio ROMA XIII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Cornelia/RMBT2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerCornelia.bindPopup(popupCornelia);
-
-// Nuovo marker di colore arancione (Biblioteca Valle Aurelia)
-const valleAureliaCoords = [41.904970, 12.437202];
-const markerValleAurelia = L.marker(valleAureliaCoords, {
-    title: 'Biblioteca Valle Aurelia',
-    icon: orangeIcon // Usa l'icona arancione
-}).addTo(map).on('click', () => loadAndShowBorder(13, map));
-
-// Popup per la Biblioteca Valle Aurelia
-const popupValleAurelia = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Valle Aurelia</h3>
-        <p style="font-size: 15px;">
-            Viale di Valle Aurelia, 129
-            <br>00167 Municipio ROMA XIII
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Valle%20Aurelia/RMBT1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerValleAurelia.bindPopup(popupValleAurelia);
-
-// Nuovo marker di colore grigio (Biblioteca Franco Basaglia)
-const francoBasagliaCoords = [41.9181766, 12.4144799];
-const greyIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png', // Usa l'icona grigia
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerFrancoBasaglia = L.marker(francoBasagliaCoords, {
-    title: 'Biblioteca Franco Basaglia',
-    icon: greyIcon // Usa l'icona grigia
-}).addTo(map).on('click', () => loadAndShowBorder(14, map));
-
-// Popup per la Biblioteca Franco Basaglia
-const popupFrancoBasaglia = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Franco Basaglia</h3>
-        <p style="font-size: 15px;">
-            Via Federico Borromeo, 67
-            <br>00168 Municipio ROMA XIV
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Franco%20Basaglia/RMBU1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerFrancoBasaglia.bindPopup(popupFrancoBasaglia);
-
-// Nuovo marker di colore grigio (Biblioteca Casa del Parco)
-const casaDelParcoCoords = [41.9104619, 12.4251951];
-const markerCasaDelParco = L.marker(casaDelParcoCoords, {
-    title: 'Biblioteca Casa del Parco',
-    icon: greyIcon // Usa l'icona grigia
-}).addTo(map).on('click', () => loadAndShowBorder(14, map));
-
-// Popup per la Biblioteca Casa del Parco
-const popupCasaDelParco = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Casa del Parco</h3>
-        <p style="font-size: 15px;">
-            Via della Pineta Sacchetti, 78
-            <br>00167 Municipio ROMA XIV
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20del%20Parco/RMBU2">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerCasaDelParco.bindPopup(popupCasaDelParco);
-
-// Nuovo marker di colore nero (Biblioteca Galline Bianche)
-const gallineBiancheCoords = [41.995762, 12.485857];
-const blackIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png', // Usa l'icona nera
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerGallineBianche = L.marker(gallineBiancheCoords, {
-    title: 'Biblioteca Galline Bianche',
-    icon: blackIcon // Usa l'icona nera
-}).addTo(map).on('click', () => loadAndShowBorder(15, map));
-
-// Popup per la Biblioteca Galline Bianche
-const popupGallineBianche = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
-    <div class="baloon">
-        <h3>Biblioteca Galline Bianche</h3>
-        <p style="font-size: 15px;">
-            Via delle Galline Bianche, 105
-            <br>00188 Municipio ROMA XV
-        </p>
-        <a style="color: #bc0b34; font-size: 16px;" 
-           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Galline%20Bianche/RMBV1">
-           Vai alla scheda
-        </a>
-    </div>
-`);
-
-markerGallineBianche.bindPopup(popupGallineBianche);
-
-
-            
-// Nuovo marker personalizzato (Biblioteca Enzo Tortora)
-const enzoTortoraCoords = [41.876553, 12.478932];
-
-// Definizione dell'icona marrone personalizzata
-var customBrownIcon = L.icon({
-    iconUrl: 'marker-brown.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // ombra
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [12, 41]
-});
-
-// Creazione del marker con l'icona marrone
-const markerEnzoTortora = L.marker(enzoTortoraCoords, {
-    title: 'Biblioteca Enzo Tortora',
-    icon: customBrownIcon
-}).addTo(map).on('click', () => loadAndShowBorder(1, map));
-
-// Popup per la Biblioteca Enzo Tortora
-const popupEnzoTortora = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+document.addEventListener("DOMContentLoaded", function() {
+    const center = [41.732522, 12.271879];
+    const map = L.map("map").setView(center, 14);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap contributors"
+    }).addTo(map);
+
+    // Definizione del percorso
+    const pathPoints = [
+        center,
+        [41.732154, 12.271675],
+        [41.732282, 12.271254],
+        [41.73224, 12.27123],
+        [41.732276, 12.27109],
+        [41.732092, 12.27098]
+    ];
+
+    // Creazione della linea tratteggiata
+    const dottedLine = L.polyline(pathPoints, {
+        color: "#0000FF",
+        weight: 4,
+        opacity: 0.8,
+        dashArray: "10, 10"
+    }).addTo(map);
+
+    // Punto finale del percorso
+    const endPoint = pathPoints[pathPoints.length - 1];
+
+    // Definizione della funzione createMarker
+    function createMarker(coords, title, icon, popupContent, municipioNumber, map) {
+        const marker = L.marker(coords, { title, icon })
+            .addTo(map)
+            .on('click', () => loadAndShowBorder(municipioNumber, map));
+
+        const popup = L.popup({
+            className: 'custom-popup',
+            offset: [0, -10],
+            closeButton: true
+        }).setContent(popupContent);
+
+        marker.bindPopup(popup);
+        return marker;
+    }
+
+const icons = {
+    municipio1: L.icon({
+        iconUrl: 'marker-brown.png', // Marrone
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio2: L.icon({
+        iconUrl: 'marker-ciano.png', // Ciano
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio3: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png', // Oro
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio4: L.icon({
+        iconUrl: 'marker-violet.png', // Viola
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio5: L.icon({
+        iconUrl: 'marker-darkcyan.png', // Verde acqua scuro
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio6: L.icon({
+        iconUrl: 'marker-magenta.png', // Magenta
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio7: L.icon({
+        iconUrl: 'marker-arancio.png', // Arancione
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio8: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png', // Verde
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio9: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png', // Blu
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio10: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png', // Rosso
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio11: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-yellow.png', // Giallo
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio12: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png', // Viola
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio13: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png', // Arancione
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio14: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png', // Grigio
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    }),
+    municipio15: L.icon({
+        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-black.png', // Nero
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    })
+};
+
+// Qui inizierai a creare i marker per le biblioteche...
+createMarker(
+    [41.876553, 12.478932], // Coordinate
+    "Biblioteca Enzo Tortora", // Titolo
+    icons.municipio1, // Icona per Municipio 1 (marrone)
+    `
     <div class="baloon">
         <h3>Biblioteca Enzo Tortora</h3>
         <p style="font-size: 15px;">
@@ -741,25 +429,17 @@ const popupEnzoTortora = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    1, // Municipio
+    map // Mappa
+);
 
-markerEnzoTortora.bindPopup(popupEnzoTortora);
-
-// Coordinate della Biblioteca Centrale Ragazzi
-const centraleBibRagazziCoords = [41.893223, 12.473114];
-
-// Creazione del marker con l'icona marrone
-const markerCentraleRagazzi = L.marker(centraleBibRagazziCoords, {
-    title: 'Biblioteca Centrale Ragazzi',
-    icon: customBrownIcon  // Riuso dell'icona marrone già definita
-}).addTo(map).on('click', () => loadAndShowBorder(1, map));
-
-// Popup per la Biblioteca Centrale Ragazzi
-const popupCentraleRagazzi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    
+createMarker(
+    [41.893223, 12.473114], // Coordinate
+    "Biblioteca Centrale Ragazzi", // Titolo
+    icons.municipio1, // Icona per Municipio 1 (marrone)
+    `
     <div class="baloon">
         <h3>Biblioteca Centrale Ragazzi</h3>
         <p style="font-size: 15px;">
@@ -771,25 +451,17 @@ const popupCentraleRagazzi = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    1, // Municipio
+    map // Mappa
+);
 
-markerCentraleRagazzi.bindPopup(popupCentraleRagazzi);
-
-// Coordinate della Biblioteca Casa della Memoria e della Storia
-const casaMemoriaCoords = [41.894238, 12.463663];
-
-// Creazione del marker con l'icona marrone
-const markerCasaMemoria = L.marker(casaMemoriaCoords, {
-    title: 'Biblioteca Casa della Memoria e della Storia',
-    icon: customBrownIcon  // Riuso dell'icona marrone già definita
-}).addTo(map).on('click', () => loadAndShowBorder(1, map));
-
-// Popup per la Biblioteca Casa della Memoria e della Storia
-const popupCasaMemoria = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    
+createMarker(
+    [41.894238, 12.463663], // Coordinate
+    "Biblioteca Casa della Memoria e della Storia", // Titolo
+    icons.municipio1, // Icona per Municipio 1 (marrone)
+    `
     <div class="baloon">
         <h3>Biblioteca Casa della Memoria e della Storia</h3>
         <p style="font-size: 15px;">
@@ -801,25 +473,16 @@ const popupCasaMemoria = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    1, // Municipio
+    map // Mappa
+);
 
-markerCasaMemoria.bindPopup(popupCasaMemoria);            
-
-// Coordinate della Biblioteca Casa delle Letterature
-const casaLetteratureCoords = [41.899150, 12.468542];
-
-// Creazione del marker con l'icona marrone
-const markerCasaLetterature = L.marker(casaLetteratureCoords, {
-    title: 'Biblioteca Casa delle Letterature',
-    icon: customBrownIcon  // Riuso dell'icona marrone già definita
-}).addTo(map).on('click', () => loadAndShowBorder(1, map));
-
-// Popup per la Biblioteca Casa delle Letterature
-const popupCasaLetterature = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+createMarker(
+    [41.899150, 12.468542], // Coordinate
+    "Biblioteca Casa delle Letterature", // Titolo
+    icons.municipio1, // Icona per Municipio 1 (marrone)
+    `
     <div class="baloon">
         <h3>Biblioteca Casa delle Letterature</h3>
         <p style="font-size: 15px;">
@@ -831,25 +494,17 @@ const popupCasaLetterature = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    1, // Municipio
+    map // Mappa
+);
 
-markerCasaLetterature.bindPopup(popupCasaLetterature);
-
-// Coordinate della Biblioteca Giordano Bruno
-const giordanoBrunoCoords = [41.911471, 12.452385];
-
-// Creazione del marker con l'icona marrone
-const markerGiordanoBruno = L.marker(giordanoBrunoCoords, {
-    title: 'Biblioteca Giordano Bruno',
-    icon: customBrownIcon  // Riuso dell'icona marrone già definita
-}).addTo(map).on('click', () => loadAndShowBorder(1, map));
-
-// Popup per la Biblioteca Giordano Bruno
-const popupGiordanoBruno = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    
+createMarker(
+    [41.911471, 12.452385], // Coordinate
+    "Biblioteca Giordano Bruno", // Titolo
+    icons.municipio1, // Icona per Municipio 1 (marrone)
+    `
     <div class="baloon">
         <h3>Biblioteca Giordano Bruno</h3>
         <p style="font-size: 15px;">
@@ -861,25 +516,17 @@ const popupGiordanoBruno = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    1, // Municipio
+    map // Mappa
+);
 
-markerGiordanoBruno.bindPopup(popupGiordanoBruno);
-
-// Coordinate della Casa delle Traduzioni
-const casaTraduzioniCoords = [41.903016, 12.486805];
-
-// Creazione del marker con l'icona marrone
-const markerCasaTraduzioni = L.marker(casaTraduzioniCoords, {
-    title: 'Casa delle Traduzioni',
-    icon: customBrownIcon  // Riuso dell'icona marrone già definita
-}).addTo(map).on('click', () => loadAndShowBorder(1, map));
-
-// Popup per la Casa delle Traduzioni
-const popupCasaTraduzioni = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    
+createMarker(
+    [41.903016, 12.486805], // Coordinate
+    "Casa delle Traduzioni", // Titolo
+    icons.municipio1, // Icona per Municipio 1 (marrone)
+    `
     <div class="baloon">
         <h3>Casa delle Traduzioni</h3>
         <p style="font-size: 15px;">
@@ -891,36 +538,16 @@ const popupCasaTraduzioni = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    1, // Municipio
+    map // Mappa
+);
 
-markerCasaTraduzioni.bindPopup(popupCasaTraduzioni);
-            
-// Nuove coordinate per la Biblioteca Europea
-const bibliotecaEuropeaCoords = [41.912960, 12.498767];
-
-// Definizione dell'icona ciano personalizzata
-var customCyanIcon = L.icon({
-    iconUrl: 'marker-ciano.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // ombra
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [12, 41]
-});
-
-// Creazione del marker con l'icona ciano
-const markerBibliotecaEuropea = L.marker(bibliotecaEuropeaCoords, {
-    title: 'Biblioteca Europea',
-    icon: customCyanIcon
-}).addTo(map).on('click', () => loadAndShowBorder(2, map));
-            
-// Popup per la Biblioteca Europea
-const popupBibliotecaEuropea = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+   createMarker(
+    [41.912960, 12.498767], // Coordinate
+    "Biblioteca Europea", // Titolo
+    icons.municipio2, // Icona per Municipio 2 (ciano)
+    `
     <div class="baloon">
         <h3>Biblioteca Europea</h3>
         <p style="font-size: 15px;">
@@ -932,26 +559,16 @@ const popupBibliotecaEuropea = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    2, // Municipio
+    map // Mappa
+);
 
-// Associa il popup al marker
-markerBibliotecaEuropea.bindPopup(popupBibliotecaEuropea);
-            
-// Nuove coordinate per la Biblioteca Flaminia
-const bibliotecaFlaminiaCoords = [41.923581, 12.470486];
-
-// Creazione del marker con l'icona ciano
-const markerBibliotecaFlaminia = L.marker(bibliotecaFlaminiaCoords, {
-    title: 'Biblioteca Flaminia',
-    icon: customCyanIcon // Puoi usare la stessa icona ciano o crearne una nuova se preferisci
-}).addTo(map).on('click', () => loadAndShowBorder(2, map));
-
-// Popup per la Biblioteca Flaminia
-const popupBibliotecaFlaminia = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.923581, 12.470486], // Coordinate
+    "Biblioteca Flaminia", // Titolo
+    icons.municipio2, // Icona per Municipio 2 (ciano)
+    `
     <div class="baloon">
         <h3>Biblioteca Flaminia</h3>
         <p style="font-size: 15px;">
@@ -963,26 +580,16 @@ const popupBibliotecaFlaminia = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    2, // Municipio
+    map // Mappa
+);
 
-// Associa il popup al marker
-markerBibliotecaFlaminia.bindPopup(popupBibliotecaFlaminia);
-
-// Nuove coordinate per la Biblioteca Villa Leopardi
-const bibliotecaVillaLeopardiCoords = [41.926791, 12.521807];
-
-// Creazione del marker con l'icona ciano (puoi scegliere un'icona diversa se preferisci)
-const markerBibliotecaVillaLeopardi = L.marker(bibliotecaVillaLeopardiCoords, {
-    title: 'Biblioteca Villa Leopardi',
-    icon: customCyanIcon // Usa l'icona ciano già definita o una nuova
-}).addTo(map).on('click', () => loadAndShowBorder(2, map));
-
-// Popup per la Biblioteca Villa Leopardi
-const popupBibliotecaVillaLeopardi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.926791, 12.521807], // Coordinate
+    "Biblioteca Villa Leopardi", // Titolo
+    icons.municipio2, // Icona per Municipio 2 (ciano)
+    `
     <div class="baloon">
         <h3>Biblioteca Villa Leopardi</h3>
         <p style="font-size: 15px;">
@@ -994,26 +601,16 @@ const popupBibliotecaVillaLeopardi = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    2, // Municipio
+    map // Mappa
+);
 
-// Associa il popup al marker
-markerBibliotecaVillaLeopardi.bindPopup(popupBibliotecaVillaLeopardi);
-
-// Nuove coordinate per la Biblioteca Tullio De Mauro
-const bibliotecaTullioDeMauroCoords = [41.899404, 12.514206];
-
-// Creazione del marker con l'icona ciano (puoi scegliere una nuova icona se preferisci)
-const markerBibliotecaTullioDeMauro = L.marker(bibliotecaTullioDeMauroCoords, {
-    title: 'Biblioteca Tullio De Mauro',
-    icon: customCyanIcon // Usa l'icona ciano definita precedentemente
-}).addTo(map).on('click', () => loadAndShowBorder(2, map));
-
-// Popup per la Biblioteca Tullio De Mauro
-const popupBibliotecaTullioDeMauro = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.899404, 12.514206], // Coordinate
+    "Biblioteca Tullio De Mauro", // Titolo
+    icons.municipio2, // Icona per Municipio 2 (ciano)
+    `
     <div class="baloon">
         <h3>Biblioteca Tullio De Mauro</h3>
         <p style="font-size: 15px;">
@@ -1024,34 +621,18 @@ const popupBibliotecaTullioDeMauro = L.popup({
         <a style="color: #bc0b34; font-size: 16px;" 
            href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Tullio%20De%20Mauro/RMBC1">
            Vai alla scheda
-                </a>
+        </a>
     </div>
-`);
+    `, // Popup content
+    2, // Municipio
+    map // Mappa
+);
 
-// Associa il popup al marker
-markerBibliotecaTullioDeMauro.bindPopup(popupBibliotecaTullioDeMauro);
-
-// Nuovo marker con icona dorata (Biblioteca Ennio Flaiano)
-const ennioFlaianoCoords = [41.952327, 12.530240];
-const goldIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
-
-const markerEnnioFlaiano = L.marker(ennioFlaianoCoords, {
-    title: 'Biblioteca Ennio Flaiano',
-    icon: goldIcon
-}).addTo(map).on('click', () => loadAndShowBorder(3, map));
-
-const popupEnnioFlaiano = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.952327, 12.530240], // Coordinate
+    "Biblioteca Ennio Flaiano", // Titolo
+    icons.municipio3, // Icona per Municipio 3 (oro)
+    `
     <div class="baloon">
         <h3>Biblioteca Ennio Flaiano</h3>
         <p style="font-size: 15px;">
@@ -1063,36 +644,17 @@ const popupEnnioFlaiano = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    3, // Municipio
+    map // Mappa
+);
 
-markerEnnioFlaiano.bindPopup(popupEnnioFlaiano);
-
-// Nuovo marker personalizzato (Biblioteca Aldo Fabrizi)
-const aldoFabriziCoords = [41.944622, 12.585136];
-
-// Definizione dell'icona viola personalizzata
-var customVioletIcon = L.icon({
-    iconUrl: 'marker-violet.png', // #483D8B
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // ombra
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [12, 41]
-});
-
-// Creazione del marker con l'icona viola
-const markerAldoFabrizi = L.marker(aldoFabriziCoords, {
-    title: 'Biblioteca Aldo Fabrizi',
-    icon: customVioletIcon
-}).addTo(map).on('click', () => loadAndShowBorder(4, map));
-
-// Popup per la Biblioteca Aldo Fabrizi
-const popupAldoFabrizi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    
+createMarker(
+    [41.944622, 12.585136], // Coordinate
+    "Biblioteca Aldo Fabrizi", // Titolo
+    icons.municipio4, // Icona per Municipio 4 (viola)
+    `
     <div class="baloon">
         <h3>Biblioteca Aldo Fabrizi</h3>
         <p style="font-size: 15px;">
@@ -1104,25 +666,16 @@ const popupAldoFabrizi = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    4, // Municipio
+    map // Mappa
+);
 
-markerAldoFabrizi.bindPopup(popupAldoFabrizi);
-
-// Coordinate della Biblioteca Fabrizio Giovenale
-const fabrizioGiovenaleCoords = [41.934058, 12.560290];
-
-// Creazione del marker con l'icona viola
-const markerFabrizioGiovenale = L.marker(fabrizioGiovenaleCoords, {
-    title: 'Biblioteca Fabrizio Giovenale',
-    icon: customVioletIcon  // Riuso dell'icona viola già definita
-}).addTo(map).on('click', () => loadAndShowBorder(4, map));
-
-// Popup per la Biblioteca Fabrizio Giovenale
-const popupFabrizioGiovenale = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.934058, 12.560290], // Coordinate
+    "Biblioteca Fabrizio Giovenale", // Titolo
+    icons.municipio4, // Icona per Municipio 4 (viola)
+    `
     <div class="baloon">
         <h3>Biblioteca Fabrizio Giovenale</h3>
         <p style="font-size: 15px;">
@@ -1134,25 +687,16 @@ const popupFabrizioGiovenale = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    4, // Municipio
+    map // Mappa
+);
 
-markerFabrizioGiovenale.bindPopup(popupFabrizioGiovenale);
-
-// Coordinate della Biblioteca Vaccheria Nardi
-const vaccheriaNardiCoords = [41.913727, 12.564600];
-
-// Creazione del marker con l'icona viola per la Biblioteca Vaccheria Nardi
-const markerVaccheriaNardi = L.marker(vaccheriaNardiCoords, {
-    title: 'Biblioteca Vaccheria Nardi',
-    icon: customVioletIcon  // Riuso dell'icona viola già definita
-}).addTo(map).on('click', () => loadAndShowBorder(4, map));
-
-// Popup per la Biblioteca Vaccheria Nardi
-const popupVaccheriaNardi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.913727, 12.564600], // Coordinate
+    "Biblioteca Vaccheria Nardi", // Titolo
+    icons.municipio4, // Icona per Municipio 4 (viola)
+    `
     <div class="baloon">
         <h3>Biblioteca Vaccheria Nardi</h3>
         <p style="font-size: 15px;">
@@ -1164,36 +708,16 @@ const popupVaccheriaNardi = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    4, // Municipio
+    map // Mappa
+);
 
-markerVaccheriaNardi.bindPopup(popupVaccheriaNardi);            
-
-// Nuovo marker personalizzato (Biblioteca Penazzato)
-const penazzatoCoords = [41.898611, 12.566118];
-
-// Definizione dell'icona scura ciano personalizzata
-var customDarkCyanIcon = L.icon({
-    iconUrl: 'marker-darkcyan.png',  // #008B8B
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // ombra
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [12, 41]
-});
-
-// Creazione del marker con l'icona scura ciano
-const markerPenazzato = L.marker(penazzatoCoords, {
-    title: 'Biblioteca Penazzato',
-    icon: customDarkCyanIcon
-}).addTo(map).on('click', () => loadAndShowBorder(5, map));
-
-// Popup per la Biblioteca Penazzato
-const popupPenazzato = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.898611, 12.566118], // Coordinate
+    "Biblioteca Penazzato", // Titolo
+    icons.municipio5, // Icona per Municipio 5 (verde acqua scuro)
+    `
     <div class="baloon">
         <h3>Biblioteca Penazzato</h3>
         <p style="font-size: 15px;">
@@ -1205,25 +729,16 @@ const popupPenazzato = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    5, // Municipio
+    map // Mappa
+);
 
-markerPenazzato.bindPopup(popupPenazzato);
-
-// Coordinate del Teatro Biblioteca Quarticciolo
-const quarticcioloCoords = [41.891476, 12.575938];
-
-// Creazione del marker con l'icona personalizzata per il Teatro Biblioteca Quarticciolo
-const markerQuarticciolo = L.marker(quarticcioloCoords, {
-    title: 'Teatro Biblioteca Quarticciolo',
-    icon: customDarkCyanIcon  // icona scura ciano già definita
-}).addTo(map).on('click', () => loadAndShowBorder(5, map));
-
-// Popup per il Teatro Biblioteca Quarticciolo
-const popupQuarticciolo = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.891476, 12.575938], // Coordinate
+    "Teatro Biblioteca Quarticciolo", // Titolo
+    icons.municipio5, // Icona per Municipio 5 (verde acqua scuro)
+    `
     <div class="baloon">
         <h3>Teatro Biblioteca Quarticciolo</h3>
         <p style="font-size: 15px;">
@@ -1235,25 +750,16 @@ const popupQuarticciolo = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    5, // Municipio
+    map // Mappa
+);
 
-markerQuarticciolo.bindPopup(popupQuarticciolo);
-
-// Coordinate della Biblioteca Gianni Rodari
-const gianniRodariCoords = [41.881422, 12.589056];
-
-// Creazione del marker con l'icona personalizzata per la Biblioteca Gianni Rodari
-const markerGianniRodari = L.marker(gianniRodariCoords, {
-    title: 'Biblioteca Gianni Rodari',
-    icon: customDarkCyanIcon  // Puoi riutilizzare l'icona scura ciano già definita
-}).addTo(map).on('click', () => loadAndShowBorder(5, map));
-
-// Popup per la Biblioteca Gianni Rodari
-const popupGianniRodari = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.881422, 12.589056], // Coordinate
+    "Biblioteca Gianni Rodari", // Titolo
+    icons.municipio5, // Icona per Municipio 5 (verde acqua scuro)
+    `
     <div class="baloon">
         <h3>Biblioteca Gianni Rodari</h3>
         <p style="font-size: 15px;">
@@ -1265,66 +771,37 @@ const popupGianniRodari = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    5, // Municipio
+    map // Mappa
+);
 
-markerGianniRodari.bindPopup(popupGianniRodari);
-            
-// Coordinate della Biblioteca Goffredo Mameli
-const goffredoMameliCoords = [41.889446, 12.524513];
-
-// Creazione del marker con l'icona personalizzata per la Biblioteca Goffredo Mameli
-const markerGoffredoMameli = L.marker(goffredoMameliCoords, {
-    title: 'Biblioteca Goffredo Mameli',
-    icon: customDarkCyanIcon  // icona scura ciano già definita
-}).addTo(map).on('click', () => loadAndShowBorder(5, map));
-
-// Popup per la Biblioteca Goffredo Mameli
-const popupGoffredoMameli = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+  createMarker(
+    [41.889446, 12.524513], // Coordinate
+    "Biblioteca Goffredo Mameli", // Titolo
+    icons.municipio5, // Icona per Municipio 5 (verde acqua scuro)
+    `
     <div class="baloon">
         <h3>Biblioteca Goffredo Mameli</h3>
         <p style="font-size: 15px;">
             Via del Pigneto, 22
             <br>00176 Municipio ROMA V
-         </p>
+        </p>
         <a style="color: #bc0b34; font-size: 16px;" 
            href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Goffredo%20Mameli/RMBF1">
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    5, // Municipio
+    map // Mappa
+);
 
-markerGoffredoMameli.bindPopup(popupGoffredoMameli);
-
-// Nuovo marker personalizzato (Biblioteca Borghesiana)
-const borghesianaCoords = [41.869678, 12.670410];
-
-// Definizione dell'icona bianca personalizzata
-var customWhiteIcon = L.icon({
-    iconUrl: 'marker-magenta.png', // Sostituisci con l'URL dell'icona magenta
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // ombra
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [12, 41]
-});
-
-// Creazione del marker con l'icona bianca
-const markerBorghesiana = L.marker(borghesianaCoords, {
-    title: 'Biblioteca Borghesiana',
-    icon: customWhiteIcon
-}).addTo(map).on('click', () => loadAndShowBorder(6, map));
-
-// Popup per la Biblioteca Borghesiana
-const popupBorghesiana = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.869678, 12.670410], // Coordinate
+    "Biblioteca Borghesiana", // Titolo
+    icons.municipio6, // Icona per Municipio 6 (magenta)
+    `
     <div class="baloon">
         <h3>Biblioteca Borghesiana</h3>
         <p style="font-size: 15px;">
@@ -1336,25 +813,16 @@ const popupBorghesiana = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    6, // Municipio
+    map // Mappa
+);
 
-markerBorghesiana.bindPopup(popupBorghesiana);
-
-// Nuovo marker personalizzato (Biblioteca Collina della Pace)
-const collinaPaceCoords = [41.863839, 12.685332];
-
-// Creazione del marker con l'icona bianca
-const markerCollinaPace = L.marker(collinaPaceCoords, {
-    title: 'Biblioteca Collina della Pace',
-    icon: customWhiteIcon
-}).addTo(map).on('click', () => loadAndShowBorder(6, map));
-
-// Popup per la Biblioteca Collina della Pace
-const popupCollinaPace = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.863839, 12.685332], // Coordinate
+    "Biblioteca Collina della Pace", // Titolo
+    icons.municipio6, // Icona per Municipio 6 (magenta)
+    `
     <div class="baloon">
         <h3>Biblioteca Collina della Pace</h3>
         <p style="font-size: 15px;">
@@ -1366,36 +834,16 @@ const popupCollinaPace = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    6, // Municipio
+    map // Mappa
+);
 
-markerCollinaPace.bindPopup(popupCollinaPace);
-
-// Nuovo marker personalizzato (Biblioteca Rugantino)
-const rugantinoCoords = [41.870675, 12.577259];
-
-// Definizione dell'icona arancione personalizzata
-var customOrangeIcon = L.icon({
-    iconUrl: 'marker-arancio.png', // Nuova icona arancione
-    shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png', // ombra
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41],
-    shadowAnchor: [12, 41]
-});
-
-// Creazione del marker con l'icona arancione
-const markerRugantino = L.marker(rugantinoCoords, {
-    title: 'Biblioteca Rugantino',
-    icon: customOrangeIcon
-}).addTo(map).on('click', () => loadAndShowBorder(7, map));
-
-// Popup per la Biblioteca Rugantino
-const popupRugantino = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+   createMarker(
+    [41.870675, 12.577259], // Coordinate
+    "Biblioteca Rugantino", // Titolo
+    icons.municipio7, // Icona per Municipio 7 (arancione)
+    `
     <div class="baloon">
         <h3>Biblioteca Rugantino</h3>
         <p style="font-size: 15px;">
@@ -1407,22 +855,17 @@ const popupRugantino = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    7, // Municipio
+    map // Mappa
+);
 
-markerRugantino.bindPopup(popupRugantino);
-
-// Creazione del marker con l'icona personalizzata per la Biblioteca Casa dei Bimbi
-const markerCasaDeiBimbi = L.marker([41.852229, 12.592527], {
-    title: 'Biblioteca Casa dei Bimbi',
-    icon: customOrangeIcon  // icona già definita
-}).addTo(map).on('click', () => loadAndShowBorder(7, map));
-
-// Popup per la Biblioteca Casa dei Bimbi
-const popupCasaDeiBimbi = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    
+createMarker(
+    [41.852229, 12.592527], // Coordinate
+    "Biblioteca Casa dei Bimbi", // Titolo
+    icons.municipio7, // Icona per Municipio 7 (arancione)
+    `
     <div class="baloon">
         <h3>Biblioteca Casa dei Bimbi</h3>
         <p style="font-size: 15px;">
@@ -1434,23 +877,16 @@ const popupCasaDeiBimbi = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    7, // Municipio
+    map // Mappa
+);
 
-// Associare il popup al marker
-markerCasaDeiBimbi.bindPopup(popupCasaDeiBimbi);
-
-// Creazione del marker con l'icona personalizzata per la Biblioteca Raffaello
-const markerRaffaello = L.marker([41.844170, 12.583459], {
-    title: 'Biblioteca Raffaello',
-    icon: customOrangeIcon  // icona già definita
-}).addTo(map).on('click', () => loadAndShowBorder(7, map));
-
-// Popup per la Biblioteca Raffaello
-const popupRaffaello = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.844170, 12.583459], // Coordinate
+    "Biblioteca Raffaello", // Titolo
+    icons.municipio7, // Icona per Municipio 7 (arancione)
+    `
     <div class="baloon">
         <h3>Biblioteca Raffaello</h3>
         <p style="font-size: 15px;">
@@ -1462,23 +898,16 @@ const popupRaffaello = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    7, // Municipio
+    map // Mappa
+);
 
-// Associare il popup al marker
-markerRaffaello.bindPopup(popupRaffaello);
-
-// Creazione del marker con l'icona personalizzata per la Biblioteca Nelson Mandela
-const markerNelsonMandela = L.marker([41.886103, 12.511739], {
-    title: 'Biblioteca Nelson Mandela',
-    icon: customOrangeIcon  // icona già definita
-}).addTo(map).on('click', () => loadAndShowBorder(7, map));
-
-// Popup per la Biblioteca Nelson Mandela
-const popupNelsonMandela = L.popup({
-    className: 'custom-popup',
-    offset: [0, -10],
-    closeButton: true
-}).setContent(`
+    createMarker(
+    [41.886103, 12.511739], // Coordinate
+    "Biblioteca Nelson Mandela", // Titolo
+    icons.municipio7, // Icona per Municipio 7 (arancione)
+    `
     <div class="baloon">
         <h3>Biblioteca Nelson Mandela</h3>
         <p style="font-size: 15px;">
@@ -1490,13 +919,358 @@ const popupNelsonMandela = L.popup({
            Vai alla scheda
         </a>
     </div>
-`);
+    `, // Popup content
+    7, // Municipio
+    map // Mappa
+);
 
-// Associare il popup al marker
-markerNelsonMandela.bindPopup(popupNelsonMandela);
+    createMarker(
+    [41.840736, 12.484340], // Coordinate
+    "Biblioteca Arcipelago Auditorium", // Titolo
+    icons.municipio8, // Icona per Municipio 8 (verde)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Arcipelago Auditorium</h3>
+        <p style="font-size: 15px;">
+            Via Benedetto Croce, 50
+            <br>00142 Municipio ROMA VIII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Arcipelago%20Auditorium/RMBM1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    8, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.856922, 12.486069], // Coordinate
+    "Biblioteca Joyce Lussu", // Titolo
+    icons.municipio8, // Icona per Municipio 8 (verde)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Joyce Lussu</h3>
+        <p style="font-size: 15px;">
+            Via Costantino, 49A
+            <br>00145 Municipio ROMA VIII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Joyce%20Lussu/RMBM2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    8, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.785285, 12.440257], // Coordinate
+    "Biblioteca Pier Paolo Pasolini", // Titolo
+    icons.municipio9, // Icona per Municipio 9 (blu)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Pier Paolo Pasolini</h3>
+        <p style="font-size: 15px;">
+            Viale Caduti per la Resistenza, 410/A
+            <br>00128 Municipio ROMA IX
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Pier%20Paolo%20Pasolini/RMBN1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    9, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.812215, 12.469236], // Coordinate
+    "Biblioteca Laurentina", // Titolo
+    icons.municipio9, // Icona per Municipio 9 (blu)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Laurentina</h3>
+        <p style="font-size: 15px;">
+            Piazzale Elsa Morante
+            <br>00143 Municipio ROMA IX
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Laurentina/RMBN2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    9, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.732522, 12.271879], // Coordinate
+    "Biblioteca Elsa Morante", // Titolo
+    icons.municipio10, // Icona per Municipio 10 (rosso)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Elsa Morante</h3>
+        <p style="font-size: 15px;">
+            Via Adolfo Cozza 7
+            <br>00121 Municipio ROMA X
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    10, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.775700, 12.348255], // Coordinate
+    "Biblioteca Sandro Onofri", // Titolo
+    icons.municipio10, // Icona per Municipio 10 (rosso)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Sandro Onofri</h3>
+        <p style="font-size: 15px;">
+            Via Umberto Lilloni, 39/45
+            <br>00125 Municipio ROMA X
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Sandro%20Onofri/RMBO1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    10, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.8501037, 12.4140277], // Coordinate
+    "Biblioteca Renato Nicolini", // Titolo
+    icons.municipio11, // Icona per Municipio 11 (giallo)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Renato Nicolini</h3>
+        <p style="font-size: 15px;">
+            Via M. Mazzacurati, 76
+            <br>00148 Municipio ROMA XI
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Renato%20Nicolini/RMBQ2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    11, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.862264, 12.465228], // Coordinate
+    "Biblioteca Guglielmo Marconi", // Titolo
+    icons.municipio11, // Icona per Municipio 11 (giallo)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Guglielmo Marconi</h3>
+        <p style="font-size: 15px;">
+            Via Gerolamo Cardano, 135
+            <br>00146 Municipio ROMA XI
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Guglielmo%20Marconi/RMBQ1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    11, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.867787, 12.444878], // Coordinate
+    "Biblioteca Colli Portuensi", // Titolo
+    icons.municipio12, // Icona per Municipio 12 (viola)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Colli Portuensi</h3>
+        <p style="font-size: 15px;">
+            Viale dei Colli Portuensi, 275
+            <br>00151 Municipio ROMA XII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Colli%20Portuensi/RMBR1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    12, // Municipio
+    map // Mappa
+);
+
+    
+createMarker(
+    [41.86939, 12.41024], // Coordinate
+    "Biblioteca Longhena", // Titolo
+    icons.municipio12, // Icona per Municipio 12 (viola)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Longhena</h3>
+        <p style="font-size: 15px;">
+            Via B. Longhena, 98
+            <br>00163 Municipio ROMA XII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Longhena/RMBR2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    12, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.888458, 12.455285], // Coordinate
+    "Biblioteca Villino Corsini - Villa Pamphilj", // Titolo
+    icons.municipio12, // Icona per Municipio 12 (viola)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Villino Corsini - Villa Pamphilj</h3>
+        <p style="font-size: 15px;">
+            Largo 3 giugno 1849, snc
+            <br>00164 Municipio ROMA XII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Villino%20Corsini%20-%20Villa%20Pamphilj/RMBR3">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    12, // Municipio
+    map // Mappa
+);
+
+createMarker(
+    [41.907000, 12.393447], // Coordinate
+    "Biblioteca Cornelia", // Titolo
+    icons.municipio13, // Icona per Municipio 13 (arancione)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Cornelia</h3>
+        <p style="font-size: 15px;">
+            Via Gaetano Mazzoni, 85 (presso Sala polifunzionale Ex Campari)
+            <br>00166 Municipio ROMA XIII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Cornelia/RMBT2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    13, // Municipio
+    map // Mappa
+);
+
+createMarker(
+    [41.904970, 12.437202], // Coordinate
+    "Biblioteca Valle Aurelia", // Titolo
+    icons.municipio13, // Icona per Municipio 13 (arancione)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Valle Aurelia</h3>
+        <p style="font-size: 15px;">
+            Viale di Valle Aurelia, 129
+            <br>00167 Municipio ROMA XIII
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Valle%20Aurelia/RMBT1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    13, // Municipio
+    map // Mappa
+);
+
+    createMarker(
+    [41.9181766, 12.4144799], // Coordinate
+    "Biblioteca Franco Basaglia", // Titolo
+    icons.municipio14, // Icona per Municipio 14 (grigio)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Franco Basaglia</h3>
+        <p style="font-size: 15px;">
+            Via Federico Borromeo, 67
+            <br>00168 Municipio ROMA XIV
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Franco%20Basaglia/RMBU1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    14, // Municipio
+    map // Mappa
+);
+
+   createMarker(
+    [41.9104619, 12.4251951], // Coordinate
+    "Biblioteca Casa del Parco", // Titolo
+    icons.municipio14, // Icona per Municipio 14 (grigio)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Casa del Parco</h3>
+        <p style="font-size: 15px;">
+            Via della Pineta Sacchetti, 78
+            <br>00167 Municipio ROMA XIV
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20del%20Parco/RMBU2">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    14, // Municipio
+    map // Mappa
+);
+
+    
+    createMarker(
+    [41.995762, 12.485857], // Coordinate
+    "Biblioteca Galline Bianche", // Titolo
+    icons.municipio15, // Icona per Municipio 15 (nero)
+    `
+    <div class="baloon">
+        <h3>Biblioteca Galline Bianche</h3>
+        <p style="font-size: 15px;">
+            Via delle Galline Bianche, 105
+            <br>00188 Municipio ROMA XV
+        </p>
+        <a style="color: #bc0b34; font-size: 16px;" 
+           href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Galline%20Bianche/RMBV1">
+           Vai alla scheda
+        </a>
+    </div>
+    `, // Popup content
+    15, // Municipio
+    map // Mappa
+);
+           
+    
+
+
+    
+  
             
 let routingControl = null;
 let municipioLayer = null;
+
 
    async function showMunicipioI() {
   // Rimuovi il layer precedente se esiste
@@ -1548,7 +1322,7 @@ let municipioLayer = null;
                         routingControl = L.Routing.control({
                             waypoints: [
                                 L.latLng(startCoords[0], startCoords[1]),
-                                L.latLng(biblioCoords[0], biblioCoords[1])
+                                L.latLng(center[0], center[1])
                             ],
                             routeWhileDragging: true,
                             language: 'it',
@@ -1595,66 +1369,189 @@ let municipioLayer = null;
 
             document.getElementById('start-point').focus();
 
-            fetch('https://overpass-api.de/api/interpreter', {
-                method: 'POST',
-                body: `[out:json][timeout:25];
-                       relation(1460885);
-                       out body;
-                       >;
-                       out skel qt;`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.elements.length > 0) {
-                    const ways = data.elements.filter(e => e.type === "way");
-                    const nodes = data.elements.filter(e => e.type === "node");
 
-                    const boundaries = ways.map(way => {
-                        return way.nodes.map(nodeId => {
-                            const node = nodes.find(n => n.id === nodeId);
-                            return [node.lat, node.lon];
-                        });
-                    });
 
-                    boundaries.forEach(boundary => {
-                        L.polyline(boundary, {
-                            color: '#970a2c',
-                            weight: 3,
-                            opacity: 0.7
-                        }).addTo(map);
-                    });
+// Fetch and display the municipality border
+fetch('municipio10.geojson')
+    .then(response => response.json())
+    .then(data => {
+        const municipalityColors = {
+            1: "#6a3f3a", 2: "#00faff", 3: "#fbd51c", 4: "#473e86",
+            5: "#018a87", 6: "#d33682", 7: "#ff7c4e", 8: "#22a825",
+            9: "#2b83cb", 10: "#cb283c", 11: "#cac12e", 12: "#a329ca",
+            13: "#c9832c", 14: "#7b7b79", 15: "#000000"
+        };
 
-const legend = L.control({position: 'bottomright'});
+        // Variabili globali per gestire i layer
+        let municipioLayers = {};
+        let currentHighlight = null;
+        let currentBorder = null;
+        let selectedMunicipio = null;
+
+        // Carica il municipio X di default
+        municipioLayers[10] = L.geoJSON(data, {
+            style: {
+                color: municipalityColors[10],
+                weight: 3,
+                opacity: 0.65,
+                fillOpacity: 0
+            }
+        }).addTo(map);
+
+        // Aggiungi la legenda interattiva
+         const legend = L.control({ position: 'bottomright' });
+   // Replace the legend.onAdd function with this corrected version
 legend.onAdd = function() {
-    const div = L.DomUtil.create('div', 'legend');
+    const div = L.DomUtil.create("div", "legend");
+    
+    // Define municipality colors (moved from earlier in the code)
+    const municipalityColors = {
+        1: "#6a3f3a",
+        2: "#00faff", 
+        3: "#fbd51c",
+        4: "#473e86",
+        5: "#018a87",
+        6: "#d33682",
+        7: "#ff7c4e",
+        8: "#22a825",
+        9: "#2b83cb",
+        10: "#cb283c",
+        11: "#cac12e",
+        12: "#a329ca",
+        13: "#c9832c",
+        14: "#7b7b79",
+        15: "#000000"
+    };
+
     div.innerHTML = `
-        <h4>Biblioteche di Roma</h4>
-        <div class="legend-item"><span style="background: #6a3f3a"></span><div class="text">Municipio I</div></div>
-        <div class="legend-item"><span style="background: #00faff"></span><div class="text">Municipio II</div></div>
-        <div class="legend-item"><span style="background: #fbd51c"></span><div class="text">Municipio III</div></div>
-        <div class="legend-item"><span style="background: #473e86"></span><div class="text">Municipio IV</div></div>
-        <div class="legend-item"><span style="background: #018a87"></span><div class="text">Municipio V</div></div>
-        <div class="legend-item"><span style="background: #d33682"></span><div class="text">Municipio VI</div></div>
-        <div class="legend-item"><span style="background: #ff7c4e"></span><div class="text">Municipio VII</div></div>
-        <div class="legend-item"><span style="background: #22a825"></span><div class="text">Municipio VIII</div></div>
-        <div class="legend-item"><span style="background: #c82937"></span><div class="text">Municipio IX</div></div>
-        <div class="legend-item"><span style="background: #287fc7"></span><div class="text">Municipio X</div></div>
-        <div class="legend-item"><span style="background: #cac12e"></span><div class="text">Municipio XI</div></div>
-        <div class="legend-item"><span style="background: #a329ca"></span><div class="text">Municipio XII</div></div>
-        <div class="legend-item"><span style="background: #c9832c"></span><div class="text">Municipio XIII</div></div>
-        <div class="legend-item"><span style="background: #7b7b79"></span><div class="text">Municipio XIV</div></div>
-        <div class="legend-item"><span style="background: #000000"></span><div class="text">Municipio XV</div></div>
+        <h4>Mappa Biblioteche di Roma per Municipi</h4>
+        <div class="legend-grid">
+            ${Object.entries(municipalityColors).map(([num, color]) => `
+                <div class="legend-item ${num === '10' ? 'disabled' : ''}" 
+                     data-municipio="${num}" 
+                     ${num !== '10' ? `onmouseover="handleLegendHover(${num})" 
+                     onmouseout="handleLegendOut(${num})" 
+                     onclick="handleLegendClick(${num})"` : ''}>
+                    <span style="background: ${color}"></span>
+                    <div class="text">Municipio ${romanize(parseInt(num))}</div>
+                </div>
+            `).join("")}
+        </div>
     `;
+    
     return div;
 };
-legend.addTo(map);
+    legend.addTo(map);
 
-                    const bounds = L.latLngBounds(boundaries.flat());
-                    map.fitBounds(bounds);
+        // Funzione per convertire numeri in numeri romani
+        function romanize(num) {
+            const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV'];
+            return roman[num - 1] || num;
+        }
+
+        // Gestore hover sulla legenda
+// Funzione per gestire l'hover sulla legenda
+window.handleLegendHover = async function(municipioNumber) {
+                // Non mostrare l'hover se il municipio è già selezionato
+                if (municipioNumber === selectedMunicipio) return;
+
+                const item = document.querySelector(`.legend-item[data-municipio="${municipioNumber}"]`);
+                item.classList.add('highlighted');
+
+                if (!municipioLayers[municipioNumber]) {
+                    try {
+                        const response = await fetch(`municipio${municipioNumber}.geojson`);
+                        const data = await response.json();
+                        municipioLayers[municipioNumber] = L.geoJSON(data, {
+                            style: {
+                                color: municipalityColors[municipioNumber],
+                                weight: 4,
+                                opacity: 0.9,
+                                fillOpacity: 0.1
+                            }
+                        });
+                    } catch (error) {
+                        console.error(`Error loading municipality ${municipioNumber}:`, error);
+                        return;
+                    }
                 }
-            })
-            .catch(error => console.error('Errore nel caricamento dei confini:', error));
-        });
+
+                if (currentHighlight && currentHighlight !== currentBorder) {
+                    map.removeLayer(currentHighlight);
+                }
+                
+                currentHighlight = municipioLayers[municipioNumber].addTo(map).bringToFront();
+            };
+
+            // Funzione per gestire l'uscita del mouse dalla legenda
+            window.handleLegendOut = function(municipioNumber) {
+                if (municipioNumber === selectedMunicipio) return;
+
+                const item = document.querySelector(`.legend-item[data-municipio="${municipioNumber}"]`);
+                item.classList.remove('highlighted');
+
+                if (currentHighlight && currentHighlight !== currentBorder) {
+                    map.removeLayer(currentHighlight);
+                    currentHighlight = null;
+                }
+
+                // Se c'è un municipio selezionato, assicurati che rimanga visibile
+                if (selectedMunicipio && currentBorder) {
+                    currentBorder.bringToFront();
+                }
+            };
+
+            // Funzione per gestire il click sulla legenda
+            window.handleLegendClick = async function(municipioNumber) {
+                const allItems = document.querySelectorAll('.legend-item');
+                allItems.forEach(item => item.classList.remove('highlighted'));
+
+                // Se clicchiamo sullo stesso municipio, lo deselezioniamo
+                if (selectedMunicipio === municipioNumber) {
+                    if (currentBorder) {
+                        map.removeLayer(currentBorder);
+                        currentBorder = null;
+                    }
+                    selectedMunicipio = null;
+                    return;
+                }
+
+                // Carica il nuovo municipio se non è già stato caricato
+                if (!municipioLayers[municipioNumber]) {
+                    try {
+                        const response = await fetch(`municipio${municipioNumber}.geojson`);
+                        const data = await response.json();
+                        municipioLayers[municipioNumber] = L.geoJSON(data, {
+                            style: {
+                                color: municipalityColors[municipioNumber],
+                                weight: 4,
+                                opacity: 0.9,
+                                fillOpacity: 0.2
+                            }
+                        });
+                    } catch (error) {
+                        console.error(`Error loading municipality ${municipioNumber}:`, error);
+                        return;
+                    }
+                }
+
+                // Rimuovi il bordo precedente se esiste
+                if (currentBorder) {
+                    map.removeLayer(currentBorder);
+                }
+
+                // Imposta il nuovo municipio selezionato
+                selectedMunicipio = municipioNumber;
+                const item = document.querySelector(`.legend-item[data-municipio="${municipioNumber}"]`);
+                item.classList.add('highlighted');
+
+                // Aggiungi il nuovo bordo
+                currentBorder = municipioLayers[municipioNumber].addTo(map).bringToFront();
+                map.fitBounds(currentBorder.getBounds());
+            };
+        })
+        .catch(error => console.error('Errore nel caricamento dei confini:', error));
+});
     </script>
 </body>
 </html>
