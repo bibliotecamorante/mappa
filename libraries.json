@@ -1,0 +1,365 @@
+
+{
+  "libraries": [
+    {
+      "name": "Biblioteca Enzo Tortora",
+      "coords": [41.876553, 12.478932],
+      "address": "Via N. Zabaglia, 27b",
+      "cap": "00153",
+      "municipality": 1,
+      "municipalityName": "ROMA I",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Enzo%20Tortora/RMBA3"
+    },
+    {
+      "name": "Biblioteca Centrale Ragazzi",
+      "coords": [41.893223, 12.473114],
+      "address": "Via San Paolo alla Regola, 15/18",
+      "cap": "00186",
+      "municipality": 1,
+      "municipalityName": "ROMA I",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Centrale%20Ragazzi/RMBBR"
+    },
+    {
+      "name": "Biblioteca Casa della Memoria e della Storia",
+      "coords": [41.894238, 12.463663],
+      "address": "Via di San Francesco di Sales, 5",
+      "cap": "00165",
+      "municipality": 1,
+      "municipalityName": "ROMA I",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20della%20Memoria%20e%20della%20Storia/RMBA5"
+    },
+    {
+      "name": "Biblioteca Casa delle Letterature",
+      "coords": [41.899150, 12.468542],
+      "address": "Piazza dell'Orologio, 3",
+      "cap": "00186",
+      "municipality": 1,
+      "municipalityName": "ROMA I",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20delle%20Letterature/RMBA7"
+    },
+    {
+      "name": "Biblioteca Giordano Bruno",
+      "coords": [41.911471, 12.452385],
+      "address": "Via Giordano Bruno, 47",
+      "cap": "00195",
+      "municipality": 1,
+      "municipalityName": "ROMA I",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Giordano%20Bruno/RMBS1"
+    },
+    {
+      "name": "Casa delle Traduzioni",
+      "coords": [41.903016, 12.486805],
+      "address": "Via degli Avignonesi, 32",
+      "cap": "00187",
+      "municipality": 1,
+      "municipalityName": "ROMA I",
+      "url": "https://www.bibliotechediroma.it/opac/library/Casa%20delle%20Traduzioni/RMBA6"
+    },
+    {
+      "name": "Biblioteca Europea",
+      "coords": [41.912960, 12.498767],
+      "address": "Via Savoia, 13",
+      "cap": "00198",
+      "municipality": 2,
+      "municipalityName": "ROMA II",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Europea/RMBA1"
+    },
+    {
+      "name": "Biblioteca Flaminia",
+      "coords": [41.923581, 12.470486],
+      "address": "Via Cesare Fracassini, 9",
+      "cap": "00196",
+      "municipality": 2,
+      "municipalityName": "ROMA II",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Flaminia/RMBB3"
+    },
+    {
+      "name": "Biblioteca Villa Leopardi",
+      "coords": [41.926791, 12.521807],
+      "address": "Via Makallè (entrata parco)",
+      "cap": "00199",
+      "municipality": 2,
+      "municipalityName": "ROMA II",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Villa%20Leopardi/RMBB1"
+    },
+    {
+      "name": "Biblioteca Tullio De Mauro",
+      "coords": [41.899404, 12.514206],
+      "address": "Via Tiburtina, 113 (entrata Parco Villa Mercede)",
+      "cap": "00185",
+      "municipality": 2,
+      "municipalityName": "ROMA II",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Tullio%20De%20Mauro/RMBC1"
+    },
+    {
+      "name": "Biblioteca Ennio Flaiano",
+      "coords": [41.952327, 12.530240],
+      "address": "Via Monte Ruggero, 39",
+      "cap": "00139",
+      "municipality": 3,
+      "municipalityName": "ROMA III",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Ennio%20Flaiano/RMBD1"
+    },
+    {
+      "name": "Biblioteca Aldo Fabrizi",
+      "coords": [41.944622, 12.585136],
+      "address": "Via Treia, 14",
+      "cap": "00156",
+      "municipality": 4,
+      "municipalityName": "ROMA IV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Aldo%20Fabrizi/RMBE2"
+    },
+    {
+      "name": "Biblioteca Fabrizio Giovenale",
+      "coords": [41.934058, 12.560290],
+      "address": "Via Fermo Corni - Parco di Aguzzano",
+      "cap": "00156",
+      "municipality": 4,
+      "municipalityName": "ROMA IV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Fabrizio%20Giovenale/RMBWA"
+    },
+    {
+      "name": "Biblioteca Vaccheria Nardi",
+      "coords": [41.913727, 12.564600],
+      "address": "Via Grotta di Gregna, 37",
+      "cap": "00155",
+      "municipality": 4,
+      "municipalityName": "ROMA IV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Vaccheria%20Nardi/RMBE1"
+    },
+    {
+      "name": "Biblioteca Penazzato",
+      "coords": [41.898611, 12.566118],
+      "address": "Via D. Penazzato, 112",
+      "cap": "00177",
+      "municipality": 5,
+      "municipalityName": "ROMA V",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Penazzato/RMBF2"
+    },
+    {
+      "name": "Teatro Biblioteca Quarticciolo",
+      "coords": [41.891476, 12.575938],
+      "address": "Via Castellaneta, 10",
+      "cap": "00171",
+      "municipality": 5,
+      "municipalityName": "ROMA V",
+      "url": "https://www.bibliotechediroma.it/opac/library/Teatro%20Biblioteca%20Quarticciolo/RMBG2"
+    },
+    {
+      "name": "Biblioteca Gianni Rodari",
+      "coords": [41.881422, 12.589056],
+      "address": "Via F. Tovaglieri, 237/A",
+      "cap": "00155",
+      "municipality": 5,
+      "municipalityName": "ROMA V",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Gianni%20Rodari/RMBG1"
+    },
+    {
+      "name": "Biblioteca Goffredo Mameli",
+      "coords": [41.889446, 12.524513],
+      "address": "Via del Pigneto, 22",
+      "cap": "00176",
+      "municipality": 5,
+      "municipalityName": "ROMA V",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Goffredo%20Mameli/RMBF1"
+    },
+    {
+      "name": "Biblioteca Borghesiana",
+      "coords": [41.869678, 12.670410],
+      "address": "Largo Monreale snc",
+      "cap": "00133",
+      "municipality": 6,
+      "municipalityName": "ROMA VI",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Borghesiana/RMBH2"
+    },
+    {
+      "name": "Biblioteca Collina della Pace",
+      "coords": [41.863839, 12.685332],
+      "address": "Via Bompietro, 16",
+      "cap": "00132",
+      "municipality": 6,
+      "municipalityName": "ROMA VI",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Collina%20della%20Pace/RMBH3"
+    },
+    {
+      "name": "Biblioteca Rugantino",
+      "coords": [41.870675, 12.577259],
+      "address": "Via Rugantino, 113",
+      "cap": "00169",
+      "municipality": 7,
+      "municipalityName": "ROMA VII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Rugantino/RMBH1"
+    },
+    {
+      "name": "Biblioteca Casa dei Bimbi",
+      "coords": [41.852229, 12.592527],
+      "address": "Via Libero Leonardi, 153",
+      "cap": "00173",
+      "municipality": 7,
+      "municipalityName": "ROMA VII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20dei%20Bimbi/RMBL3"
+    },
+    {
+      "name": "Biblioteca Raffaello",
+      "coords": [41.844170, 12.583459],
+      "address": "Via Tuscolana, 1111",
+      "cap": "00173",
+      "municipality": 7,
+      "municipalityName": "ROMA VII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Raffaello/RMBL1"
+    },
+    {
+      "name": "Biblioteca Nelson Mandela",
+      "coords": [41.886103, 12.511739],
+      "address": "Via La Spezia, 21",
+      "cap": "00182",
+      "municipality": 7,
+      "municipalityName": "ROMA VII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Nelson%20Mandela/RMBI1"
+    },
+    {
+      "name": "Biblioteca Arcipelago Auditorium",
+      "coords": [41.840736, 12.484340],
+      "address": "Via Benedetto Croce, 50",
+      "cap": "00142",
+      "municipality": 8,
+      "municipalityName": "ROMA VIII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Arcipelago%20Auditorium/RMBM1"
+    },
+    {
+      "name": "Biblioteca Joyce Lussu",
+      "coords": [41.856922, 12.486069],
+      "address": "Via Costantino, 49A",
+      "cap": "00145",
+      "municipality": 8,
+      "municipalityName": "ROMA VIII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Joyce%20Lussu/RMBM2"
+    },
+    {
+      "name": "Biblioteca Pier Paolo Pasolini",
+      "coords": [41.785285, 12.440257],
+      "address": "Viale Caduti per la Resistenza, 410/A",
+      "cap": "00128",
+      "municipality": 9,
+      "municipalityName": "ROMA IX",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Pier%20Paolo%20Pasolini/RMBN1"
+    },
+    {
+      "name": "Biblioteca Laurentina",
+      "coords": [41.812215, 12.469236],
+      "address": "Piazzale Elsa Morante",
+      "cap": "00143",
+      "municipality": 9,
+      "municipalityName": "ROMA IX",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Laurentina/RMBN2"
+    },
+    {
+      "name": "Biblioteca Elsa Morante",
+      "coords": [41.732522, 12.271879],
+      "address": "Via Adolfo Cozza 7",
+      "cap": "00121",
+      "municipality": 10,
+      "municipalityName": "ROMA X",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2"
+    },
+    {
+      "name": "Biblioteca Sandro Onofri",
+      "coords": [41.775700, 12.348255],
+      "address": "Via Umberto Lilloni, 39/45",
+      "cap": "00125",
+      "municipality": 10,
+      "municipalityName": "ROMA X",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Sandro%20Onofri/RMBO1"
+    },
+    {
+      "name": "Biblioteca Renato Nicolini",
+      "coords": [41.8501037, 12.4140277],
+      "address": "Via M. Mazzacurati, 76",
+      "cap": "00148",
+      "municipality": 11,
+      "municipalityName": "ROMA XI",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Renato%20Nicolini/RMBQ2"
+    },
+    {
+      "name": "Biblioteca Guglielmo Marconi",
+      "coords": [41.862264, 12.465228],
+      "address": "Via Gerolamo Cardano, 135",
+      "cap": "00146",
+      "municipality": 11,
+      "municipalityName": "ROMA XI",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Guglielmo%20Marconi/RMBQ1"
+    },
+    {
+      "name": "Biblioteca Colli Portuensi",
+      "coords": [41.867787, 12.444878],
+      "address": "Viale dei Colli Portuensi, 275",
+      "cap": "00151",
+      "municipality": 12,
+      "municipalityName": "ROMA XII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Colli%20Portuensi/RMBR1"
+    },
+    {
+      "name": "Biblioteca Longhena",
+      "coords": [41.86939, 12.41024],
+      "address": "Via B. Longhena, 98",
+      "cap": "00163",
+      "municipality": 12,
+      "municipalityName": "ROMA XII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Longhena/RMBR2"
+    },
+    {
+      "name": "Biblioteca Villino Corsini - Villa Pamphilj",
+      "coords": [41.888458, 12.455285],
+      "address": "Largo 3 giugno 1849, snc",
+      "cap": "00164",
+      "municipality": 12,
+      "municipalityName": "ROMA XII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Villino%20Corsini%20-%20Villa%20Pamphilj/RMBR3"
+    },
+        {
+      "name": "Biblioteca Cornelia",
+      "coords": [41.907000, 12.393447],
+      "address": "Via Gaetano Mazzoni, 85 (presso Sala polifunzionale Ex Campari)",
+      "cap": "00166",
+      "municipality": 13,
+      "municipalityName": "ROMA XIII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Cornelia/RMBT2"
+    },
+    {
+      "name": "Biblioteca Valle Aurelia",
+      "coords": [41.904970, 12.437202],
+      "address": "Viale di Valle Aurelia, 129",
+      "cap": "00167",
+      "municipality": 13,
+      "municipalityName": "ROMA XIII",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Valle%20Aurelia/RMBT1"
+    },
+    {
+      "name": "Biblioteca Franco Basaglia",
+      "coords": [41.9181766, 12.4144799],
+      "address": "Via Federico Borromeo, 67",
+      "cap": "00168",
+      "municipality": 14,
+      "municipalityName": "ROMA XIV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Franco%20Basaglia/RMBU1"
+    },
+    {
+      "name": "Biblioteca Casa del Parco",
+      "coords": [41.9104619, 12.4251951],
+      "address": "Via della Pineta Sacchetti, 78",
+      "cap": "00167",
+      "municipality": 14,
+      "municipalityName": "ROMA XIV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20del%20Parco/RMBU2"
+    },
+    {
+      "name": "Biblioteca Galline Bianche",
+      "coords": [41.995762, 12.485857],
+      "address": "Via delle Galline Bianche, 105",
+      "cap": "00188",
+      "municipality": 15,
+      "municipalityName": "ROMA XV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Galline%20Bianche/RMBV1"
+    }
+  ]
+}
