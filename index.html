@@ -8,47 +8,262 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
-body,html{margin:0;padding:0;height:100%;width:100%}
-#map{height:100vh;width:100%}
+
+        :root {
+    --primary: #bc0b36; /* Colore primario */
+     }
+
+        
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;  /* Prevents scrolling */
+    position: fixed;   /* Ensures no bouncing/scrolling on mobile */
+}
+
+#map {
+    height: 100%;     /* Changed from 100vh to 100% */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 .search-box{position:absolute;top:10px;left:50px;z-index:1000;background:#fff;padding:10px;border-radius:5px;box-shadow:0 0 15px rgba(0,0,0,.2);display:flex;align-items:center}
 .search-box input{width:250px;margin-right:10px;padding:5px 10px;border:1px solid #ccc;border-radius:3px;font-size:14px}
-.search-box button{background-color:#4285f4;color:#fff;border:none;padding:5px 10px;border-radius:3px;cursor:pointer;font-size:14px}
+.search-box button {
+    background-color: var(--primary);
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
 .search-box .icon{width:24px;height:24px;margin-right:10px;cursor:pointer}
 .search-box .separator{width:1px;height:24px;background-color:#ccc;margin:0 10px}
+
+        
+/* Barra laterale fissa */
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 60px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px; /* Riduci questo valore (era 20px) */
+}
+
+.sidebar button {
+    background: 0 0;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-top: 5px; /* Riduci questo valore (era 10px) */
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+/* Effetto hover sui pulsanti */
+.sidebar button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Cambia colore di sfondo al passaggio del mouse */
+    border-radius: 5px; /* Arrotonda gli angoli */
+}
+
+/* Add new styles for active button state */
+.sidebar button.active {
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+
+        
+/* Stile per il tooltip */
+.sidebar button::after {
+    content: attr(data-tooltip); /* Usa l'attributo data-tooltip per il testo */
+    position: absolute;
+    left: 60px; /* Posizione a destra del pulsante */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mostra il tooltip al passaggio del mouse */
+.sidebar button:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+        
+  .sidebar button img {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+}
+
+        /* Seconda barra laterale (espansione) */
+        .sidebar-expanded {
+           
+            overflow-y: auto; /* Allow scrolling within sidebar if needed */
+            position: absolute;
+            top: 0;
+            left: 60px; /* Parte dalla fine della barra fissa */
+            height: 100%;
+            width: 0; /* Inizialmente nascosta */
+            background: #f4f7f0; /* Colore di sfondo */
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            transition: width 0.3s ease;
+            
+        }
+        .sidebar-expanded.open {
+  width: 400px; /* Larghezza espansa */
+  padding: 20px; /* Aggiungi padding per evitare che il contenuto sia troppo vicino ai bordi */
+  box-sizing: border-box; /* Include il padding nella larghezza totale */
+}
+
+.sidebar-close-icon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: url('x.svg') center center no-repeat;
+    background-size: 14px;
+}
+
+.sidebar-close-icon:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.08);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+
+        
+        /* Casella di ricerca */
+        /* Stile per il pannello di ricerca */
+.search-container {
+    position: relative; /* Permette di posizionare il riquadro dei risultati relativamente a questo contenitore */
+    padding: 20px;
+    display: none;
+}
+        .sidebar-expanded.open .search-container {
+            display: block; /* Mostra la casella di ricerca */
+        }
+        .search-container input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #4285f4; /* Contorno blu */
+            border-radius: 4px; /* Bordi arrotondati */
+            font-size: 14px;
+            outline: none; /* Rimuove il bordo predefinito */
+        }
+        .search-container button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 10px;
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+.search-container .icon {
+    width: 24px;
+    height: 24px;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.search-container .icon:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+        
+.legend.visible {
+    right: 0;
+}
+
 .legend {
+    display: block; 
     background: rgba(255, 255, 255, 0.95);
-    padding: 18px 22px;
+    padding: 30px 20px 15px 20px; /* Aggiungi padding-top: 20px (o il valore desiderato) */
     font: 13px/15px 'Segoe UI', system-ui, sans-serif;
     box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-    border-radius: 12px;
-    position: absolute;
-    bottom: 25px;
-    right: 15px;
+    border-radius: 12px 0 0 12px;
+    position: fixed;
+    top: 0;
+    right: -350px;
+    height: 100vh;
     z-index: 1000;
-    max-height: 65vh;
-    overflow-y: auto;
-    width: 300px;
+    width: 250px;
     border: 1px solid rgba(0,0,0,0.1);
     backdrop-filter: blur(4px);
-    transition: all 0.3s ease;
+    transition: right 0.3s ease;
+}
+
+.legend h4 {
+    margin: 0 0 12px 0;  /* Margin più bilanciato */
+    font-size: 14px;
 }
 
 .legend-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px 20px;
+    grid-template-columns: 1fr;
+    gap: 6px;           /* Gap intermedio tra gli elementi */
+    margin-top: 20px; /* Aggiungi un margine superiore per abbassare i municipi */
 }
 
 .legend-item {
     display: flex;
     align-items: center;
-    padding: 8px 12px;
-    border-radius: 8px;
+    padding: 6px 10px;   /* Padding bilanciato */
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba(255,255,255,0.7);
     border: 1px solid transparent;
+    position: relative;
+    padding-right: 30px !important;
 }
+
+.legend-item span {
+    width: 18px;         /* Dimensione icona bilanciata */
+    height: 18px;
+    margin-right: 10px;  /* Margin bilanciato */
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+        
 
 .legend-item:hover {
     background: rgba(241, 242, 246,0.6);
@@ -62,14 +277,7 @@ body,html{margin:0;padding:0;height:100%;width:100%}
     border-color: #ced6e0;
 }
 
-.legend-item span {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    border-radius: 5px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-}
+
 
 .legend-item:hover span {
     transform: scale(1.1);
@@ -79,7 +287,8 @@ body,html{margin:0;padding:0;height:100%;width:100%}
     font-size: 13px;
     color: #4a5568;
     font-weight: 500;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
+    margin-right: 20px;
 }
 
   .legend-item.disabled {
@@ -87,6 +296,81 @@ body,html{margin:0;padding:0;height:100%;width:100%}
             pointer-events: none;
         }
 
+
+
+.legend-close-icon {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    cursor: pointer;
+    opacity: .8;
+    transition: all .2s cubic-bezier(.4, 0, .2, 1);
+    z-index: 1000;
+    width: 28px;  /* Ridotto da 32px a 28px */
+    height: 28px; /* Ridotto da 32px a 28px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: url('x.svg') center center no-repeat;
+    background-size: 14px; /* Ridotto da 16px a 14px per mantenere le proporzioni */
+}
+
+.legend-close-icon:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.05); /* Cambiato da rgba(255,68,68,.15) a un grigio più sottile */
+    transform: scale(1.08); /* Ridotto da 1.15 a 1.08 per un effetto più sottile */
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05); /* Ridotto l'effetto ombra */
+}
+
+        .info-icon {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-style: italic;
+            cursor: help;
+            transition: all 0.2s ease;
+        }
+        
+        .info-icon:hover {
+            background: #e0e0e0;
+        }
+        
+        .tooltip {
+            position: absolute;
+            right: calc(100% + 10px);  /* Cambiato da left a right */
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            width: max-content;
+            max-width: 200px;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        
+        .info-icon:hover + .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        
+        
 .municipio-highlight {
     stroke-width: 4px !important;
     stroke-opacity: 0.9 !important;
@@ -113,7 +397,7 @@ body,html{margin:0;padding:0;height:100%;width:100%}
     right: 10px;
     width: 24px;
     height: 24px;
-    background-color: rgba(255, 77, 77, 0.7);
+    background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 50%;
@@ -177,17 +461,161 @@ body,html{margin:0;padding:0;height:100%;width:100%}
     margin-top: 5px;
 }
 
+
+/* Stile per il riquadro dei risultati */
+#search-results {
+    display: none; /* Nascondi di default */
+    position: relative;
+    width: calc(100% - 40px);
+    max-height: calc(100% - 150px); /* Adjust based on your header height */
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    margin: 20px auto;
+    border: 1px solid #e0e0e0;
+    z-index: 1;
+}
+        
+/* Stile per il titolo del municipio */
+#search-results .municipio-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Stile per ogni voce di biblioteca */
+#search-results .library-item {
+  padding: 8px 12px;
+  margin: 5px 0;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-size: 14px;
+  color: #555;
+  border: 1px solid #e0e0e0;
+}
+
+/* Effetto hover sulle voci di biblioteca */
+#search-results .library-item:hover {
+  background-color: #f1f1f1;
+  transform: translateX(5px);
+  border-color: #4285f4;
+}
+
+        
+/* Scrollbar personalizzata */
+#search-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+#search-results::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#search-results::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+#search-results::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media (max-width: 768px) {
+  .sidebar-expanded.open {
+    width: 100%; /* Occupa tutta la larghezza su schermi piccoli */
+    padding: 10px; /* Riduci il padding su schermi piccoli */
+  }
+
+  #search-results {
+    width: calc(100% - 20px); /* Riduci la larghezza su schermi piccoli */
+    margin: 10px auto; /* Riduci il margine su schermi piccoli */
+  }
+}        
+
+/* Stile per il contenitore del campo di ricerca */
+.search-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Occupa tutta la larghezza disponibile */
+}
+
+/* Stile per il campo di ricerca */
+#start-point {
+    width: 100%; /* Occupa tutta la larghezza del contenitore */
+    padding-right: 30px; /* Lascia spazio per la "x" */
+    box-sizing: border-box; /* Include il padding nella larghezza totale */
+}
+
+/* Stile per il pulsante "x" */
+.clear-search-btn {
+    display: none; /* Inizialmente nascosto */
+    position: absolute;
+    right: 10px; /* Posizione rispetto al bordo destro del campo */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888; /* Colore grigio */
+    font-size: 14px;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.clear-search-btn:hover {
+    color: #555; /* Colore più scuro al passaggio del mouse */
+}
+
+        
     </style>
 </head>
 <body>
-  <div class="search-box">
-        
-        <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Morante">
+    <!-- Barra laterale fissa -->
+<div class=sidebar>
+<button id=menuBtn onclick=toggleExpandedSidebar() data-tooltip="Espandi">
+<img src=sidebar.svg alt=Menu>
+</button>
+<button id=searchBtn onclick=toggleSearch() data-tooltip="Cerca biblioteca o indirizzo">
+<img src=search-icon.svg alt="Cerca biblioteca o indirizzo">
+</button>
+<button id=legendBtn onclick=toggleLegend() data-tooltip="Mostra/Nascondi legenda">
+<img src=legend-icon.svg alt="Mostra/Nascondi legenda">
+</button>
+</div>
+
+
+<!-- Seconda barra laterale (espansione) -->
+<div class=sidebar-expanded id=expandedSidebar>
+    <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div> <!-- Aggiungi questa linea -->
+    
+    
+<div class="search-container" id="searchContainer">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" 
+           title="Vai alla Biblioteca Elsa Morante">
             <img src="home.svg" alt="Biblioteca Home" class="icon">
         </a>
-        <input type="text" id="start-point" placeholder="Inserisci punto di partenza">
-        <button onclick="searchRoute()" title="Trova percorso fino alla Biblioteca Morante">Trova Percorso</button>
+        <div class="search-input-wrapper" style="flex: 1;">
+            <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions">
+            <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
+        </div>
     </div>
+    <datalist id="library-suggestions"></datalist>
+    <button onclick="searchRoute()">Trova Percorso</button>
+</div>
+
+    
+    <div id=search-results></div>
+</div>
+
     <div id="map"></div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
@@ -232,7 +660,188 @@ const municipalityColors = {
         let currentHighlight = null;
         let selectedMunicipio = null;
 
+      // Funzione per aprire/chiudere la seconda barra laterale
+        function toggleExpandedSidebar() {
+            const expandedSidebar = document.getElementById('expandedSidebar');
+            expandedSidebar.classList.toggle('open');
+        }
 
+// Add this new function for legend toggle
+function toggleLegend() {
+    const legend = document.querySelector(".legend");
+    const legendBtn = document.getElementById('legendBtn');
+    
+    if (legend) {
+        legend.classList.toggle("visible");
+        legendBtn.classList.toggle('active');
+    }
+}
+
+
+// Funzione per cercare una biblioteca e aprire il popup corrispondente
+async function searchLibrary() {
+    const searchTerm = document.getElementById('start-point').value.toLowerCase();
+    if (!searchTerm) return;
+
+    try {
+        const response = await fetch('libraries.json');
+        const data = await response.json();
+
+        // Trova la biblioteca cercata
+        const foundLibrary = data.libraries.find(library =>
+            library.name.toLowerCase().includes(searchTerm)
+        );
+
+        if (foundLibrary) {
+            // Trova tutte le biblioteche dello stesso municipio
+            const librariesInMunicipio = data.libraries.filter(library =>
+                library.municipality === foundLibrary.municipality
+            );
+
+            // Mostra il municipio e le biblioteche
+            showMunicipioAndLibraries(foundLibrary.municipality, librariesInMunicipio);
+        } else {
+            alert('Biblioteca non trovata. Riprova.');
+        }
+    } catch (error) {
+        console.error('Errore nella ricerca della biblioteca:', error);
+        alert('Errore nella ricerca. Riprova.');
+    }
+}
+
+function showMunicipioAndLibraries(municipioNumber, libraries) {
+    const resultsContainer = document.getElementById('search-results');
+    
+    // Svuota il contenuto precedente
+    resultsContainer.innerHTML = '';
+
+    // Aggiungi il titolo del municipio
+    const municipioDiv = document.createElement('div');
+    municipioDiv.className = 'municipio-title';
+    municipioDiv.textContent = `Municipio ${romanize(municipioNumber)}`;
+    resultsContainer.appendChild(municipioDiv);
+
+    // Aggiungi le biblioteche del municipio
+    libraries.forEach(library => {
+        const libraryDiv = document.createElement('div');
+        libraryDiv.className = 'library-item';
+        libraryDiv.textContent = library.name;
+        libraryDiv.onclick = () => selectLibrary(library);
+        resultsContainer.appendChild(libraryDiv);
+    });
+
+    // Mostra il riquadro dei risultati solo se ci sono biblioteche
+    if (libraries.length > 0) {
+        resultsContainer.style.display = 'block';
+    } else {
+        resultsContainer.style.display = 'none';
+    }
+
+    // Evidenzia il municipio sulla mappa
+    loadAndShowBorder(municipioNumber, map);
+    highlightLegendItem(municipioNumber);
+    selectedMunicipio = municipioNumber;
+}
+
+function selectLibrary(library) {
+    let foundMarker = null;
+    map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+            const pos = layer.getLatLng();
+            if (pos.lat === library.coords[0] && pos.lng === library.coords[1]) {
+                foundMarker = layer;
+            }
+        }
+    });
+
+    if (foundMarker) {
+        foundMarker.openPopup();
+        map.setView(foundMarker.getLatLng(), 14);
+        loadAndShowBorder(library.municipality, map);
+        highlightLegendItem(library.municipality);
+        selectedMunicipio = library.municipality;
+    } else {
+        console.log('Marker not found for library:', library);
+    }
+
+    // Nascondi il riquadro dei risultati
+    const resultsContainer = document.getElementById('search-results');
+    if (resultsContainer) {
+        resultsContainer.style.display = 'none';
+    }
+}
+
+        
+function toggleSearch() {
+    const searchBtn = document.getElementById('searchBtn');
+    const sidebar = document.getElementById('expandedSidebar');
+    const searchContainer = document.getElementById('searchContainer');
+    const isOpen = sidebar.classList.contains('open') && searchBtn.classList.contains('active');
+
+    document.getElementById('menuBtn').classList.remove('active');
+
+    if (isOpen) {
+        sidebar.classList.remove('open');
+        searchBtn.classList.remove('active');
+    } else {
+        sidebar.classList.add('open');
+        searchBtn.classList.add('active');
+        const input = document.getElementById('start-point');
+        input.placeholder = "Cerca biblioteca o indirizzo...";
+        const button = searchContainer.querySelector('button');
+        button.textContent = "Cerca";
+        button.onclick = async function() {
+            const searchText = input.value.toLowerCase();
+            
+            // First try to find a library
+            try {
+                const response = await fetch('libraries.json');
+                const data = await response.json();
+                const library = data.libraries.find(lib => lib.name.toLowerCase().includes(searchText));
+                
+                if (library) {
+                    const municipioLibraries = data.libraries.filter(lib => lib.municipality === library.municipality);
+                    showMunicipioAndLibraries(library.municipality, municipioLibraries);
+                    return;
+                }
+            } catch (error) {
+                console.error('Errore nella ricerca della biblioteca:', error);
+            }
+            
+            // If no library found, try routing to address
+            searchRoute();
+        };
+        searchContainer.style.display = 'block';
+    }
+}
+
+
+// Funzione per resettare il campo di ricerca
+function clearSearchField() {
+    const searchInput = document.getElementById('start-point');
+    searchInput.value = '';
+    searchInput.focus();
+    toggleClearButton();
+}
+
+// Funzione per mostrare/nascondere il pulsante "x"
+function toggleClearButton() {
+    const searchInput = document.getElementById('start-point');
+    const clearButton = document.getElementById('clear-search');
+    if (searchInput.value.trim() !== '') {
+        clearButton.style.display = 'inline-block'; // Mostra la "x"
+    } else {
+        clearButton.style.display = 'none'; // Nascondi la "x"
+    }
+}
+
+// Aggiungi un listener per l'input nel campo di ricerca
+document.getElementById('start-point').addEventListener('input', toggleClearButton);
+
+// Aggiungi un listener per l'input nel campo di ricerca
+document.getElementById('start-point').addEventListener('input', toggleClearButton);
+        
+        
 // Funzione helper per caricare e visualizzare il confine di un municipio
 async function loadAndShowBorder(municipalityNumber, map) {
     // Se c'è già un confine visualizzato, rimuovilo
@@ -264,11 +873,31 @@ async function loadAndShowBorder(municipalityNumber, map) {
 
 
 
-        
-document.addEventListener("DOMContentLoaded", async function() { // <-- Aggiungi async qui
+let map;
 
+// Funzione per evidenziare la voce della legenda
+function highlightLegendItem(municipioNumber) {
+  const allItems = document.querySelectorAll('.legend-item');
+  allItems.forEach(item => item.classList.remove('highlighted'));
+  const item = document.querySelector(`.legend-item[data-municipio="${municipioNumber}"]`);
+  if (item) {
+    item.classList.add('highlighted');
+  }
+}
+window.highlightLegendItem = highlightLegendItem;
+
+        
+document.addEventListener("DOMContentLoaded", async function() {
+    // Initialize map
     const center = [41.732522, 12.271879];
-    const map = L.map("map").setView(center, 14);
+    map = L.map("map", {
+        zoomControl: false
+    }).setView(center, 14);
+            
+            // Add zoom control to the right side
+            L.control.zoom({
+                position: 'topright'
+            }).addTo(map);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -296,15 +925,6 @@ document.addEventListener("DOMContentLoaded", async function() { // <-- Aggiungi
     // Punto finale del percorso
     const endPoint = pathPoints[pathPoints.length - 1];
 
-// Funzione per evidenziare la voce della legenda
-function highlightLegendItem(municipioNumber) {
-    const allItems = document.querySelectorAll('.legend-item');
-    allItems.forEach(item => item.classList.remove('highlighted'));
-    const item = document.querySelector(`.legend-item[data-municipio="${municipioNumber}"]`);
-    if (item) {
-        item.classList.add('highlighted');
-    }
-}
 
     
     // Definizione della funzione createMarker
@@ -346,37 +966,45 @@ const icons = getIconsConfig();
 
 // Spazio dove erano i marker per le biblioteche...
 // Carica le biblioteche dal file JSON
-  try {
+// Dopo aver caricato le biblioteche dal file JSON
+try {
     const response = await fetch('libraries.json');
     const data = await response.json();
-    
+
+    // Popola il datalist con i nomi delle biblioteche
+    const datalist = document.getElementById('library-suggestions');
+    data.libraries.forEach(library => {
+        const option = document.createElement('option');
+        option.value = library.name;
+        datalist.appendChild(option);
+    });
+
     // Crea i marker per ogni biblioteca
     data.libraries.forEach(library => {
-      const popupContent = `
-        <div class="baloon">
-          <h3>${library.name}</h3>
-          <p style="font-size: 15px;">
-            ${library.address} <br>
-            ${library.cap} Municipio ${library.municipalityName}
-          </p>
-          <a style="color: #bc0b34; font-size: 16px;" href="${library.url}">
-            Vai alla scheda
-          </a>
-        </div>
-      `;
-
-      createMarker(
-        library.coords,
-        library.name,
-        icons[`municipio${library.municipality}`],
-        popupContent,
-        library.municipality,
-        map
-      );
+        const popupContent = `
+            <div class="baloon">
+                <h3>${library.name}</h3>
+                <p style="font-size: 15px;">
+                    ${library.address} <br>
+                    ${library.cap} Municipio ${library.municipalityName}
+                </p>
+                <a style="color: #bc0b34; font-size: 16px;" href="${library.url}">
+                    Vai alla scheda
+                </a>
+            </div>
+        `;
+        createMarker(
+            library.coords,
+            library.name,
+            icons[`municipio${library.municipality}`],
+            popupContent,
+            library.municipality,
+            map
+        );
     });
-  } catch (error) {
+} catch (error) {
     console.error('Errore nel caricamento delle biblioteche:', error);
-  }
+}
     
 
 
@@ -409,7 +1037,12 @@ const icons = getIconsConfig();
     console.error('Errore nel caricamento del confine:', error);
   }
 }
-            
+
+
+
+
+
+    
             window.searchRoute = async function() {
                 const startPoint = document.getElementById('start-point').value;
                 
@@ -474,11 +1107,16 @@ const icons = getIconsConfig();
                 }
             }
 
-            document.getElementById('start-point').addEventListener('keypress', function(event) {
-                if (event.key === 'Enter') {
-                    searchRoute();
-                }
-            });
+document.getElementById('start-point').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        const searchButton = document.querySelector('#searchContainer button');
+        if (searchButton.textContent === "Cerca Biblioteca") {
+            searchLibrary();
+        } else {
+            searchRoute();
+        }
+    }
+});
 
             document.getElementById('start-point').focus();
 
@@ -502,33 +1140,60 @@ fetch('municipio10.geojson')
             }
         }).addTo(map);
 
-        // Aggiungi la legenda interattiva
-         const legend = L.control({ position: 'bottomright' });
-   // Replace the legend.onAdd function with this corrected version
+// Prima definisci l'oggetto con le zone dei municipi
+const municipalityZones = {
+    1: "Centro storico",
+    2: "Parioli/Nomentano",
+    3: "Monte Sacro",
+    4: "Tiburtina", 
+    5: "Prenestino/Centocelle",
+    6: "Roma Delle Torri",
+    7: "Appio-Latino/Tuscolano/Cinecittà",
+    8: "Appia Antica",
+    9: "EUR",
+    10: "Ostia/Acilia",
+    11: "Arvalia/Portuense",
+    12: "Monte Verde",
+    13: "Aurelia",
+    14: "Monte Mario",
+    15: "Cassia/Flaminia"
+};
+
+// Aggiungi la legenda interattiva
+const legend = L.control({ position: 'topright' });
+
+// Modifica la funzione legend.onAdd
 legend.onAdd = function() {
     const div = L.DomUtil.create("div", "legend");
-    
-
-
     div.innerHTML = `
-        <h4>Mappa Biblioteche di Roma per Municipi</h4>
+        <div id="closeLegend" class="legend-close-icon"></div>
+        <h4>Mappa Biblioteche di Roma per Municipio</h4>
         <div class="legend-grid">
             ${Object.entries(municipalityColors).map(([num, color]) => `
-                <div class="legend-item ${num === '10' ? 'disabled' : ''}" 
-                     data-municipio="${num}" 
-                     ${num !== '10' ? `onmouseover="handleLegendHover(${num})" 
-                     onmouseout="handleLegendOut(${num})" 
-                     onclick="handleLegendClick(${num})"` : ''}>
+                <div class="legend-item ${num === '10' ? 'disabled' : ''}" data-municipio="${num}"
+                    ${num !== '10' ? `onmouseover="handleLegendHover(${num})" onmouseout="handleLegendOut(${num})" onclick="handleLegendClick(${num})"` : ''}>
                     <span style="background: ${color}"></span>
                     <div class="text">Municipio ${romanize(parseInt(num))}</div>
+                    <div class="info-icon">i</div>
+                    <div class="tooltip">Zona: ${municipalityZones[num]}</div>
                 </div>
             `).join("")}
         </div>
     `;
     
+    // Aggiungi l'event listener per il pulsante di chiusura
+    const closeButton = div.querySelector('#closeLegend');
+    if (closeButton) {
+        closeButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleLegend();
+        });
+    } else {
+        console.error('Pulsante di chiusura non trovato!');
+    }
     return div;
 };
-    legend.addTo(map);
+legend.addTo(map);
 
   
 
