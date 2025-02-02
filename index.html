@@ -573,11 +573,47 @@ body, html {
 .clear-search-btn:hover {
     color: #555; /* Colore più scuro al passaggio del mouse */
 }
+        
+#handle {
+    position: absolute;
+    right: 10px; /* Distanza dal margine destro */
+    top: 50%; /* Posiziona al centro verticalmente */
+    transform: translateY(-50%); /* Centra verticalmente */
+    font-size: 20px; /* Simbolo ingrandito */
+    color: #000; /* Colore del simbolo */
+    background-color: rgba(255, 255, 255, 0.8); /* Sfondo semi-trasparente */
+    padding: 3px 5px; /* Ridotto il padding per mantenere il contorno più compatto */
+    border-radius: 5px; /* Bordi arrotondati */
+    cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+    z-index: 1000; /* Assicura che sia sopra la mappa */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombra per migliorare la visibilità */
+    width: 18px; /* Larghezza ridotta */
+    height: 30px; /* Altezza mantenuta */
+    text-align: center; /* Centra il simbolo orizzontalmente */
+    line-height: 30px; /* Allinea verticalmente il simbolo dentro la maniglia */
+}
+
+#handle:hover {
+    background-color: rgba(255, 255, 255, 1); /* Sfondo meno trasparente al passaggio del mouse */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Ombra più pronunciata al passaggio del mouse */
+}
+
+
+#handle.active {
+    background-color: rgba(255, 255, 255, 1); /* Cambia colore quando attivo */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Ombra più pronunciata */
+}
+
+
 
         
     </style>
 </head>
 <body>
+
+    <div id="handle" onclick="toggleLegend()">⁞⁞</div>
+
+    
     <!-- Barra laterale fissa -->
 <div class=sidebar>
 <button id=menuBtn onclick=toggleExpandedSidebar() data-tooltip="Espandi">
@@ -670,10 +706,12 @@ const municipalityColors = {
 function toggleLegend() {
     const legend = document.querySelector(".legend");
     const legendBtn = document.getElementById('legendBtn');
+    const handle = document.getElementById('handle');
     
     if (legend) {
         legend.classList.toggle("visible");
         legendBtn.classList.toggle('active');
+        handle.classList.toggle('active'); // Aggiungi/rimuovi la classe 'active' alla maniglia
     }
 }
 
