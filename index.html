@@ -210,26 +210,31 @@ body, html {
 }
         
 .legend.visible {
-    right: 0;
+    right: 40px; /* Modificato da 0 a 40px per lasciare spazio alla maniglia */
 }
 
 .legend {
-    display: block; 
-    background: rgba(255, 255, 255, 0.95);
-    padding: 30px 20px 15px 20px; /* Aggiungi padding-top: 20px (o il valore desiderato) */
+    display: block;
+    background: rgba(255,255,255,.95);
+    padding: 15px 20px; /* Ridotto il padding superiore e inferiore */
     font: 13px/15px 'Segoe UI', system-ui, sans-serif;
-    box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-    border-radius: 12px 0 0 12px;
+    box-shadow: 0 5px 25px rgba(0,0,0,.15);
+    border-radius: 12px;
     position: fixed;
-    top: 0;
+    top: 10px; /* Vicino al bordo superiore */
+    bottom: 20px; /* Vicino al bordo inferiore */
     right: -350px;
-    height: 100vh;
     z-index: 1000;
     width: 250px;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,.1);
     backdrop-filter: blur(4px);
-    transition: right 0.3s ease;
+    transition: right .3s ease;
+    overflow-y: auto; /* Aggiunto per gestire lo scorrimento se il contenuto è troppo alto */
 }
+
+
+
+
 
 .legend h4 {
     margin: 0 0 12px 0;  /* Margin più bilanciato */
@@ -322,7 +327,9 @@ body, html {
     transform: scale(1.08); /* Ridotto da 1.15 a 1.08 per un effetto più sottile */
     box-shadow: 0 1px 4px rgba(0,0,0,0.05); /* Ridotto l'effetto ombra */
 }
+        
 
+        
         .info-icon {
             position: absolute;
             right: 8px;
@@ -960,16 +967,23 @@ document.addEventListener("DOMContentLoaded", async function() {
         zoomControl: false
     }).setView(center, 14);
             
-            // Add zoom control to the right side
-            L.control.zoom({
-                position: 'topright'
-            }).addTo(map);
+    // Add zoom control to the right side with custom CSS class
+    const zoomControl = L.control.zoom({
+        position: 'topright'
+    });
+    
+    zoomControl.addTo(map);
+    
+    // Add custom CSS to the zoom control container after it's added to the map
+    const zoomContainer = zoomControl.getContainer();
+    zoomContainer.style.marginTop = '22px';
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "© OpenStreetMap contributors"
     }).addTo(map);
 
+    
     // Definizione del percorso
     const pathPoints = [
         center,
