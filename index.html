@@ -1277,7 +1277,7 @@ fetch('municipio10.geojson')
                 opacity: 0.65,
                 fillOpacity: 0
             }
-        }).addTo(map);
+        });
 
 // Prima definisci l'oggetto con le zone dei municipi
 const municipalityZones = {
@@ -1303,22 +1303,24 @@ const legend = L.control({ position: 'topright' });
 
 // Modifica la funzione legend.onAdd
 legend.onAdd = function() {
-    const div = L.DomUtil.create("div", "legend");
-    div.innerHTML = `
-        <div id="closeLegend" class="legend-close-icon"></div>
-        <h4>Mappa Biblioteche di Roma per Municipio</h4>
-        <div class="legend-grid">
-            ${Object.entries(municipalityColors).map(([num, color]) => `
-                <div class="legend-item ${num === '10' ? 'disabled' : ''}" data-municipio="${num}"
-                    ${num !== '10' ? `onmouseover="handleLegendHover(${num})" onmouseout="handleLegendOut(${num})" onclick="handleLegendClick(${num})"` : ''}>
-                    <span style="background: ${color}"></span>
-                    <div class="text">Municipio ${romanize(parseInt(num))}</div>
-                    <div class="info-icon">i</div>
-                    <div class="tooltip">Zona: ${municipalityZones[num]}</div>
-                </div>
-            `).join("")}
-        </div>
-    `;
+                const div = L.DomUtil.create("div", "legend");
+                div.innerHTML = `
+                    <div id="closeLegend" class="legend-close-icon"></div>
+                    <h4>Mappa Biblioteche di Roma per Municipio</h4>
+                    <div class="legend-grid">
+                        ${Object.entries(municipalityColors).map(([num, color]) => `
+                            <div class="legend-item" data-municipio="${num}" 
+                                 onmouseover="handleLegendHover(${num})" 
+                                 onmouseout="handleLegendOut(${num})" 
+                                 onclick="handleLegendClick(${num})">
+                                <span style="background: ${color}"></span>
+                                <div class="text">Municipio ${romanize(parseInt(num))}</div>
+                                <div class="info-icon">i</div>
+                                <div class="tooltip">Zona: ${municipalityZones[num]}</div>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
     
     // Aggiungi l'event listener per il pulsante di chiusura
     const closeButton = div.querySelector('#closeLegend');
