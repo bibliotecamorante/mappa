@@ -1309,8 +1309,7 @@ legend.onAdd = function() {
         <h4>Mappa Biblioteche di Roma per Municipio</h4>
         <div class="legend-grid">
             ${Object.entries(municipalityColors).map(([num, color]) => `
-                <div class="legend-item ${num === '10' ? 'disabled' : ''}" data-municipio="${num}"
-                    ${num !== '10' ? `onmouseover="handleLegendHover(${num})" onmouseout="handleLegendOut(${num})" onclick="handleLegendClick(${num})"` : ''}>
+                <div class="legend-item" data-municipio="${num}" onmouseover="handleLegendHover(${num})" onmouseout="handleLegendOut(${num})" onclick="handleLegendClick(${num})">
                     <span style="background: ${color}"></span>
                     <div class="text">Municipio ${romanize(parseInt(num))}</div>
                     <div class="info-icon">i</div>
@@ -1430,7 +1429,18 @@ window.handleLegendClick = async function(municipioNumber) {
         item.classList.add('highlighted');
     }
 
-    currentBorder = municipioLayers[municipioNumber].addTo(map).bringToFront();
+    // Aggiungi il confine del municipio X con uno stile diverso se è già presente
+    if (municipioNumber === 10 && municipioLayers[10]) {
+        currentBorder = municipioLayers[10].setStyle({
+            color: municipalityColors[10],
+            weight: 6, // Aumenta lo spessore per evidenziare
+            opacity: 1, // Aumenta l'opacità per evidenziare
+            fillOpacity: 0.3 // Aumenta l'opacità del riempimento per evidenziare
+        }).addTo(map).bringToFront();
+    } else {
+        currentBorder = municipioLayers[municipioNumber].addTo(map).bringToFront();
+    }
+
     map.fitBounds(currentBorder.getBounds());
 };
         })
