@@ -62,11 +62,11 @@ body, html {
 }
 
 .sidebar button {
-    background: 0 0;
+    background: transparent;
     border: none;
     cursor: pointer;
     margin-bottom: 20px;
-    margin-top: 5px; /* Riduci questo valore (era 10px) */
+    margin-top: 5px;
     position: relative;
     transition: background-color 0.3s ease;
 }
@@ -119,25 +119,26 @@ body, html {
 }
 
         /* Seconda barra laterale (espansione) */
-        .sidebar-expanded {
-           
-            overflow-y: auto; /* Allow scrolling within sidebar if needed */
-            position: absolute;
-            top: 0;
-            left: 60px; /* Parte dalla fine della barra fissa */
-            height: 100%;
-            width: 0; /* Inizialmente nascosta */
-            background: #f4f7f0; /* Colore di sfondo */
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            z-index: 999;
-            transition: width 0.3s ease;
-            
-        }
-        .sidebar-expanded.open {
-  width: 400px; /* Larghezza espansa */
-  padding: 20px; /* Aggiungi padding per evitare che il contenuto sia troppo vicino ai bordi */
-  box-sizing: border-box; /* Include il padding nella larghezza totale */
+    .sidebar-expanded {
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    height: 100%;
+    width: 0;
+    background: #f4f7f0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    z-index: 999;
+    transition: width 0.3s ease;
 }
+
+        
+.sidebar-expanded.open {
+    width: 400px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
 
 .sidebar-close-icon {
     position: absolute;
@@ -639,6 +640,61 @@ body, html {
     color: #fff;
 }
 
+/* Stile per il contenitore delle biblioteche federate */
+.federate-container {
+    padding: 20px;
+}
+
+.federate-container h4 
+    
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.federate-container .legend-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-top: 20px;
+}
+
+.federate-container .legend-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid transparent;
+    position: relative;
+    padding-right: 30px !important;
+}
+
+.federate-container .legend-item span {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.federate-container .legend-item:hover {
+    background: rgba(241, 242, 246, 0.6);
+    transform: translateX(3px);
+    border-color: #dfe4ea;
+}
+
+.federate-container .legend-item .text {
+    font-size: 13px;
+    color: #4a5568;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    margin-right: 20px;
+}
+
+        
         
     </style>
 </head>
@@ -649,9 +705,7 @@ body, html {
     
     <!-- Barra laterale fissa -->
 <div class=sidebar>
-<button id=menuBtn onclick=toggleExpandedSidebar() data-tooltip="Espandi">
-<img src=sidebar.svg alt=Menu>
-</button>
+
 <button id=searchBtn onclick=toggleSearch() data-tooltip="Cerca biblioteca o indirizzo">
 <img src=search-icon.svg alt="Cerca biblioteca o indirizzo">
 </button>
@@ -662,29 +716,68 @@ body, html {
     <button id="federateBtn" onclick="toggleFederateSidebar()" data-tooltip="Biblioteche federate">
         <img src="federate-icon.svg" alt="Biblioteche federate">
     </button>   
-</button>
 </div>
 
 
 <!-- Seconda barra laterale (espansione) -->
-<div class=sidebar-expanded id=expandedSidebar>
-    <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div> <!-- Aggiungi questa linea -->
-    
-    
-<div class="search-container" id="searchContainer">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" 
-           title="Vai alla Biblioteca Elsa Morante">
-            <img src="home.svg" alt="Biblioteca Home" class="icon">
-        </a>
-        <div class="search-input-wrapper" style="flex: 1;">
-            <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions">
-            <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
+<div class="sidebar-expanded" id="expandedSidebar">
+    <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
+    <!-- Aggiungi questa linea -->
+    <div class="search-container" id="searchContainer">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Elsa Morante">
+                <img src="home.svg" alt="Biblioteca Home" class="icon">
+            </a>
+            <div class="search-input-wrapper" style="flex: 1;">
+                <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions">
+                <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
+            </div>
+        </div>
+        <div id="library-suggestions" class="custom-datalist"></div>
+        <button onclick="searchRoute()">Trova Percorso</button>
+    </div>
+    <div id="search-results"></div>
+</div>
+
+
+<!-- Nuovo pannello per le biblioteche federate -->
+<div class="sidebar-expanded" id="federateSidebar">
+    <div class="sidebar-close-icon" onclick="toggleFederateSidebar()"></div>
+    <div class="federate-container">
+        <h4>Biblioteche Federate</h4>
+        <div class="legend-grid">
+            <div class="legend-item">
+                <span style="background: #6a3f3a"></span>
+                <div class="text">Sistema Bibliotecario di Ateneo - Università Degli Studi Roma Tre</div>
+            </div>
+            <div class="legend-item">
+                <span style="background: #00faff"></span>
+                <div class="text">Biblioteche Sistema Castelli Romani</div>
+            </div>
+            <div class="legend-item">
+                <span style="background: #fbd51c"></span>
+                <div class="text">Lumsa</div>
+            </div>
+            <div class="legend-item">
+                <span style="background: #473e86"></span>
+                <div class="text">Foro Italico</div>
+            </div>
+            <div class="legend-item">
+                <span style="background: #018a87"></span>
+                <div class="text">Link Campus</div>
+            </div>
+            <div class="legend-item">
+                <span style="background: #d33682"></span>
+                <div class="text">Sistema Bibliotecario Ceretano-Sabatino</div>
+            </div>
+            <div class="legend-item">
+                <span style="background: #ff7c4e"></span>
+                <div class="text">Sistema Bibliotecario Monti Prenestini</div>
+            </div>
         </div>
     </div>
-    <div id="library-suggestions" class="custom-datalist"></div>
-    <button onclick="searchRoute()">Trova Percorso</button>
 </div>
+
 
     
     <div id=search-results></div>
@@ -847,50 +940,93 @@ function selectLibrary(library) {
     }
 }
 
-        
+// Funzione per aprire/chiudere il pannello delle biblioteche federate
+function toggleFederateSidebar() {
+    const federateSidebar = document.getElementById('federateSidebar');
+    const federateBtn = document.getElementById('federateBtn');
+    const expandedSidebar = document.getElementById('expandedSidebar');
+    const searchContainer = document.getElementById('searchContainer');
+
+    // Rimuovo la classe active da tutti i pulsanti
+    document.querySelectorAll('.sidebar button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // Chiudo il pannello di ricerca se aperto
+    expandedSidebar.classList.remove('open');
+    if (searchContainer) {
+        searchContainer.style.display = 'none';
+    }
+
+    // Gestisco l'apertura/chiusura del pannello federate
+    federateSidebar.classList.toggle('open');
+    if (federateSidebar.classList.contains('open')) {
+        federateBtn.classList.add('active');
+    } else {
+        federateBtn.classList.remove('active');
+    }
+}
+
 function toggleSearch() {
     const searchBtn = document.getElementById('searchBtn');
-    const sidebar = document.getElementById('expandedSidebar');
+    const expandedSidebar = document.getElementById('expandedSidebar');
     const searchContainer = document.getElementById('searchContainer');
-    const isOpen = sidebar.classList.contains('open') && searchBtn.classList.contains('active');
+    const federateSidebar = document.getElementById('federateSidebar');
+    const federateBtn = document.getElementById('federateBtn');
 
-    document.getElementById('menuBtn').classList.remove('active');
+    // Rimuovo la classe active da tutti i pulsanti eccetto searchBtn
+    document.querySelectorAll('.sidebar button').forEach(button => {
+        if (button !== searchBtn) {
+            button.classList.remove('active');
+        }
+    });
 
-    if (isOpen) {
-        sidebar.classList.remove('open');
+    // Chiudo il pannello federate se aperto
+    federateSidebar.classList.remove('open');
+    federateBtn.classList.remove('active');
+
+    // Verifico se il pannello di ricerca è già aperto
+    const isSearchOpen = expandedSidebar.classList.contains('open');
+
+    if (isSearchOpen) {
+        // Se il pannello di ricerca è aperto, lo chiudo
+        expandedSidebar.classList.remove('open');
         searchBtn.classList.remove('active');
+        searchContainer.style.display = 'none';
     } else {
-        sidebar.classList.add('open');
+        // Se il pannello di ricerca è chiuso, lo apro
+        expandedSidebar.classList.add('open');
         searchBtn.classList.add('active');
-        const input = document.getElementById('start-point');
-        input.placeholder = "Cerca biblioteca o indirizzo...";
-        const button = searchContainer.querySelector('button');
-        button.textContent = "Cerca";
-        button.onclick = async function() {
-            const searchText = input.value.toLowerCase();
-            
-            // First try to find a library
+
+        const startPoint = document.getElementById('start-point');
+        startPoint.placeholder = "Cerca biblioteca o indirizzo...";
+
+        const searchButton = searchContainer.querySelector('button');
+        searchButton.textContent = "Cerca";
+        searchButton.onclick = async function() {
+            const searchQuery = startPoint.value.toLowerCase();
             try {
                 const response = await fetch('libraries.json');
                 const data = await response.json();
-                const library = data.libraries.find(lib => lib.name.toLowerCase().includes(searchText));
-                
-                if (library) {
-                    const municipioLibraries = data.libraries.filter(lib => lib.municipality === library.municipality);
-                    showMunicipioAndLibraries(library.municipality, municipioLibraries);
+                const foundLibrary = data.libraries.find(lib => 
+                    lib.name.toLowerCase().includes(searchQuery)
+                );
+                if (foundLibrary) {
+                    const municipioLibraries = data.libraries.filter(lib => 
+                        lib.municipality === foundLibrary.municipality
+                    );
+                    showMunicipioAndLibraries(foundLibrary.municipality, municipioLibraries);
                     return;
                 }
             } catch (error) {
                 console.error('Errore nella ricerca della biblioteca:', error);
             }
-            
-            // If no library found, try routing to address
             searchRoute();
         };
+
         searchContainer.style.display = 'block';
     }
 }
-
 
 // Funzione per resettare il campo di ricerca
 function clearSearchField() {
