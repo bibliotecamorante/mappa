@@ -1,4 +1,3 @@
-
 {
   "libraries": [
     {
@@ -361,5 +360,535 @@
       "municipalityName": "ROMA XV",
       "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Galline%20Bianche/RMBV1"
     }
+ ],
+  "federate": [
+    {
+      "name": "Biblioteca di Area di Scienze Economiche Pierangelo Garegnani - Roma Tre",
+      "coords": [41.85150676716081, 12.480466910074682],
+      "address": "Via Silvio d’Amico 77",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-di-scienze-economiche-pierangelo-garegnani/"
+    },
+
+{
+      "name": "Biblioteca di Area Giuridica - Roma Tre",
+      "coords": [41.8626340292021, 12.478881169316743],
+      "address": "Via Ostiense 161",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-giuridica/"
+    },
+    {
+      "name": "Biblioteca di Area delle Arti, Sezione Spettacolo Lino Miccichè - Roma Tre",
+      "coords": [41.863902555913526, 12.479250900000002],
+      "address": "Via Ostiense, 139",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-spettacolo-lino-micciche/"
+    },
+ {
+      "name": "Biblioteca Di Area Delle Arti. Sezione Architettura Enrico Mattiello - Roma Tre",
+      "coords": [41.877220792161, 12.471950255822966],
+      "address": "Largo Giovanni Battista Marzi, 10",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-architettura-enrico-mattiello/"
+    },
+ {
+      "name": "Biblioteca Di Area Delle Arti. Sezione Storia Dell'arte Luigi Grassi. Università Degli Studi - Roma Tre",
+      "coords": [41.903753865609126, 12.4964298],
+      "address": "Piazza della Repubblica, 10",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-storia-dellarte-luigi-grassi/"
+    },
+    {
+      "name": "Biblioteca di Area di Scienze della Formazione Angelo Broccoli - Roma Tre",
+      "coords": [41.90161421063957, 12.50515373216587],
+      "address": "via del Castro Pretorio 20",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-di-scienze-della-formazione-angelo-broccoli/"
+    },
+    {
+      "name": "Biblioteca di Area di Scienze della Formazione Angelo Broccoli - Roma Tre",
+      "coords": [41.903753865609126, 12.4964298],
+      "address": "Piazza della Repubblica, 10",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-storia-dellarte-luigi-grassi/"
+    },
+    {
+      "name": "Biblioteca di Area Umanistica Giorgio Petrocchi - Roma Tre",
+      "coords": [41.850838769205595, 12.475275696580892],
+      "address": "Via Ostiense, 236",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-umanistica-giorgio-petrocchi/"
+    },
+    {
+      "name": "Biblioteca di Area Umanistica Giorgio Petrocchi. Sezione Biblioteca Guillaume Apollinaire - Roma Tre",
+      "coords": [41.852190215505324, 12.474100667745525],
+      "address": "Via del Valco di San Paolo 19",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-umanistica-giorgio-petrocchi/sedi-e-orari/sezione-biblioteca-guillaume-apollinaire/"
+    },
+    {
+      "name": "Biblioteca Di Area Di Studi Politici Pietro Grilli Di Cortona - Roma Tre",
+      "coords": [41.8521292652553, 12.479293277543649],
+      "address": "Via Gabriello Chiabrera, 199",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-di-studi-politici-pietro-grilli-di-cortona/"
+    },
+    {
+      "name": "Biblioteca di Area Scientifica – Biblioteca di Area Tecnologica. Sede Centrale- Roma Tre",
+      "coords": [41.85565548539767, 12.469811368145308],
+      "address": "Via della Vasca Navale, 79/81",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-scientifica-biblioteca-di-area-tecnologica/sedi-e-orari/"
+    },
+    {
+      "name": "Biblioteca di Area Scientifica – Biblioteca di Area Tecnologica. Sede delle Torri - Roma Tre",
+      "coords": [41.85541449043049, 12.463283738910294],
+      "address": " Lungotevere Dante 376",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-scientifica-biblioteca-di-area-tecnologica/sedi-e-orari/"
+    },
+
+{
+      "name": "Biblioteca Hub Culturale Moby Dick - Roma Tre",
+      "coords": [41.86325005078215, 12.48547130822748],
+      "address": "via Edgardo Ferrati 3a",
+      "libraryType": "Universitaria",
+      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
+      "url": "https://sba.uniroma3.it/biblioteche/altre-biblioteche/moby-dick-biblioteca-hub-culturale/"
+    },
+
+
+   {
+      "name": "Biblioteca Centrale di Ateneo Card. Attilio Nicora (LUMSA)",
+      "coords": [41.90391699588104, 12.463270467748222],
+      "address": "via di Porta Castello, 44, Roma",
+      "libraryType": "Universitaria",
+      "system": "LUMSA",
+      "url": "https://lumsa.it/it/biblioteca-roma-a-nicora"
+    },  
+
+            {
+      "name": "Biblioteca dell'università degli Studi Di Roma Foro Italico",
+      "coords": [41.931603595127974, 12.458659996585022],
+      "address": "Piazza Lauro De Bosis, 6, Roma",
+      "libraryType": "Universitaria",
+      "system": "Università degli Studi di Roma Foro Italico",
+      "url": "https://opac.uniroma4.it/SebinaOpacRMS/.do"
+    },  
+
+            {
+      "name": "Link Campus Library",
+      "coords": [41.892826, 12.432797],
+      "address": "Piazza Lauro De Bosis, 6, Roma",
+      "libraryType": "Universitaria",
+      "system": "Università degli Studi Link",
+      "url": "https://www.unilink.it/en/university/link-campus-library"
+    },  
+
+
+    
+    {
+      "name": "Biblioteca Comunale Di Albano Laziale Cesare De Santis",
+      "coords": [41.726805368800335, 12.661762388903735],
+      "address": "Viale Risorgimento, 5, Albano",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-albano-laziale/"
+    },
+
+    {
+      "name": "Biblioteca di Cecchina (Albano Laziale)",
+      "coords": [41.6967355731805, 12.650803425408435],
+      "address": "Viale Italia, 2, Cecchina (Albano Laziale)",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-cecchina-albano-laziale/"
+    },
+
+
+    {
+      "name": "Biblioteca di Pavona (Albano Laziale)",
+      "coords": [41.722821367775765, 12.603878711915998],
+      "address": "Via del Mare, 255, Pavona (Albano Laziale)",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-pavona-albano-laziale/"
+    },
+   {
+      "name": "Biblioteca 'Attiva' di Ariccia",
+      "coords": [41.720778666815214, 12.672577996574201],
+      "address": "Via Flora, 3, Ariccia",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-ariccia/"
+    },
+
+   {
+      "name": "Biblioteca Pier Paolo Pasolini di Ciampino",
+      "coords": [41.80302303363924, 12.60039639657852],
+      "address": "Via 4 Novembre, Ciampino",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-ciampino/"
+    },
+
+    {
+      "name": "Biblioteca Elsa Morante di Colonna",
+      "coords": [41.85863334824509, 12.75587959645176],
+      "address": "Piazzale Francesco Capogrossi, Colonna",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-colonna/"
+    },   
+    {
+      "name": "Biblioteca Carlo Del Vescovo di Frascati",
+      "coords": [41.80912939077731, 12.68238846589549],
+      "address": "Corso Matteotti, 32, Frascati",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-frascati/"
+    },   
+
+
+    {
+      "name": "Biblioteca Carlo Levi di Genzano",
+      "coords": [41.711847403189736, 12.69056029472596],
+      "address": "Viale Mazzini, 12, Genzano di Roma",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-genzano-di-roma"
+    },   
+    {
+      "name": "Biblioteca di Bruno Martellotta di Grottaferrata",
+      "coords": [41.79524683928027, 12.66929575424878],
+      "address": "Viale Giovanni Dusmet, 20, Grottaferrata",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-grottaferrata/"
+    },   
+
+    {
+      "name": "Biblioteca Francesco Dionisi di Lanuvio",
+      "coords": [41.677650998438835, 12.698640035205585],
+      "address": "Via Sforza Cesarini, 37, Lanuvio",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-lanuvio/"
+    },   
+
+    {
+      "name": "Biblioteca Ferdinando Tamburlani di Lariano",
+      "coords": [41.72690238307899, 12.833896854245392],
+      "address": "Piazza Santa Eurosia 1, Lariano",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-lariano/"
+    },   
+
+    
+        {
+      "name": "Biblioteca Vittoria Colonna di Marino",
+      "coords": [41.77092830492601, 12.66585569657678],
+      "address": "Corso Vittoria Colonna/Parco di Villa Desideri, Marino",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-marino/"
+    },   
+        {
+      "name": "Biblioteca di Santa Maria delle Mole di Marino",
+      "coords": [41.77289280612113, 12.601015638906091],
+      "address": "Piazza P. Togliatti snc, S. Maria delle Mole",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-santa-maria-delle-mole-marino/"
+    },   
+    
+        {
+      "name": "Biblioteca Marco Mastrofini di Monte Compatri",
+      "coords": [41.8096629013804, 12.738412054249546],
+      "address": "Via Annibaldeschi, 2, Monte Compatri",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-monte-compatri/"
+    },   
+
+        {
+      "name": "Biblioteca Comunale Marco Albertazzi di Monte Porzio Catone",
+      "coords": [41.813655043026614, 12.716577289575183],
+      "address": "Piazza Trieste, 12/13, Monte Porzio Catone",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "http://sistema-bibliotecario.provincia.roma.it/content/biblioteca-comunale-monte-porzio-catone"
+    },  
+
+        {
+      "name": "Biblioteca Comunale di Rocca di Papa",
+      "coords": [41.75939423298013, 12.708096384930364],
+      "address": "Viale Enrico Ferri, 67, Rocca di Papa",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-rocca-di-papa/"
+    },  
+
+        {
+      "name": "Biblioteca Luigi Porcari di Rocca PRIORA",
+      "coords": [41.794798141889466, 12.76326025424883],
+      "address": "Via Francesco Giacci 3, Rocca Priora",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/ROCCA-PRIORA/"
+    },  
+            {
+      "name": "Biblioteca Giovanni Cena di Colle di Fuori (Rocca PRIORA)",
+      "coords": [41.79606553677703, 12.806299140755067],
+      "address": "Piazza Giovanni Cena, 3, Colle di Fuori (Rocca Priora)",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-colle-di-fuori/"
+    },  
+
+
+            {
+      "name": "Biblioteca Augusto Tersenghi di Velletri",
+      "coords": [41.69137024492294, 12.776194725408116],
+      "address": "Piazza Trento e Trieste, Velletri",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-velletri/"
+    },  
+
+
+    
+    {
+      "name": "Biblioteca Augusto Tersenghi di Velletri",
+      "coords": [41.69137024492294, 12.776194725408116],
+      "address": "Piazza Trento e Trieste, Velletri",
+      "libraryType": "Comunale",
+      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
+      "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-velletri/"
+    },
+
+       {
+      "name": "Biblioteca Comunale Angela Zucconi di Anguillara ",
+      "coords": [42.09308462177522, 12.27378582576864],
+      "address": "Largo dello Zodiaco, 21, Anguillara Sabazia",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Anguillara%20'Angela%20Zucconi'/RL1E9?sysb=ceretano"
+    },  
+
+      {
+      "name": "Biblioteca Comunale Di Bracciano Bartolomea Orsini",
+      "coords": [42.10073124195649, 12.175232038922884],
+      "address": "Via del Pratoterra, 2, Bracciano",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Bracciano%20'Bartolomea%20Orsini'/RL1A1?sysb=ceretano"
+    },  
+
+
+      {
+      "name": "Biblioteca Comunale Di Campagnano Carlo Maggiorani",
+      "coords": [42.13907331839105, 12.381118850570763],
+      "address": "Corso Vittorio Emanuele, 2, Campagnano di Roma",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Campagnano%20'Carlo%20Maggiorani'/RL1C6?sysb=ceretano"
+    },  
+
+
+     {
+      "name": "Biblioteca Comunale Nilde Iotti di Cerveteri",
+      "coords": [41.997707992387284, 12.100958854259295],
+      "address": "Via Francesco Rosati, snc, Cerveteri",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Cerveteri/RL1YV?sysb=ceretano"
+    },  
+
+
+   {
+      "name": "Biblioteca Comunale multimediale di Formello",
+      "coords": [42.082967209556706, 12.400694990215685],
+      "address": "Piazza S. Lorenzo, Formello",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Formello%20-%20Biblioteca%20Comunale/RL1GQ"
+    },  
+   {
+      "name": "Biblioteca Comunale Peppino Impastato di Ladispoli",
+      "coords": [41.959594501464295, 12.07137981008028],
+      "address": "Via Caltagirone, snc, Ladispoli",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Ladispoli%20'Peppino%20Impastato'/RL1A6?sysb=ceretano"
+    },  
+   {
+      "name": "Biblioteca Comunale Peppino Impastato di Ladispoli",
+      "coords": [41.959594501464295, 12.07137981008028],
+      "address": "Via Caltagirone, snc, Ladispoli",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Ladispoli%20'Peppino%20Impastato'/RL1A6?sysb=ceretano"
+    },  
+    
+ 
+  {
+      "name": "Biblioteca Comunale di Manziana",
+      "coords": [42.13371258132516, 12.13365930586104],
+      "address": "Piazza Firenze, 27, Manziana",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Manziana%20-%20Biblioteca%20Comunale/RL1A8"
+    },  
+
+
+  {
+      "name": "Biblioteca Comunale di Mazzano Romano",
+      "coords": [42.205066349699216, 12.399522025434445],
+      "address": "Piazza Giovanni XXIII, 12, Mazzano Romano",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Mazzano%20Romano/RL1GT?sysb=ceretano"
+    },  
+
+
+  {
+      "name": "Biblioteca Comunale di Santa Marinella",
+      "coords": [42.038258998042174, 11.862236105790187],
+      "address": "Via Aurelia, 310, Santa Marinella",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Santa%20Marinella%20'Alessandro%20Capotosti'/RL1N4?sysb=ceretano"
+    },  
+
+  {
+      "name": "Biblioteca Comunale di Trevignano Romano",
+      "coords": [42.15836127829592, 12.237007810090464],
+      "address": "Via degli Asinelli, 10 A, Trevignano Romano",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Ceretano-Sabatino",
+      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Trevignano%20Romano%20-%20Biblioteca%20Comunale/RL1H9"
+    },  
+
+    
+
+  {
+      "name": "Biblioteca Comunale di Genazzano",
+      "coords": [41.83528653568289, 12.974005938909334],
+      "address": "Piazza San Nicola 8, Genazzano",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/GENAZZANO/"
+    },  
+
+  {
+      "name": "Biblioteca Comunale Giuseppe Caiati di Valmontone",
+      "coords": [41.77606566515246, 12.918559197267626],
+      "address": "Piazza Umberto Pilozzi, Valmontone",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/biblioteca-comunale-di-valmontone/"
+    },  
+
+
+  {
+      "name": "Biblioteca Civica Cavense",
+      "coords": [41.819121176147775, 12.933393328324742],
+      "address": "Piazza Caduti di Nassiriya, Cave",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/CIVICA-CAVENSE/"
+    },  
+    
+
+  {
+      "name": "Biblioteca Civica Cavense",
+      "coords": [41.819121176147775, 12.933393328324742],
+      "address": "Piazza Caduti di Nassiriya, Cave",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/CIVICA-CAVENSE/"
+    },  
+
+  {
+      "name": "Biblioteca Comunale Albio Tibullo di Gallicano",
+      "coords": [41.87457569075273, 12.819458759431141],
+      "address": "Piazza della Rocca, 30, Gallicano",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://comune.gallicanonellazio.rm.it/servizi-ai-cittadini/arte-e-cultura/biblioteca-comunale-albio-tibullo/"
+    },  
+
+
+  {
+      "name": "Biblioteca Comunale di Labico",
+      "coords": [41.78661778316337, 12.885845496978034],
+      "address": "Piazza Mazzini, Labico",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/LABICO/"
+    },  
+
+  {
+      "name": "Biblioteca Comunale Fantoniana di Palestrina",
+      "coords": [41.8362227819088, 12.891270325415535],
+      "address": "Via Madonna dell'Aquila, Palestrina",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/PALESTRINA/"
+    },  
+
+  {
+      "name": "Biblioteca Comunale di Poli",
+      "coords": [41.89093918666954, 12.89261310560804],
+      "address": "Via Umberto I, 2, Palestrina",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/biblioteca-di-poli/"
+    },  
+
+  {
+      "name": "Biblioteca Comunale Massimo Adabbo di San Cesareo",
+      "coords": [41.82154477257988, 12.801837911921062],
+      "address": "Traversa della Cultura 1, San Cesareo",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/SAN-CESAREO/"
+    },  
+
+ {
+      "name": "Biblioteca Comunale di San Vito Romano",
+      "coords": [41.88250742186951, 12.982286781990851],
+      "address": "Piazza Roma 8, San Vito Romano",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/S-VITO-ROMANO/"
+    },  
+
+
+ {
+      "name": "Biblioteca Comunale Giovanni Coletti di Zagarolo",
+      "coords": [41.838242394438744, 12.831772396580236],
+      "address": "Piazza Indipendenza , Zagarolo",
+      "libraryType": "Comunale",
+      "system": "Sistema Bibliotecario Monti Prenestini",
+      "url": "https://sbmp.comperio.it/library/S-VITO-ROMANO/"
+    }
+    
+
+   
   ]
 }
