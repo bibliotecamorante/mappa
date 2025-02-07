@@ -743,56 +743,47 @@ body, html {
 <!-- Nuovo pannello per le biblioteche federate -->
 <div class="sidebar-expanded" id="federateSidebar">
     <div class="sidebar-close-icon" onclick="toggleFederateSidebar()"></div>
-    <div class="federate-container">
-        <h4>Biblioteche Federate</h4>
-        <div class="legend-grid">
-                
-            
-        
-            
-            <div class="legend-item">
-                <span style="background: #0006fd"></span>
-                <div class="text">Biblioteche Sistema Castelli Romani</div>
-            </div>
-            <div class="legend-item">
-                <span style="background: #fc04f7"></span>
-                <div class="text">Sistema Bibliotecario Ceretano-Sabatino</div>
-            </div>
-            <div class="legend-item">
-                <span style="background: #844715"></span>
-                <div class="text">Sistema Bibliotecario Monti Prenestini</div>
-            </div>
+<div class="federate-container">
+    <h4>Biblioteche Federate</h4>
+    <div class="legend-grid">
+        <div class="legend-item" onclick="zoomToSystemLibraries('CASTELLI ROMANI')">
+            <span style="background: #0006fd"></span>
+            <div class="text">Biblioteche Sistema Castelli Romani</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('Ceretano-Sabatino')">
+            <span style="background: #fc04f7"></span>
+            <div class="text">Sistema Bibliotecario Ceretano-Sabatino</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('Monti Prenestini')">
+            <span style="background: #844715"></span>
+            <div class="text">Sistema Bibliotecario Monti Prenestini</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('LUMSA')">
+            <span style="background: #1e8b1f"></span>
+            <div class="text">Lumsa</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('Foro Italico')">
+            <span style="background: #473e86"></span>
+            <div class="text">Foro Italico</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('Link')">
+            <span style="background: #2f4d4c"></span>
+            <div class="text">Link Campus</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('La Sapienza')">
+            <span style="background: #86134f"></span>
+            <div class="text">Sistema Bibliotecario di Ateneo<br>Università degli Studi Roma La Sapienza</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('Tor Vergata')">
+            <span style="background: #382724"></span>
+            <div class="text">Sistema Bibliotecario di Ateneo<br>Università degli Studi Roma Tor Vergata</div>
+        </div>
+        <div class="legend-item" onclick="zoomToSystemLibraries('Roma Tre')">
+            <span style="background: #f20000"></span>
+            <div class="text">Sistema Bibliotecario di Ateneo<br>Università degli Studi Roma Tre</div>
+        </div>
+    </div>
 
-            <div class="legend-item">
-                <span style="background: #1e8b1f"></span>
-                <div class="text">Lumsa</div>
-            </div>
-            <div class="legend-item">
-                <span style="background: #473e86"></span>
-                <div class="text">Foro Italico</div>
-            </div>
-            <div class="legend-item">
-                <span style="background: #2f4d4c"></span>
-                <div class="text">Link Campus</div>
-            </div>
- <div class="legend-item">
-    <span style="background: #86134f"></span>
-    <div class="text">
-        Sistema Bibliotecario di Ateneo <br> Università degli Studi Roma La Sapienza
-    </div>
-</div>
-<div class="legend-item">
-    <span style="background: #382724"></span>
-    <div class="text">
-        Sistema Bibliotecario di Ateneo <br> Università degli Studi Roma Tor Vergata
-    </div>
-</div>
-<div class="legend-item">
-    <span style="background: #6a3f3a"></span>
-    <div class="text">
-        Sistema Bibliotecario di Ateneo <br> Università degli Studi Roma Tre
-    </div>
-</div>
 
 
 <button id="toggleFederatedLibraries" onclick="toggleFederatedLibraries()" style="width: 100%; margin-top: 15px; padding: 8px; background-color: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">
@@ -1767,7 +1758,81 @@ function toggleFederatedLibraries() {
         federatedLibrariesVisible = true;
     }
 }
-        
+
+function zoomToSystemLibraries(systemName) {
+    // Verifica se ci sono marker delle biblioteche federate
+    if (!window.federatedMarkers) {
+        console.error('Marker delle biblioteche federate non trovati');
+        return;
+    }
+
+    // Mappatura dei nomi dei sistemi alle stringhe di ricerca nei popup
+    const systemMappings = {
+        'CASTELLI ROMANI': 'CASTELLI ROMANI',
+        'Ceretano-Sabatino': 'Ceretano-Sabatino',
+        'Monti Prenestini': 'Monti Prenestini',
+        'LUMSA': 'LUMSA',
+        'Foro Italico': 'Foro Italico',
+        'Link': 'Link Campus',
+        'La Sapienza': 'La Sapienza',
+        'Tor Vergata': 'Tor Vergata',
+        'Roma Tre': 'Roma Tre'
+    };
+
+    const searchString = systemMappings[systemName] || systemName;
+
+    // Filtra i marker del sistema bibliotecario specificato
+    const systemMarkers = window.federatedMarkers.filter(marker => {
+        const popupContent = marker.getPopup().getContent();
+        return popupContent.includes(searchString);
+    });
+
+    if (systemMarkers.length === 0) {
+        console.log('Nessun marker trovato per il sistema:', systemName);
+        return;
+    }
+
+    // Crea un gruppo di layer per calcolare i bounds
+    const group = L.featureGroup(systemMarkers);
+    
+    // Se le biblioteche federate non sono visibili, mostrale
+    if (!federatedLibrariesVisible) {
+        toggleFederatedLibraries();
+    }
+
+    // Rimuovi l'evidenziazione precedente se presente
+    window.federatedMarkers.forEach(marker => {
+        const icon = marker.getIcon();
+        if (icon.options.className) {
+            icon.options.className = '';
+            marker.setIcon(icon);
+        }
+    });
+
+    // Aggiungi tutti i marker del sistema alla mappa e evidenziali
+    systemMarkers.forEach(marker => {
+        if (!map.hasLayer(marker)) {
+            marker.addTo(map);
+        }
+        // Evidenzia i marker del sistema selezionato
+        const icon = marker.getIcon();
+        icon.options.className = 'highlighted-marker';
+        marker.setIcon(icon);
+    });
+
+    // Calcola i bounds e applica lo zoom con padding
+    const bounds = group.getBounds();
+    map.fitBounds(bounds, {
+        padding: [50, 50], // Padding di 50 pixel su tutti i lati
+        maxZoom: 13, // Limita lo zoom massimo per una vista migliore
+        duration: 0.5 // Durata dell'animazione in secondi
+    });
+
+    // Mostra il numero di biblioteche trovate
+    const count = systemMarkers.length;
+    const message = `Trovate ${count} biblioteche del sistema ${systemName}`;
+    console.log(message);
+}
         
     </script>
 </body>
