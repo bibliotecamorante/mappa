@@ -214,6 +214,22 @@ body, html {
     right: 40px; /* Modificato da 0 a 40px per lasciare spazio alla maniglia */
 }
 
+
+.legend-container {
+    padding: 20px;
+}
+
+.legend-container h4 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Rimuovere questi stili dalla classe .legend esistente poiché non serviranno più */
+.legend {
+    display: none;
+}
+        
 /* Assicurati che il contenitore della legenda abbia una posizione relativa */
 .legend {
     position: fixed; /* Fisso in modo che resti visibile anche durante lo scroll */
@@ -580,35 +596,7 @@ body, html {
     color: #555; /* Colore più scuro al passaggio del mouse */
 }
         
-#handle {
-    position: absolute;
-    right: 10px; /* Distanza dal margine destro */
-    top: 50%; /* Posiziona al centro verticalmente */
-    transform: translateY(-50%); /* Centra verticalmente */
-    font-size: 20px; /* Simbolo ingrandito */
-    color: #000; /* Colore del simbolo */
-    background-color: rgba(255, 255, 255, 0.8); /* Sfondo semi-trasparente */
-    padding: 3px 5px; /* Ridotto il padding per mantenere il contorno più compatto */
-    border-radius: 5px; /* Bordi arrotondati */
-    cursor: pointer; /* Cambia il cursore al passaggio del mouse */
-    z-index: 1000; /* Assicura che sia sopra la mappa */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombra per migliorare la visibilità */
-    width: 18px; /* Larghezza ridotta */
-    height: 30px; /* Altezza mantenuta */
-    text-align: center; /* Centra il simbolo orizzontalmente */
-    line-height: 30px; /* Allinea verticalmente il simbolo dentro la maniglia */
-}
 
-#handle:hover {
-    background-color: rgba(255, 255, 255, 1); /* Sfondo meno trasparente al passaggio del mouse */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Ombra più pronunciata al passaggio del mouse */
-}
-
-
-#handle.active {
-    background-color: rgba(255, 255, 255, 1); /* Cambia colore quando attivo */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); /* Ombra più pronunciata */
-}
 .custom-datalist {
     display: none;
     position: absolute;
@@ -700,7 +688,6 @@ body, html {
 </head>
 <body>
 
-    <div id="handle" onclick="toggleLegend()">⁞⁞</div>
 
     
     <!-- Barra laterale fissa -->
@@ -709,8 +696,9 @@ body, html {
 <button id=searchBtn onclick=toggleSearch() data-tooltip="Cerca biblioteca o indirizzo">
 <img src=search-icon.svg alt="Cerca biblioteca o indirizzo">
 </button>
-<button id=legendBtn onclick=toggleLegend() data-tooltip="Mostra/Nascondi legenda">
-<img src=legend-icon.svg alt="Mostra/Nascondi legenda">
+<button id="legendBtn" onclick="toggleLegendSidebar()" data-tooltip="Mostra/Nascondi legenda">
+    <img src="legend-icon.svg" alt="Mostra/Nascondi legenda">
+</button>
 
  <!-- Nuovo bottone con icona federate-icon.svg -->
     <button id="federateBtn" onclick="toggleFederateSidebar()" data-tooltip="Biblioteche federate">
@@ -718,6 +706,18 @@ body, html {
     </button>   
 </div>
 
+
+<!-- Terzo pannello laterale espanso: legenda municipi -->
+<div class="sidebar-expanded" id="legendSidebar">
+    <div class="sidebar-close-icon" onclick="toggleLegendSidebar()"></div>
+    <div class="legend-container">
+        <h4>Mappa Biblioteche di Roma per Municipio</h4>
+        <div class="legend-grid">
+            <!-- Il contenuto della legenda verrà popolato dinamicamente dal JavaScript -->
+        </div>
+    </div>
+</div>
+    
 
 <!-- Seconda barra laterale (espansione) -->
 <div class="sidebar-expanded" id="expandedSidebar">
@@ -861,16 +861,37 @@ let removedFederatedLibraries = [];
         }
 
 // Add this new function for legend toggle
-function toggleLegend() {
-    const legend = document.querySelector(".legend");
+function toggleLegendSidebar() {
+    const legendSidebar = document.getElementById('legendSidebar');
     const legendBtn = document.getElementById('legendBtn');
-    const handle = document.getElementById('handle');
-    
-    if (legend) {
-        legend.classList.toggle("visible");
-        legendBtn.classList.toggle('active');
-        handle.classList.toggle('active'); // Aggiungi/rimuovi la classe 'active' alla maniglia
+    const expandedSidebar = document.getElementById('expandedSidebar');
+    const federateSidebar = document.getElementById('federateSidebar');
+    const searchContainer = document.getElementById('searchContainer');
+
+    // Rimuovo la classe active da tutti i pulsanti
+    document.querySelectorAll('.sidebar button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // Chiudo gli altri pannelli
+    expandedSidebar.classList.remove('open');
+    federateSidebar.classList.remove('open');
+    if (searchContainer) {
+        searchContainer.style.display = 'none';
     }
+
+    // Gestisco l'apertura/chiusura del pannello legenda
+    legendSidebar.classList.toggle('open');
+    if (legendSidebar.classList.contains('open')) {
+        legendBtn.classList.add('active');
+    } else {
+        legendBtn.classList.remove('active');
+    }
+}
+
+// Modifica la funzione toggleLegend esistente per chiamare toggleLegendSidebar
+function toggleLegend() {
+    toggleLegendSidebar();
 }
 
 
@@ -1512,40 +1533,18 @@ const municipalityZones = {
     15: "Cassia/Flaminia"
 };
 
-// Aggiungi la legenda interattiva
-const legend = L.control({ position: 'topright' });
-
-// Modifica la funzione legend.onAdd
-legend.onAdd = function() {
-    const div = L.DomUtil.create("div", "legend");
-    div.innerHTML = `
-        <div id="closeLegend" class="legend-close-icon"></div>
-        <h4>Mappa Biblioteche di Roma per Municipio</h4>
-        <div class="legend-grid">
-            ${Object.entries(municipalityColors).map(([num, color]) => `
-                <div class="legend-item" data-municipio="${num}" onmouseover="handleLegendHover(${num})" onmouseout="handleLegendOut(${num})" onclick="handleLegendClick(${num})">
-                    <span style="background: ${color}"></span>
-                    <div class="text">Municipio ${romanize(parseInt(num))}</div>
-                    <div class="info-icon">i</div>
-                    <div class="tooltip">Zona: ${municipalityZones[num]}</div>
-                </div>
-            `).join("")}
+// Popola la legenda
+const legendContainer = document.querySelector('.legend-container .legend-grid');
+if (legendContainer) {
+    legendContainer.innerHTML = Object.entries(municipalityColors).map(([num, color]) => `
+        <div class="legend-item" data-municipio="${num}" onmouseover="handleLegendHover(${num})" onmouseout="handleLegendOut(${num})" onclick="handleLegendClick(${num})">
+            <span style="background: ${color}"></span>
+            <div class="text">Municipio ${romanize(parseInt(num))}</div>
+            <div class="info-icon">i</div>
+            <div class="tooltip">Zona: ${municipalityZones[num]}</div>
         </div>
-    `;
-    
-    // Aggiungi l'event listener per il pulsante di chiusura
-    const closeButton = div.querySelector('#closeLegend');
-    if (closeButton) {
-        closeButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleLegend();
-        });
-    } else {
-        console.error('Pulsante di chiusura non trovato!');
-    }
-    return div;
-};
-legend.addTo(map);
+    `).join('');
+}
 
   
 
