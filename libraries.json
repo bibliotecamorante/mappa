@@ -1163,7 +1163,7 @@
     
     {
       "name": "Biblioteca Comunale Angela Zucconi di Anguillara ",
-      "coords": [42.09308462177522, 12.27378582576864],
+      "coords": [42.091544, 12.273906],
       "address": "Largo dello Zodiaco, 21, Anguillara Sabazia",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1172,7 +1172,7 @@
 
       {
       "name": "Biblioteca Comunale Bartolomea Orsini di Bracciano",
-      "coords": [42.10073124195649, 12.175232038922884],
+      "coords": [42.100487, 12.175274],
       "address": "Via del Pratoterra, 2, Bracciano",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1182,7 +1182,7 @@
 
       {
       "name": "Biblioteca Comunale Carlo Maggiorani di Campagnano",
-      "coords": [42.13907331839105, 12.381118850570763],
+      "coords": [42.138923, 12.381122],
       "address": "Corso Vittorio Emanuele, 2, Campagnano di Roma",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1192,7 +1192,7 @@
 
      {
       "name": "Biblioteca Comunale Nilde Iotti di Cerveteri",
-      "coords": [41.997707992387284, 12.100958854259295],
+      "coords": [41.996877, 12.099810],
       "address": "Via Francesco Rosati, snc, Cerveteri",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1202,7 +1202,7 @@
 
    {
       "name": "Biblioteca Comunale multimediale di Formello",
-      "coords": [42.082967209556706, 12.400694990215685],
+      "coords": [42.080177, 12.400786],
       "address": "Piazza S. Lorenzo, Formello",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1230,7 +1230,7 @@
 
   {
       "name": "Biblioteca Comunale di Mazzano Romano",
-      "coords": [42.205066349699216, 12.399522025434445],
+      "coords": [42.204789, 12.399211],
       "address": "Piazza Giovanni XXIII, 12, Mazzano Romano",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1239,8 +1239,8 @@
 
 
   {
-      "name": "Biblioteca Comunale di Santa Marinella",
-      "coords": [42.038258998042174, 11.862236105790187],
+      "name": "Biblioteca Comunale Alessandro Capotosti di Santa Marinella",
+      "coords": [42.034700, 11.862499],
       "address": "Via Aurelia, 310, Santa Marinella",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
@@ -1249,7 +1249,7 @@
 
   {
       "name": "Biblioteca Comunale di Trevignano Romano",
-      "coords": [42.15836127829592, 12.237007810090464],
+      "coords": [42.158910, 12.236983],
       "address": "Via degli Asinelli, 10 A, Trevignano Romano",
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
