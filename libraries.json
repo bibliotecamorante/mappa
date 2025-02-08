@@ -351,6 +351,7 @@
       "municipalityName": "ROMA XIV",
       "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Casa%20del%20Parco/RMBU2"
     },
+    
     {
       "name": "Biblioteca Galline Bianche",
       "coords": [41.995762, 12.485857],
@@ -359,7 +360,19 @@
       "municipality": 15,
       "municipalityName": "ROMA XV",
       "url": "https://www.bibliotechediroma.it/opac/library/Biblioteca%20Galline%20Bianche/RMBV1"
+    },
+
+{
+      "name": "Biblioteca Sala Studio Euclide",
+      "coords": [41.957952, 12.483933],
+      "address": "Via Flaminia Nuova 834-836",
+      "cap": "00191",
+      "municipality": 15,
+      "municipalityName": "ROMA XV",
+      "url": "https://www.bibliotechediroma.it/opac/library/Sala%20Studio%20Euclide/RMBV2"
     }
+
+    
  ],
   "federate": [
     {
