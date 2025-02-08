@@ -376,7 +376,7 @@
  ],
   "federate": [
     {
-      "name": "Biblioteca di Area di Scienze Economiche Pierangelo Garegnani - Roma Tre",
+      "name": "Biblioteca di Area di Scienze Economiche Pierangelo Garegnani. Roma Tre",
       "coords": [41.85150676716081, 12.480466910074682],
       "address": "Via Silvio d’Amico 77",
       "libraryType": "Universitaria",
@@ -385,7 +385,7 @@
     },
 
 {
-      "name": "Biblioteca di Area Giuridica - Roma Tre",
+      "name": "Biblioteca di Area Giuridica. Roma Tre",
       "coords": [41.8626340292021, 12.478881169316743],
       "address": "Via Ostiense 161",
       "libraryType": "Universitaria",
@@ -393,7 +393,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-giuridica/"
     },
     {
-      "name": "Biblioteca di Area delle Arti, Sezione Spettacolo Lino Miccichè - Roma Tre",
+      "name": "Biblioteca di Area delle Arti, Sezione Spettacolo Lino Miccichè. Roma Tre",
       "coords": [41.863902555913526, 12.479250900000002],
       "address": "Via Ostiense, 139",
       "libraryType": "Universitaria",
@@ -401,7 +401,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-spettacolo-lino-micciche/"
     },
  {
-      "name": "Biblioteca Di Area Delle Arti. Sezione Architettura Enrico Mattiello - Roma Tre",
+      "name": "Biblioteca ai Area delle Arti. Sezione Architettura Enrico Mattiello. Roma Tre",
       "coords": [41.877220792161, 12.471950255822966],
       "address": "Largo Giovanni Battista Marzi, 10",
       "libraryType": "Universitaria",
@@ -409,7 +409,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-architettura-enrico-mattiello/"
     },
  {
-      "name": "Biblioteca Di Area Delle Arti. Sezione Storia Dell'arte Luigi Grassi. Università Degli Studi - Roma Tre",
+      "name": "Biblioteca di Area delle Arti. Sezione Storia dell'arte Luigi Grassi. Roma Tre",
       "coords": [41.903753865609126, 12.4964298],
       "address": "Piazza della Repubblica, 10",
       "libraryType": "Universitaria",
@@ -417,23 +417,16 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-storia-dellarte-luigi-grassi/"
     },
     {
-      "name": "Biblioteca di Area di Scienze della Formazione Angelo Broccoli - Roma Tre",
+      "name": "Biblioteca di Area di Scienze della Formazione Angelo Broccoli. Roma Tre",
       "coords": [41.90161421063957, 12.50515373216587],
       "address": "via del Castro Pretorio 20",
       "libraryType": "Universitaria",
       "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-di-scienze-della-formazione-angelo-broccoli/"
     },
+    
     {
-      "name": "Biblioteca di Area di Scienze della Formazione Angelo Broccoli - Roma Tre",
-      "coords": [41.903753865609126, 12.4964298],
-      "address": "Piazza della Repubblica, 10",
-      "libraryType": "Universitaria",
-      "system": "Sistema Bibliotecario Di Ateneo - Università Degli Studi Roma Tre",
-      "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-delle-arti/sedi-e-orari/sezione-storia-dellarte-luigi-grassi/"
-    },
-    {
-      "name": "Biblioteca di Area Umanistica Giorgio Petrocchi - Roma Tre",
+      "name": "Biblioteca di Area Umanistica Giorgio Petrocchi. Roma Tre",
       "coords": [41.850838769205595, 12.475275696580892],
       "address": "Via Ostiense, 236",
       "libraryType": "Universitaria",
@@ -441,7 +434,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-umanistica-giorgio-petrocchi/"
     },
     {
-      "name": "Biblioteca di Area Umanistica Giorgio Petrocchi. Sezione Biblioteca Guillaume Apollinaire - Roma Tre",
+      "name": "Biblioteca di Area Umanistica Giorgio Petrocchi. Sezione Biblioteca Guillaume Apollinaire. Roma Tre",
       "coords": [41.852190215505324, 12.474100667745525],
       "address": "Via del Valco di San Paolo 19",
       "libraryType": "Universitaria",
@@ -449,7 +442,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-umanistica-giorgio-petrocchi/sedi-e-orari/sezione-biblioteca-guillaume-apollinaire/"
     },
     {
-      "name": "Biblioteca Di Area Di Studi Politici Pietro Grilli Di Cortona - Roma Tre",
+      "name": "Biblioteca di Area Di Studi Politici Pietro Grilli di Cortona. Roma Tre",
       "coords": [41.8521292652553, 12.479293277543649],
       "address": "Via Gabriello Chiabrera, 199",
       "libraryType": "Universitaria",
@@ -457,7 +450,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-di-studi-politici-pietro-grilli-di-cortona/"
     },
     {
-      "name": "Biblioteca di Area Scientifica – Biblioteca di Area Tecnologica. Sede Centrale- Roma Tre",
+      "name": "Biblioteca di Area Scientifica – Biblioteca di Area Tecnologica. Sede Centrale. Roma Tre",
       "coords": [41.85565548539767, 12.469811368145308],
       "address": "Via della Vasca Navale, 79/81",
       "libraryType": "Universitaria",
@@ -465,7 +458,7 @@
       "url": "https://sba.uniroma3.it/biblioteche/biblioteca-di-area-scientifica-biblioteca-di-area-tecnologica/sedi-e-orari/"
     },
     {
-      "name": "Biblioteca di Area Scientifica – Biblioteca di Area Tecnologica. Sede delle Torri - Roma Tre",
+      "name": "Biblioteca di Area Scientifica – Biblioteca di Area Tecnologica. Sede delle Torri. Roma Tre",
       "coords": [41.85541449043049, 12.463283738910294],
       "address": " Lungotevere Dante 376",
       "libraryType": "Universitaria",
@@ -474,7 +467,7 @@
     },
 
 {
-      "name": "Biblioteca Hub Culturale Moby Dick - Roma Tre",
+      "name": "Biblioteca Hub Culturale Moby Dick. Roma Tre",
       "coords": [41.86325005078215, 12.48547130822748],
       "address": "via Edgardo Ferrati 3a",
       "libraryType": "Universitaria",
@@ -493,7 +486,7 @@
     },  
 
             {
-      "name": "Biblioteca dell'università degli Studi Di Roma Foro Italico",
+      "name": "Biblioteca dell'università degli Studi di Roma Foro Italico",
       "coords": [41.931603595127974, 12.458659996585022],
       "address": "Piazza Lauro De Bosis, 6, Roma",
       "libraryType": "Universitaria",
@@ -512,7 +505,7 @@
 
 
             {
-      "name": "Biblioteca dell'area Letteraria Storica Filosofica. Università degli Studi di Roma Tor Vergata",
+      "name": "Biblioteca dell'Area Letteraria, Storica, Filosofica. Università degli Studi di Roma Tor Vergata",
       "coords": [41.85209809892517, 12.621425554251777],
       "address": "Via Columbia, 1, Roma",
       "libraryType": "Universitaria",
@@ -551,7 +544,7 @@
 
 
             {
-      "name": "Biblioteca Dell'area di Ingegneria. Università degli Studi di Roma Tor Vergata",
+      "name": "Biblioteca dell'area di Ingegneria. Università degli Studi di Roma Tor Vergata",
       "coords": [41.855921521487105, 12.622734093750827],
       "address": "Via del Politecnico, 1, Roma",
       "libraryType": "Universitaria",
@@ -569,7 +562,7 @@
     },  
 
             {
-      "name": "Biblioteca centrale della Facoltà di Architettura. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca Centrale della Facoltà di Architettura. Università degli Studi di Roma La Sapienza",
       "coords": [41.918970161046076, 12.480329281242723],
       "address": "Via Antonio Gramsci, 53, Roma",
       "libraryType": "Universitaria",
@@ -578,7 +571,7 @@
     },  
 
           {
-      "name": "Biblioteca Ludovico Quaroni. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca Ludovico Quaroni. Università degli Studi di Roma La Sapienza",
       "coords": [41.91445787434678, 12.474984438913326],
       "address": "Via Flaminia 72, Roma",
       "libraryType": "Universitaria",
@@ -587,7 +580,7 @@
     },  
 
          {
-      "name": "Biblioteca del Dipartimento di Architettura e progetto. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Architettura e progetto. Università degli Studi di Roma La Sapienza",
       "coords": [41.92975956875921, 12.468428132167217],
       "address": "via Flaminia, 359, Roma",
       "libraryType": "Universitaria",
@@ -596,7 +589,7 @@
     },  
 
          {
-      "name": "Biblioteca del Dipartimento di Storia, disegno e restauro dell’architettura. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Storia, disegno e restauro dell’architettura. Università degli Studi di Roma La Sapienza",
       "coords": [41.90400897133357, 12.475740201765065],
       "address": "Piazza Borghese, 9, Roma",
       "libraryType": "Universitaria",
@@ -605,7 +598,7 @@
     },  
 
          {
-      "name": "Biblioteca Angelo Monteverdi per gli studi filologici, linguistici e letterari. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca Angelo Monteverdi per gli studi filologici, linguistici e letterari. Università degli Studi di Roma La Sapienza",
       "coords": [41.90258534013629, 12.515886967748123],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -614,7 +607,7 @@
     },  
     
         {
-      "name": "Biblioteca del Dipartimento di Biologia ambientale. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Biologia ambientale. Università degli Studi di Roma La Sapienza",
       "coords": [41.90281872474647, 12.51708592541897],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -623,7 +616,7 @@
     },  
 
        {
-      "name": "Biblioteca del Dipartimento di Biologia e biotecnologie Charles Darwin. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Biologia e biotecnologie Charles Darwin. Università degli Studi di Roma La Sapienza",
       "coords": [41.904394443785705, 12.516542949161666],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -632,7 +625,7 @@
     },  
 
        {
-      "name": "Biblioteca del Dipartimento di Chimica Gabriello Illuminati. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Chimica Gabriello Illuminati. Università degli Studi di Roma La Sapienza",
       "coords": [41.901881696001766, 12.51674358863327],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -650,7 +643,7 @@
     },  
 
        {
-      "name": "Biblioteca del Dipartimento di Lettere e culture moderne. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Lettere e culture moderne. Università degli Studi di Roma La Sapienza",
       "coords": [41.90230677084307, 12.515386347576488],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -659,7 +652,7 @@
     },  
 
      {
-      "name": "Biblioteca del Dipartimento di Matematica Guido Castelnuovo. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Matematica Guido Castelnuovo. Università degli Studi di Roma La Sapienza",
       "coords": [41.90184855233405, 12.515042081241855],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -668,7 +661,7 @@
     },  
 
      {
-      "name": "Biblioteca del Dipartimento di Scienze dell’antichità. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze dell’antichità. Università degli Studi di Roma La Sapienza",
       "coords": [41.9025986400989, 12.515305610077343],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -677,7 +670,7 @@
     },
     
     {
-      "name": "Biblioteca del Dipartimento di Scienze della Terra. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze della Terra. Università degli Studi di Roma La Sapienza",
       "coords": [41.90402270632508, 12.513804867748169],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -686,7 +679,7 @@
     },
     
     {
-      "name": "Biblioteca del Dipartimento di Scienze politiche. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze politiche. Università degli Studi di Roma La Sapienza",
       "coords": [41.904386734012945, 12.515014478863879],
       "address": "Piazza Aldo Moro, 5",
       "libraryType": "Universitaria",
@@ -695,7 +688,7 @@
     }, 
     
     {
-      "name": "Biblioteca del Dipartimento di Scienze sociali ed economiche. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze sociali ed economiche. Università degli Studi di Roma La Sapienza",
       "coords": [41.90494441572461, 12.514200985132579],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -704,7 +697,7 @@
     },  
 
    {
-      "name": "Biblioteca del Dipartimento di Scienze statistiche. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze statistiche. Università degli Studi di Roma La Sapienza",
       "coords": [41.902924653928935, 12.511779625418987],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -714,7 +707,7 @@
 
 
    {
-      "name": "Biblioteca del Dipartimento di Storia antropologia religioni arte spettacolo. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Storia antropologia religioni arte spettacolo. Università degli Studi di Roma La Sapienza",
       "coords": [41.90255531582851, 12.515326300288569],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -723,7 +716,7 @@
     },  
 
   {
-      "name": "Biblioteca interdipartimentale di Scienze giuridiche. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca interdipartimentale di Scienze giuridiche. Università degli Studi di Roma La Sapienza",
       "coords": [41.90390202156256, 12.514683054254425],
       "address": "Piazza Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -732,7 +725,7 @@
     },  
 
 {
-      "name": "Biblioteca interdipartimentale Scienze chimico-farmaceutiche fisiologiche e farmacologiche Giordano Giacomello. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca interdipartimentale Scienze chimico-farmaceutiche fisiologiche e farmacologiche Giordano Giacomello. Università degli Studi di Roma La Sapienza",
       "coords": [41.90345520806407, 12.518435138912693],
       "address": "Viale Regina Elena, 336, Roma",
       "libraryType": "Universitaria",
@@ -741,7 +734,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Sanità pubblica e malattie infettive Vittorio Del Vecchio. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Sanità pubblica e malattie infettive Vittorio Del Vecchio. Università degli Studi di Roma La Sapienza",
       "coords": [41.90292690968287, 12.506917225419008],
       "address": "Viale dell'Università, 155, Roma",
       "libraryType": "Universitaria",
@@ -749,7 +742,7 @@
       "url": "https://opac.uniroma1.it/SebinaOpacRMS/library/Sanit%C3%A0%20pubblica%20e%20malattie%20infettive%20Vittorio%20Del%20Vecchio%20-%20sala%20studio%20Malattie%20infettive%20e%20tropicali/606"
     },  
 {
-      "name": "Biblioteca del Dipartimento di Diritto ed economia delle attività produttive. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Diritto ed economia delle attività produttive. Università degli Studi di Roma La Sapienza",
       "coords": [41.90552938989152, 12.518442138795207],
       "address": "Viale del Castro Laurenziano, 9, Roma",
       "libraryType": "Universitaria",
@@ -758,7 +751,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Economia e diritto Federico Caffè. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Economia e diritto Federico Caffè. Università degli Studi di Roma La Sapienza",
       "coords": [41.90605175470436, 12.519227338912916],
       "address": "Viale del Castro Laurenziano, 9, Roma",
       "libraryType": "Universitaria",
@@ -767,7 +760,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Management Antonio Renzi. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Management Antonio Renzi. Università degli Studi di Roma La Sapienza",
       "coords": [41.90560772410054, 12.518959476078077],
       "address": "Viale del Castro Laurenziano, 9, Roma",
       "libraryType": "Universitaria",
@@ -776,7 +769,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Metodi e modelli per l’economia, il territorio e la finanza. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Metodi e modelli per l’economia, il territorio e la finanza. Università degli Studi di Roma La Sapienza",
       "coords": [41.905893631382604, 12.519416126066272],
       "address": "Viale del Castro Laurenziano, 9, Roma",
       "libraryType": "Universitaria",
@@ -785,7 +778,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Scienze di base e applicate per l’ingegneria. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze di base e applicate per l’ingegneria. Università degli Studi di Roma La Sapienza",
       "coords": [41.906324377988525, 12.5175434583815],
       "address": "Via Scarpa, 10, Roma",
       "libraryType": "Universitaria",
@@ -794,7 +787,7 @@
     },  
 
 {
-      "name": "Biblioteca generale della Facoltà di Economia Enrico Barone. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca generale della Facoltà di Economia Enrico Barone. Università degli Studi di Roma La Sapienza",
       "coords": [41.905744146347324, 12.519132796583712],
       "address": "Viale del Castro Laurenziano 9, Roma",
       "libraryType": "Universitaria",
@@ -803,7 +796,7 @@
     },  
 
 {
-      "name": "Biblioteca interdipartimentale di Medicina sperimentale e medicina molecolare. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca interdipartimentale di Medicina sperimentale e medicina molecolare. Università degli Studi di Roma La Sapienza",
       "coords": [41.90706372753377, 12.513528138912953],
       "address": "Viale Regina Elena, 324, Roma",
       "libraryType": "Universitaria",
@@ -813,7 +806,7 @@
 
 
 {
-      "name": "Biblioteca interdipartimentale di Scienze odontostomatologiche, scienze radiologiche e anatomo-patologiche e di organi di senso. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca interdipartimentale di Scienze odontostomatologiche, scienze radiologiche e anatomo-patologiche e di organi di senso. Università degli Studi di Roma La Sapienza",
       "coords": [41.90870152292468, 12.513401596583867],
       "address": "Via Caserta, 6, Roma",
       "libraryType": "Universitaria",
@@ -822,7 +815,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Neuroscienze umane. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Neuroscienze umane. Università degli Studi di Roma La Sapienza",
       "coords": [41.904443705035106, 12.512874825419013],
       "address": "Piazzale Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -831,7 +824,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Scienze biochimiche Alessandro Rossi Fanelli. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze biochimiche Alessandro Rossi Fanelli. Università degli Studi di Roma La Sapienza",
       "coords": [41.90540887736797, 12.515755896583693],
       "address": "Piazzale Aldo Moro, 5, Roma",
       "libraryType": "Universitaria",
@@ -840,7 +833,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Scienze cliniche, internistiche, anestesiologiche e cardiovascolari. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Scienze cliniche, internistiche, anestesiologiche e cardiovascolari. Università degli Studi di Roma La Sapienza",
       "coords": [41.90720228361255, 12.509361675219052],
       "address": "Viale del Policlinico 155, Roma",
       "libraryType": "Universitaria",
@@ -849,7 +842,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento Materno infantile e scienze urologiche. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento Materno infantile e scienze urologiche. Università degli Studi di Roma La Sapienza",
       "coords": [41.90771882421003, 12.512605198057491],
       "address": "Viale Regina Elena, 324, Roma",
       "libraryType": "Universitaria",
@@ -859,7 +852,7 @@
 
 
 {
-      "name": "Biblioteca interdipartimentale di Fisiopatologia cardiocircolatoria anestesiologia e chirurgia generale Paride Stefanini. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca interdipartimentale di Fisiopatologia cardiocircolatoria anestesiologia e chirurgia generale Paride Stefanini. Università degli Studi di Roma La Sapienza",
       "coords": [41.908213078078845, 12.509996111925433],
       "address": "viale del Policlinico, 155, Roma",
       "libraryType": "Universitaria",
@@ -869,7 +862,7 @@
 
 
 {
-      "name": "Biblioteca interdipartimentale di Scienze anatomiche e medicina di precisione Bartolomeo Eustachi. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca interdipartimentale di Scienze anatomiche e medicina di precisione Bartolomeo Eustachi. Università degli Studi di Roma La Sapienza",
       "coords": [41.90606903280324, 12.517982292055082],
       "address": "via Scarpa, 16, Roma",
       "libraryType": "Universitaria",
@@ -878,7 +871,7 @@
     },  
 
     {
-      "name": "Biblioteca di Filosofia. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca di Filosofia. Università degli Studi di Roma La Sapienza",
       "coords": [41.918834611141556, 12.517603338913561],
       "address": "Via Carlo Fea, 2, Roma",
       "libraryType": "Universitaria",
@@ -887,7 +880,7 @@
     },  
 
    {
-      "name": "Biblioteca centrale della Facoltà di Ingegneria Giovanni Boaga. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca centrale della Facoltà di Ingegneria Giovanni Boaga. Università degli Studi di Roma La Sapienza",
       "coords": [41.89336947961966, 12.493058110076808],
       "address": "Via Eudossiana, 18, Roma",
       "libraryType": "Universitaria",
@@ -895,7 +888,7 @@
       "url": "http://boaga.ing.uniroma1.it/chi-siamo"
     },  
  {
-      "name": "Biblioteca del Dipartimento di Ingegneria astronautica, elettrica ed energetica. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria astronautica, elettrica ed energetica. Università degli Studi di Roma La Sapienza",
       "coords": [41.894294622465715, 12.493852696583104],
       "address": "Via delle Sette Sale 12/B, Roma",
       "libraryType": "Universitaria",
@@ -904,7 +897,7 @@
     },  
 
  {
-      "name": "Biblioteca del Dipartimento di Ingegneria chimica materiali ambiente. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria chimica materiali ambiente. Università degli Studi di Roma La Sapienza",
       "coords": [41.894294622465715, 12.493852696583104],
       "address": "Via Eudossiana, 18, Roma",
       "libraryType": "Universitaria",
@@ -913,7 +906,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Ingegneria civile edile e ambientale. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria civile edile e ambientale. Università Degli Studi di Roma La Sapienza",
       "coords": [41.893407331818494, 12.493048401621799],
       "address": "Via Eudossiana, 18, Roma",
       "libraryType": "Universitaria",
@@ -923,7 +916,7 @@
 
 
 {
-      "name": "Biblioteca del Dipartimento di Ingegneria dell’informazione, elettronica e telecomunicazioni. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria dell’informazione, elettronica e telecomunicazioni. Università degli Studi di Roma La Sapienza",
       "coords": [41.89348648772914, 12.492837187824556],
       "address": "Via Eudossiana, 18, Roma",
       "libraryType": "Universitaria",
@@ -932,7 +925,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Ingegneria meccanica e aerospaziale. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria meccanica e aerospaziale. Università degli Studi di Roma La Sapienza",
       "coords": [41.89351061319657, 12.492788492887403],
       "address": "Via Eudossiana, 18, Roma",
       "libraryType": "Universitaria",
@@ -941,7 +934,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Ingegneria strutturale e geotecnica. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria strutturale e geotecnica. Università degli Studi di Roma La Sapienza",
       "coords": [41.89347582176227, 12.492903593135097],
       "address": "Via Eudossiana, 18, Roma",
       "libraryType": "Universitaria",
@@ -950,7 +943,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Ingegneria informatica, automatica e gestionale Antonio Ruberti. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Ingegneria informatica, automatica e gestionale Antonio Ruberti. Università degli Studi di Roma La Sapienza",
       "coords": [41.89119504562647, 12.503637638912119],
       "address": "Via Ariosto, 25, Roma",
       "libraryType": "Universitaria",
@@ -959,7 +952,7 @@
     },  
 
 {
-      "name": "Biblioteca del Dipartimento di Lingue e letterature straniere moderne. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento di Lingue e letterature straniere moderne. Università degli Studi di Roma La Sapienza",
       "coords": [41.896621487136564, 12.52004591007696],
       "address": "Circonvallazione Tiburtina, 4, Roma",
       "libraryType": "Universitaria",
@@ -969,7 +962,7 @@
 
 
     {
-      "name": "Biblioteca del Dipartimento Istituto italiano di studi orientali - ISO. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca del Dipartimento Istituto italiano di studi orientali - ISO. Università degli Studi di Roma La Sapienza",
       "coords": [41.89661272902896, 12.520066567747813],
       "address": "Circonvallazione Tiburtina, 4, Roma",
       "libraryType": "Universitaria",
@@ -979,7 +972,7 @@
 
 
     {
-      "name": "Biblioteca della Facoltà di Medicina e psicologia Ernesto Valentini. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca della Facoltà di Medicina e psicologia Ernesto Valentini. Università degli Studi di Roma La Sapienza",
       "coords": [41.89669034275696, 12.516116652406176],
       "address": "Via dei Marsi, 78, Roma",
       "libraryType": "Universitaria",
@@ -988,7 +981,7 @@
     },  
 
  {
-      "name": "Biblioteca di Ricerca sociale, informatica e comunicazione. Università Degli Studi Di Roma La Sapienza",
+      "name": "Biblioteca di Ricerca sociale, informatica e comunicazione. Università degli Studi di Roma La Sapienza",
       "coords": [41.91436223934966, 12.496952310077893],
       "address": "Via Salaria, 113, Roma",
       "libraryType": "Universitaria",
@@ -999,7 +992,7 @@
     
     
     {
-      "name": "Biblioteca Comunale Di Albano Laziale Cesare De Santis",
+      "name": "Biblioteca Comunale Cesare De Santis di Albano Laziale",
       "coords": [41.726805368800335, 12.661762388903735],
       "address": "Viale Risorgimento, 5, Albano",
       "libraryType": "Comunale",
@@ -1070,7 +1063,7 @@
       "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-genzano-di-roma"
     },   
     {
-      "name": "Biblioteca di Bruno Martellotta di Grottaferrata",
+      "name": "Biblioteca Bruno Martellotta di Grottaferrata",
       "coords": [41.79524683928027, 12.66929575424878],
       "address": "Viale Giovanni Dusmet, 20, Grottaferrata",
       "libraryType": "Comunale",
@@ -1142,7 +1135,7 @@
     },  
 
         {
-      "name": "Biblioteca Luigi Porcari di Rocca PRIORA",
+      "name": "Biblioteca Luigi Porcari di Rocca Priora",
       "coords": [41.794798141889466, 12.76326025424883],
       "address": "Via Francesco Giacci 3, Rocca Priora",
       "libraryType": "Comunale",
@@ -1150,7 +1143,7 @@
       "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/ROCCA-PRIORA/"
     },  
             {
-      "name": "Biblioteca Giovanni Cena di Colle di Fuori (Rocca PRIORA)",
+      "name": "Biblioteca Giovanni Cena di Colle di Fuori (Rocca Priora)",
       "coords": [41.79606553677703, 12.806299140755067],
       "address": "Piazza Giovanni Cena, 3, Colle di Fuori (Rocca Priora)",
       "libraryType": "Comunale",
@@ -1158,8 +1151,7 @@
       "url": "https://www.bibliotechecastelliromani.it/biblioteche-scr/biblioteca-di-colle-di-fuori/"
     },  
 
-
-            {
+    {
       "name": "Biblioteca Augusto Tersenghi di Velletri",
       "coords": [41.69137024492294, 12.776194725408116],
       "address": "Piazza Trento e Trieste, Velletri",
@@ -1168,18 +1160,8 @@
       "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-velletri/"
     },  
 
-
     
     {
-      "name": "Biblioteca Augusto Tersenghi di Velletri",
-      "coords": [41.69137024492294, 12.776194725408116],
-      "address": "Piazza Trento e Trieste, Velletri",
-      "libraryType": "Comunale",
-      "system": "BIBLIOTECHE SISTEMA CASTELLI ROMANI",
-      "url": "https://sbcr.comperio.it/biblioteche-scr/biblioteca-di-velletri/"
-    },
-
-       {
       "name": "Biblioteca Comunale Angela Zucconi di Anguillara ",
       "coords": [42.09308462177522, 12.27378582576864],
       "address": "Largo dello Zodiaco, 21, Anguillara Sabazia",
@@ -1189,7 +1171,7 @@
     },  
 
       {
-      "name": "Biblioteca Comunale Di Bracciano Bartolomea Orsini",
+      "name": "Biblioteca Comunale Bartolomea Orsini di Bracciano",
       "coords": [42.10073124195649, 12.175232038922884],
       "address": "Via del Pratoterra, 2, Bracciano",
       "libraryType": "Comunale",
@@ -1199,7 +1181,7 @@
 
 
       {
-      "name": "Biblioteca Comunale Di Campagnano Carlo Maggiorani",
+      "name": "Biblioteca Comunale Carlo Maggiorani di Campagnano",
       "coords": [42.13907331839105, 12.381118850570763],
       "address": "Corso Vittorio Emanuele, 2, Campagnano di Roma",
       "libraryType": "Comunale",
@@ -1225,14 +1207,6 @@
       "libraryType": "Comunale",
       "system": "Sistema Bibliotecario Ceretano-Sabatino",
       "url": "https://opac.regione.lazio.it/SebinaOpac/library/Formello%20-%20Biblioteca%20Comunale/RL1GQ"
-    },  
-   {
-      "name": "Biblioteca Comunale Peppino Impastato di Ladispoli",
-      "coords": [41.959594501464295, 12.07137981008028],
-      "address": "Via Caltagirone, snc, Ladispoli",
-      "libraryType": "Comunale",
-      "system": "Sistema Bibliotecario Ceretano-Sabatino",
-      "url": "https://opac.regione.lazio.it/SebinaOpac/library/Comunale%20di%20Ladispoli%20'Peppino%20Impastato'/RL1A6?sysb=ceretano"
     },  
    {
       "name": "Biblioteca Comunale Peppino Impastato di Ladispoli",
@@ -1312,15 +1286,6 @@
       "url": "https://sbmp.comperio.it/library/CIVICA-CAVENSE/"
     },  
     
-
-  {
-      "name": "Biblioteca Civica Cavense",
-      "coords": [41.819121176147775, 12.933393328324742],
-      "address": "Piazza Caduti di Nassiriya, Cave",
-      "libraryType": "Comunale",
-      "system": "Sistema Bibliotecario Monti Prenestini",
-      "url": "https://sbmp.comperio.it/library/CIVICA-CAVENSE/"
-    },  
 
   {
       "name": "Biblioteca Comunale Albio Tibullo di Gallicano",
