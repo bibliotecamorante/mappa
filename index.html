@@ -709,7 +709,19 @@ body, html {
     content: '−';
 }
 
-        
+.search-container button.reset-btn {
+  background-color: #808080;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.search-container button.reset-btn:hover {
+  background-color: #666666;
+}        
     </style>
 </head>
 <body>
@@ -748,10 +760,12 @@ body, html {
 <!-- Seconda barra laterale (espansione) -->
 <div class="sidebar-expanded" id="expandedSidebar">
     <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
-    <!-- Aggiungi questa linea -->
+
+    <!-- Contenitore della ricerca -->
     <div class="search-container" id="searchContainer">
         <div style="display: flex; align-items: center; gap: 10px;">
-            <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Elsa Morante">
+            <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" 
+               title="Vai alla Biblioteca Elsa Morante">
                 <img src="home.svg" alt="Biblioteca Home" class="icon">
             </a>
             <div class="search-input-wrapper" style="flex: 1;">
@@ -759,11 +773,18 @@ body, html {
                 <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
             </div>
         </div>
+
         <div id="library-suggestions" class="custom-datalist"></div>
-        <button onclick="searchRoute()">Trova Percorso</button>
-    </div>
-    <div id="search-results"></div>
+
+        <!-- Contenitore pulsanti -->
+<div style="display: flex; gap: 10px; margin-top: 10px;">
+  <button onclick="searchRoute()" style="flex: 1; background-color: var(--primary);">Cerca</button>
+  <button onclick="resetMap()" class="reset-btn">Reset</button>
 </div>
+
+        <div id="search-results"></div>
+    </div> <!-- Chiusura corretta del div "search-container" -->
+</div> <!-- Chiusura corretta del div "sidebar-expanded" -->
 
 
 <!-- Nuovo pannello per le biblioteche federate -->
@@ -1869,6 +1890,52 @@ function zoomToSystemLibraries(systemName) {
     const count = systemMarkers.length;
     const message = `Trovate ${count} biblioteche del sistema ${systemName}`;
     console.log(message);
+}
+
+function resetMap() {
+    // Chiude tutti i popup aperti
+    map.closePopup();
+
+    // Rimuove il bordo del municipio evidenziato
+    if (currentBorder) {
+        map.removeLayer(currentBorder);
+        currentBorder = null;
+    }
+
+    // Resetta l'evidenziazione nella legenda
+    const allLegendItems = document.querySelectorAll('.legend-item');
+    allLegendItems.forEach(item => {
+        item.classList.remove('highlighted');
+    });
+
+    // Resetta la selezione del municipio
+    selectedMunicipio = null;
+
+    // Pulisce i risultati di ricerca
+    const searchResults = document.getElementById('search-results');
+    if (searchResults) {
+        searchResults.style.display = 'none';
+        searchResults.innerHTML = '';
+    }
+
+    // Se il municipio 10 è visibile, ripristina il suo stile originale
+    if (municipioLayers[10]) {
+        municipioLayers[10].setStyle({
+            color: municipalityColors[10],
+            weight: 3,
+            opacity: 0.65,
+            fillOpacity: 0
+        });
+    }
+
+    // Svuota il campo di ricerca
+    const searchInput = document.getElementById('start-point');
+    if (searchInput) {
+        searchInput.value = ''; // Imposta il valore del campo di ricerca a una stringa vuota
+    }
+
+    // Nascondi il pulsante "x" di cancellazione
+    toggleClearButton();
 }
         
     </script>
