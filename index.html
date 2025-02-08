@@ -2007,11 +2007,16 @@ function resetMap() {
     // Svuota il campo di ricerca
     const searchInput = document.getElementById('start-point');
     if (searchInput) {
-        searchInput.value = ''; // Imposta il valore del campo di ricerca a una stringa vuota
+        searchInput.value = '';
     }
 
     // Nascondi il pulsante "x" di cancellazione
     toggleClearButton();
+
+    // Rimuovi le biblioteche federate se sono visibili
+    if (federatedLibrariesVisible) {
+        toggleFederatedLibraries(); // Questa funzione inverte lo stato delle biblioteche federate
+    }
 }
         
     </script>
