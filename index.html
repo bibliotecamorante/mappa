@@ -1083,28 +1083,33 @@ function showMunicipioAndLibraries(municipioNumber, libraries) {
     selectedMunicipio = municipioNumber;
 }
 
-function selectLibrary(library) {
+function selectLibrary(name, lat, lng, municipalityNumber) {
     let foundMarker = null;
+    
+    // Cerca il marker corrispondente alla biblioteca
     map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
             const pos = layer.getLatLng();
-            if (pos.lat === library.coords[0] && pos.lng === library.coords[1]) {
+            if (pos.lat === lat && pos.lng === lng) {
                 foundMarker = layer;
             }
         }
     });
 
     if (foundMarker) {
+        // Apri il popup e centra la mappa sul marker
         foundMarker.openPopup();
         map.setView(foundMarker.getLatLng(), 14);
-        loadAndShowBorder(library.municipality, map);
-        highlightLegendItem(library.municipality);
-        selectedMunicipio = library.municipality;
+        
+        // Evidenzia il municipio corrispondente
+        loadAndShowBorder(municipalityNumber, map);
+        highlightLegendItem(municipalityNumber);
+        selectedMunicipio = municipalityNumber;
     } else {
-        console.log('Marker not found for library:', library);
+        console.log('Marker not found for library:', name);
     }
 
-    // Nascondi il riquadro dei risultati
+    // Nascondi il riquadro dei risultati se presente
     const resultsContainer = document.getElementById('search-results');
     if (resultsContainer) {
         resultsContainer.style.display = 'none';
@@ -1643,10 +1648,10 @@ fetch('municipio10.geojson')
 const legendContainer = document.querySelector('.legend-container .legend-grid');
 if (legendContainer) {
     legendContainer.innerHTML = Object.entries(municipalityColors).map(([num, color]) => {
-        const municipioLibraries = window.libraryData.libraries
-            .filter(lib => lib.municipality === parseInt(num))
-            .map(lib => `<div class="library-item-legend" onclick="selectLibrary(${JSON.stringify(lib)})">${lib.name}</div>`)
-            .join('');
+const municipioLibraries = window.libraryData.libraries
+  .filter(lib => lib.municipality === parseInt(num))
+  .map(lib => `<div class="library-item-legend" onclick="selectLibrary('${lib.name}', ${lib.coords[0]}, ${lib.coords[1]}, ${lib.municipality})">${lib.name}</div>`)
+  .join('');
         
         return `
             <div class="legend-item" data-municipio="${num}">
