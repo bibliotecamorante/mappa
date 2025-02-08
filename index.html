@@ -950,20 +950,27 @@ async function searchLibrary() {
     try {
         const response = await fetch('libraries.json');
         const data = await response.json();
-
-        // Trova la biblioteca cercata
-        const foundLibrary = data.libraries.find(library =>
+        
+        // Cerca tra tutte le biblioteche (Roma e federate)
+        const foundRomeLibrary = data.libraries.find(library => 
+            library.name.toLowerCase().includes(searchTerm)
+        );
+        const foundFederatedLibrary = data.federate.find(library => 
             library.name.toLowerCase().includes(searchTerm)
         );
 
-        if (foundLibrary) {
-            // Trova tutte le biblioteche dello stesso municipio
-            const librariesInMunicipio = data.libraries.filter(library =>
-                library.municipality === foundLibrary.municipality
+        if (foundRomeLibrary) {
+            // Logica esistente per le biblioteche di Roma
+            const librariesInMunicipio = data.libraries.filter(library => 
+                library.municipality === foundRomeLibrary.municipality
             );
-
-            // Mostra il municipio e le biblioteche
-            showMunicipioAndLibraries(foundLibrary.municipality, librariesInMunicipio);
+            showMunicipioAndLibraries(foundRomeLibrary.municipality, librariesInMunicipio);
+        } else if (foundFederatedLibrary) {
+            // Nuova logica per le biblioteche federate
+            const federatedSystem = data.federate.filter(library => 
+                library.system === foundFederatedLibrary.system
+            );
+            showFederatedLibraries(federatedSystem);
         } else {
             alert('Biblioteca non trovata. Riprova.');
         }
@@ -973,6 +980,75 @@ async function searchLibrary() {
     }
 }
 
+
+
+function showFederatedLibraries(libraries) {
+    const resultsContainer = document.getElementById('search-results');
+    resultsContainer.innerHTML = '';
+
+    // Aggiungi il titolo del sistema bibliotecario
+    const systemDiv = document.createElement('div');
+    systemDiv.className = 'municipio-title';
+    systemDiv.textContent = libraries[0].system;
+    resultsContainer.appendChild(systemDiv);
+
+    // Aggiungi le biblioteche del sistema
+    libraries.forEach(library => {
+        const libraryDiv = document.createElement('div');
+        libraryDiv.className = 'library-item';
+        libraryDiv.textContent = library.name;
+        libraryDiv.onclick = () => selectFederatedLibrary(library);
+        resultsContainer.appendChild(libraryDiv);
+    });
+
+    // Mostra il riquadro dei risultati
+    if (libraries.length > 0) {
+        resultsContainer.style.display = 'block';
+    } else {
+        resultsContainer.style.display = 'none';
+    }
+}
+
+function selectFederatedLibrary(library) {
+    let foundMarker = null;
+    map.eachLayer((layer) => {
+        if (layer instanceof L.Marker) {
+            const pos = layer.getLatLng();
+            if (pos.lat === library.coords[0] && pos.lng === library.coords[1]) {
+                foundMarker = layer;
+            }
+        }
+    });
+
+    if (foundMarker) {
+        foundMarker.openPopup();
+        map.setView(foundMarker.getLatLng(), 14);
+    } else {
+        // Se il marker non è sulla mappa (biblioteca federata non visibile)
+        // Prima rendi visibili le biblioteche federate
+        if (!federatedLibrariesVisible) {
+            toggleFederatedLibraries();
+        }
+        // Poi trova e apri il popup della biblioteca
+        const marker = window.federatedMarkers.find(m => 
+            m.getLatLng().lat === library.coords[0] && 
+            m.getLatLng().lng === library.coords[1]
+        );
+        if (marker) {
+            marker.addTo(map);
+            marker.openPopup();
+            map.setView(marker.getLatLng(), 14);
+        }
+    }
+
+    // Nascondi il riquadro dei risultati
+    const resultsContainer = document.getElementById('search-results');
+    if (resultsContainer) {
+        resultsContainer.style.display = 'none';
+    }
+}        
+
+        
 function showMunicipioAndLibraries(municipioNumber, libraries) {
     const resultsContainer = document.getElementById('search-results');
     
