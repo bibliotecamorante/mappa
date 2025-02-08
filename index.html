@@ -721,7 +721,16 @@ body, html {
 
 .search-container button.reset-btn:hover {
   background-color: #666666;
-}        
+}
+
+
+.municipio-zone {
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+}
+        
     </style>
 </head>
 <body>
@@ -880,7 +889,25 @@ const municipalityColors = {
     15: "#000000"  // Nero
 };
 
+const municipalityZones = {
+    1: "Centro storico",
+    2: "Parioli/Nomentano",
+    3: "Monte Sacro",
+    4: "Tiburtina",
+    5: "Prenestino/Centocelle",
+    6: "Roma Delle Torri",
+    7: "Appio-Latino/Tuscolano/Cinecittà",
+    8: "Appia Antica",
+    9: "EUR",
+    10: "Ostia/Acilia",
+    11: "Arvalia/Portuense",
+    12: "Monte Verde",
+    13: "Aurelia",
+    14: "Monte Mario",
+    15: "Cassia/Flaminia"
+};
 
+        
 
               // Funzione per convertire numeri in numeri romani
         function romanize(num) {
@@ -1653,18 +1680,19 @@ const municipioLibraries = window.libraryData.libraries
   .map(lib => `<div class="library-item-legend" onclick="selectLibrary('${lib.name}', ${lib.coords[0]}, ${lib.coords[1]}, ${lib.municipality})">${lib.name}</div>`)
   .join('');
         
-        return `
-            <div class="legend-item" data-municipio="${num}">
-                <div class="legend-item-header" onclick="handleMunicipioClick(${num}, event)">
-                    <span style="background: ${color}"></span>
-                    <div class="text">Municipio ${romanize(parseInt(num))}</div>
-                </div>
-                <button class="expand-button" onclick="toggleLibrariesList(${num}, event)"></button>
-                <div class="libraries-list">
-                    ${municipioLibraries}
-                </div>
-            </div>
-        `;
+return `
+    <div class="legend-item" data-municipio="${num}">
+        <div class="legend-item-header" onclick="handleMunicipioClick(${num}, event)">
+            <span style="background: ${color}"></span>
+            <div class="text">Municipio ${romanize(parseInt(num))}</div>
+        </div>
+        <button class="expand-button" onclick="toggleLibrariesList(${num}, event)"></button>
+        <div class="libraries-list">
+            ${municipioLibraries}
+            <div class="municipio-zone">Zona: ${municipalityZones[num]}</div>
+        </div>
+    </div>
+`;
     }).join('');
 }
 
