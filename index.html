@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mappa Municipio X - Biblioteca Elsa Morante</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css">
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
 
@@ -730,7 +730,11 @@ body, html {
     margin-top: 10px;
     font-style: italic;
 }
-        
+.highlighted-library {
+    background-color: #ffcc00;  /* Colore di evidenziazione #ffeb3b; */
+    font-weight: bold;
+    border: 2px solid #fbc02d;
+}        
     </style>
 </head>
 <body>
@@ -767,33 +771,29 @@ body, html {
     
 
 <!-- Seconda barra laterale (espansione) -->
+<!-- Seconda barra laterale (espansione) -->
 <div class="sidebar-expanded" id="expandedSidebar">
-    <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
-
-    <!-- Contenitore della ricerca -->
-    <div class="search-container" id="searchContainer">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" 
-               title="Vai alla Biblioteca Elsa Morante">
-                <img src="home.svg" alt="Biblioteca Home" class="icon">
-            </a>
-            <div class="search-input-wrapper" style="flex: 1;">
-                <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions">
-                <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
-            </div>
-        </div>
-
-        <div id="library-suggestions" class="custom-datalist"></div>
-
-        <!-- Contenitore pulsanti -->
-<div style="display: flex; gap: 10px; margin-top: 10px;">
-  <button onclick="searchRoute()" style="flex: 1; background-color: var(--primary);">Cerca</button>
-  <button onclick="resetMap()" class="reset-btn">Reset</button>
+  <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
+  <!-- Contenitore della ricerca -->
+  <div class="search-container" id="searchContainer">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Elsa Morante">
+        <img src="home.svg" alt="Biblioteca Home" class="icon">
+      </a>
+      <div class="search-input-wrapper" style="flex: 1;">
+        <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions">
+        <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
+      </div>
+    </div>
+    <div id="library-suggestions" class="custom-datalist"></div>
+    <!-- Contenitore pulsanti -->
+    <div style="display: flex; gap: 10px; margin-top: 10px;">
+      <button onclick="searchRoute()" style="flex: 1; background-color: var(--primary);">Cerca</button>
+      <button onclick="resetMap()" class="reset-btn">Reset</button>
+    </div>
+    <div id="search-results"></div>
+  </div>
 </div>
-
-        <div id="search-results"></div>
-    </div> <!-- Chiusura corretta del div "search-container" -->
-</div> <!-- Chiusura corretta del div "sidebar-expanded" -->
 
 
 <!-- Nuovo pannello per le biblioteche federate -->
@@ -854,12 +854,7 @@ body, html {
             
         </div>
     </div>
-</div>
 
-
-    
-    <div id=search-results></div>
-</div>
 
     <div id="map"></div>
     
@@ -977,27 +972,16 @@ async function searchLibrary() {
     try {
         const response = await fetch('libraries.json');
         const data = await response.json();
-        
-        // Cerca tra tutte le biblioteche (Roma e federate)
-        const foundRomeLibrary = data.libraries.find(library => 
-            library.name.toLowerCase().includes(searchTerm)
-        );
-        const foundFederatedLibrary = data.federate.find(library => 
-            library.name.toLowerCase().includes(searchTerm)
-        );
+
+        const foundRomeLibrary = data.libraries.find(library => library.name.toLowerCase().includes(searchTerm));
+        const foundFederatedLibrary = data.federate.find(library => library.name.toLowerCase().includes(searchTerm));
 
         if (foundRomeLibrary) {
-            // Logica esistente per le biblioteche di Roma
-            const librariesInMunicipio = data.libraries.filter(library => 
-                library.municipality === foundRomeLibrary.municipality
-            );
-            showMunicipioAndLibraries(foundRomeLibrary.municipality, librariesInMunicipio);
+            const librariesInMunicipio = data.libraries.filter(library => library.municipality === foundRomeLibrary.municipality);
+            showMunicipioAndLibraries(foundRomeLibrary.municipality, librariesInMunicipio, foundRomeLibrary.name);
         } else if (foundFederatedLibrary) {
-            // Nuova logica per le biblioteche federate
-            const federatedSystem = data.federate.filter(library => 
-                library.system === foundFederatedLibrary.system
-            );
-            showFederatedLibraries(federatedSystem);
+            const federatedSystem = data.federate.filter(library => library.system === foundFederatedLibrary.system);
+            showFederatedLibraries(federatedSystem, foundFederatedLibrary.name); // Passa il nome della biblioteca cercata
         } else {
             alert('Biblioteca non trovata. Riprova.');
         }
@@ -1009,7 +993,7 @@ async function searchLibrary() {
 
 
 
-function showFederatedLibraries(libraries) {
+function showFederatedLibraries(libraries, searchedLibraryName = null) {
     const resultsContainer = document.getElementById('search-results');
     resultsContainer.innerHTML = '';
 
@@ -1023,6 +1007,12 @@ function showFederatedLibraries(libraries) {
     libraries.forEach(library => {
         const libraryDiv = document.createElement('div');
         libraryDiv.className = 'library-item';
+
+        // Evidenzia la biblioteca cercata
+        if (searchedLibraryName && library.name === searchedLibraryName) {
+            libraryDiv.classList.add('highlighted-library'); // Aggiungi una classe per evidenziare
+        }
+
         libraryDiv.textContent = library.name;
         libraryDiv.onclick = () => selectFederatedLibrary(library);
         resultsContainer.appendChild(libraryDiv);
@@ -1076,35 +1066,32 @@ function selectFederatedLibrary(library) {
 }        
 
         
-function showMunicipioAndLibraries(municipioNumber, libraries) {
+function showMunicipioAndLibraries(municipioNumber, libraries, searchedLibraryName = null) {
     const resultsContainer = document.getElementById('search-results');
-    
-    // Svuota il contenuto precedente
     resultsContainer.innerHTML = '';
 
-    // Aggiungi il titolo del municipio
     const municipioDiv = document.createElement('div');
     municipioDiv.className = 'municipio-title';
     municipioDiv.textContent = `Municipio ${romanize(municipioNumber)}`;
     resultsContainer.appendChild(municipioDiv);
 
-    // Aggiungi le biblioteche del municipio
     libraries.forEach(library => {
         const libraryDiv = document.createElement('div');
         libraryDiv.className = 'library-item';
+        if (searchedLibraryName && library.name === searchedLibraryName) {
+            libraryDiv.classList.add('highlighted-library'); // Aggiungi una classe per evidenziare
+        }
         libraryDiv.textContent = library.name;
-        libraryDiv.onclick = () => selectLibrary(library);
+        libraryDiv.onclick = () => selectLibrary(library.name, library.coords[0], library.coords[1], library.municipality);
         resultsContainer.appendChild(libraryDiv);
     });
 
-    // Mostra il riquadro dei risultati solo se ci sono biblioteche
     if (libraries.length > 0) {
         resultsContainer.style.display = 'block';
     } else {
         resultsContainer.style.display = 'none';
     }
 
-    // Evidenzia il municipio sulla mappa
     loadAndShowBorder(municipioNumber, map);
     highlightLegendItem(municipioNumber);
     selectedMunicipio = municipioNumber;
@@ -1112,7 +1099,7 @@ function showMunicipioAndLibraries(municipioNumber, libraries) {
 
 function selectLibrary(name, lat, lng, municipalityNumber) {
     let foundMarker = null;
-    
+
     // Cerca il marker corrispondente alla biblioteca
     map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
@@ -1127,7 +1114,7 @@ function selectLibrary(name, lat, lng, municipalityNumber) {
         // Apri il popup e centra la mappa sul marker
         foundMarker.openPopup();
         map.setView(foundMarker.getLatLng(), 14);
-        
+
         // Evidenzia il municipio corrispondente
         loadAndShowBorder(municipalityNumber, map);
         highlightLegendItem(municipalityNumber);
