@@ -217,11 +217,12 @@ body, html {
 
 .legend-container {
     padding: 20px;
+    font-size: 16px; /* Aumentato da 14px */
 }
 
 .legend-container h4 {
-    margin: 0 0 12px 0;
-    font-size: 14px;
+    margin: 0 0 15px 0;
+    font-size: 18px; /* Aumentato da 16px */
     color: #333;
 }
 
@@ -315,7 +316,7 @@ body, html {
 }
 
 .legend-item .text {
-    font-size: 13px;
+    font-size: 16px; /* Aumentato da 14px */
     color: #4a5568;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -597,13 +598,13 @@ body, html {
 
 /* Stile per il contenitore delle biblioteche federate */
 .federate-container {
+    font-size: 16px; /* Aumentato da 14px */
     padding: 20px;
 }
 
 .federate-container h4 {
-    
-    margin: 0 0 12px 0;
-    font-size: 14px;
+    font-size: 18px; /* Aumentato da 16px */
+    margin: 0 0 18px 0;
     color: #333;
 }
 
@@ -632,7 +633,7 @@ body, html {
 }
 
 .federate-container .legend-item .text {
-    font-size: 13px;
+    font-size: 16px; /* Aumentato da 14px */
     color: #4a5568;
     font-weight: 500;
     letter-spacing: 0.02em;
@@ -659,7 +660,8 @@ body, html {
 }
 
 .library-item-legend {
-    padding: 4px 0;
+    font-size: 15px; /* Aumentato da 13px */
+    padding: 8px 10px; /* Aumentato il padding per migliore leggibilità */
     color: #666;
     cursor: pointer;
     transition: color 0.2s ease;
@@ -725,7 +727,8 @@ body, html {
 
 
 .municipio-zone {
-    font-size: 12px;
+    font-size: 15px; /* Aumentato da 13px */
+    padding: 8px 0;
     color: #666;
     margin-top: 10px;
     font-style: italic;
@@ -734,7 +737,20 @@ body, html {
     background-color: #ffcc00;  /* Colore di evidenziazione #ffeb3b; */
     font-weight: bold;
     border: 2px solid #fbc02d;
-}        
+}
+.reset-button:hover {
+    transform: scale(1.1);
+}
+
+.reset-button:hover .reset-icon {
+    filter: invert(58%) sepia(15%) saturate(1700%) hue-rotate(182deg) brightness(75%) contrast(87%);
+}
+
+.reset-button:active {
+    transform: scale(0.95);
+}
+
+        
     </style>
 </head>
 <body>
@@ -762,7 +778,12 @@ body, html {
 <div class="sidebar-expanded" id="legendSidebar">
     <div class="sidebar-close-icon" onclick="toggleLegendSidebar()"></div>
     <div class="legend-container">
-        <h4>Mappa Biblioteche di Roma per Municipio</h4>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
+    <h4 style="margin: 0;">Mappa Biblioteche di Roma per Municipio</h4>
+    <button onclick="resetLegend()" class="reset-button" style="background: none; border: none; cursor: pointer; padding: 5px; transition: transform 0.2s ease;">
+        <img src="undo.svg" alt="Reset" class="reset-icon" style="width: 20px; height: 20px; filter: invert(58%) sepia(15%) saturate(1700%) hue-rotate(182deg) brightness(96%) contrast(87%); transition: all 0.2s ease;">
+    </button>
+</div>
         <div class="legend-grid">
             <!-- Il contenuto della legenda verrà popolato dinamicamente dal JavaScript -->
         </div>
@@ -770,7 +791,6 @@ body, html {
 </div>
     
 
-<!-- Seconda barra laterale (espansione) -->
 <!-- Seconda barra laterale (espansione) -->
 <div class="sidebar-expanded" id="expandedSidebar">
   <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
@@ -828,15 +848,15 @@ body, html {
         </div>
         <div class="legend-item" onclick="zoomToSystemLibraries('La Sapienza')">
             <span style="background: #86134f"></span>
-            <div class="text">Sistema Bibliotecario di Ateneo<br>Università degli Studi Roma La Sapienza</div>
+            <div class="text">Sistema Bibliotecario Università La Sapienza</div>
         </div>
         <div class="legend-item" onclick="zoomToSystemLibraries('Tor Vergata')">
             <span style="background: #382724"></span>
-            <div class="text">Sistema Bibliotecario di Ateneo<br>Università degli Studi Roma Tor Vergata</div>
+            <div class="text">Sistema Bibliotecario Università Tor Vergata</div>
         </div>
         <div class="legend-item" onclick="zoomToSystemLibraries('Roma Tre')">
             <span style="background: #f20000"></span>
-            <div class="text">Sistema Bibliotecario di Ateneo<br>Università degli Studi Roma Tre</div>
+            <div class="text">Sistema Bibliotecario Università Roma Tre</div>
         </div>
     </div>
 
@@ -1683,6 +1703,12 @@ return `
     }).join('');
 }
 
+        
+
+
+
+
+        
 // Aggiungi queste nuove funzioni
 window.handleMunicipioClick = function(municipioNumber, event) {
     event.stopPropagation();
@@ -2036,6 +2062,46 @@ function resetMap() {
     // Rimuovi le biblioteche federate se sono visibili
     if (federatedLibrariesVisible) {
         toggleFederatedLibraries(); // Questa funzione inverte lo stato delle biblioteche federate
+    }
+}
+
+function resetLegend() {
+    // 1. Chiudi tutti i popup aperti sulla mappa
+    map.closePopup();
+
+    // 2. Rimuovi le aree municipali evidenziate
+    if (currentBorder) {
+        map.removeLayer(currentBorder);
+        currentBorder = null;
+    }
+
+    // 3. Richiudi i municipi espansi
+    const expandedItems = document.querySelectorAll('.legend-item.expanded');
+    expandedItems.forEach(item => {
+        item.classList.remove('expanded');
+        const librariesList = item.querySelector('.libraries-list');
+        if (librariesList) {
+            librariesList.classList.remove('expanded');
+        }
+    });
+
+    // 4. Rimuovi l'evidenziazione dalla legenda
+    const allLegendItems = document.querySelectorAll('.legend-item');
+    allLegendItems.forEach(item => {
+        item.classList.remove('highlighted');
+    });
+
+    // 5. Resetta la selezione del municipio
+    selectedMunicipio = null;
+
+    // 6. Se il municipio 10 è visibile, ripristina il suo stile originale
+    if (municipioLayers[10]) {
+        municipioLayers[10].setStyle({
+            color: municipalityColors[10],
+            weight: 3,
+            opacity: 0.65,
+            fillOpacity: 0
+        });
     }
 }
         
