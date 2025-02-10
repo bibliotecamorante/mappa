@@ -173,6 +173,7 @@ body, html {
 .search-container {
     position: relative; /* Permette di posizionare il riquadro dei risultati relativamente a questo contenitore */
     padding: 20px;
+    
     display: none;
 }
         .sidebar-expanded.open .search-container {
@@ -761,6 +762,7 @@ body, html {
         transition: bottom 0.3s ease;
         border-radius: 20px 20px 0 0; /* Bordi arrotondati nella parte superiore */
         box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombra nella parte superiore */
+        
     }
 
     .sidebar-expanded.open {
@@ -779,6 +781,12 @@ body, html {
         padding: 10px;
     }
 
+@media (max-width: 768px) {
+    .search-container > div {
+        margin-top: 25px; /* Sposta solo il contenuto interno */
+    }
+}
+
     .search-input-wrapper {
         width: 100%;
     }
@@ -787,12 +795,116 @@ body, html {
         max-height: calc(100% - 120px); /* Altezza massima per i risultati */
         overflow-y: auto;
     }
+} 
+
+/* Stili per il menu hamburger */
+.hamburger-menu {
+    display: none; /* Nascosto di default */
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 15px; /* <-- Modificato */
+    left: 10px;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+.hamburger-icon {
+    width: 24px;
+    height: 3px;
+    background-color: var(--primary);
+    border-radius: 2px;
+}
+
+/* Stili per il menu mobile */
+.mobile-menu {
+    display: none; /* Nascosto di default */
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    z-index: 1001;
+}
+
+.mobile-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.mobile-menu button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Nascondi la barra laterale fissa su mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: flex;
+    }
+}
+/* Nascondi il controllo dello zoom su dispositivi mobili */
+@media (max-width: 768px) {
+    .custom-zoom-control {
+        display: none !important;
+    }
+} 
+
+@media (max-width: 768px) {
+  .reset-button {
+    position: absolute;
+    right: 50px; /* <-- Modificato (aumenta il valore per spostarlo più a sinistra) */
+    top: 15px;
+  }
 }        
+        
     </style>
 </head>
 <body>
 
+<!-- Menu Hamburger per mobile -->
+<div class="hamburger-menu" onclick="toggleMobileMenu()">
+    <div class="hamburger-icon"></div>
+    <div class="hamburger-icon"></div>
+    <div class="hamburger-icon"></div>
+</div>
 
+<!-- Menu Mobile (nascosto di default) -->
+<div class="mobile-menu" id="mobileMenu">
+    <button onclick="toggleSearch()" data-tooltip="Cerca biblioteca o indirizzo">
+        <img src="search-icon.svg" alt="Cerca biblioteca o indirizzo">
+        <span>Cerca biblioteca</span>
+    </button>
+    <button onclick="toggleLegendSidebar()" data-tooltip="Mostra/Nascondi legenda">
+        <img src="legend-icon.svg" alt="Mostra/Nascondi legenda">
+        <span>Biblioteche di Roma</span>
+    </button>
+    <button onclick="toggleFederateSidebar()" data-tooltip="Biblioteche federate">
+        <img src="federate-icon.svg" alt="Biblioteche federate">
+        <span>Biblioteche federate</span>
+    </button>
+</div>
+
+    
     
     <!-- Barra laterale fissa -->
 <div class=sidebar>
@@ -816,7 +928,7 @@ body, html {
     <div class="sidebar-close-icon" onclick="toggleLegendSidebar()"></div>
     <div class="legend-container">
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
-    <h4 style="margin: 0;">Mappa Biblioteche di Roma per Municipio</h4>
+    <h4 style="margin: 0;">Biblioteche di Roma</h4>
     <button onclick="resetLegend()" class="reset-button" style="background: none; border: none; cursor: pointer; padding: 5px; transition: transform 0.2s ease;">
         <img src="undo.svg" alt="Reset" class="reset-icon" style="width: 20px; height: 20px; filter: invert(58%) sepia(15%) saturate(1700%) hue-rotate(182deg) brightness(96%) contrast(87%); transition: all 0.2s ease;">
     </button>
@@ -1368,9 +1480,10 @@ document.addEventListener("DOMContentLoaded", async function() {
     });
     
     zoomControl.addTo(map);
-    
+
     // Add custom CSS to the zoom control container after it's added to the map
     const zoomContainer = zoomControl.getContainer();
+    zoomContainer.classList.add('custom-zoom-control');
     zoomContainer.style.marginTop = '22px';
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -2164,6 +2277,23 @@ function resetLegend() {
         document.querySelectorAll('.sidebar-close-icon').forEach(icon => {
     icon.addEventListener('click', closeAllSidebars);
 });
+
+ // Funzione per aprire/chiudere il menu mobile
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu.style.display === 'flex') {
+        mobileMenu.style.display = 'none';
+    } else {
+        mobileMenu.style.display = 'flex';
+    }
+}
+
+// Chiudi il menu mobile quando si clicca su un pulsante
+document.querySelectorAll('.mobile-menu button').forEach(button => {
+    button.addEventListener('click', () => {
+        document.getElementById('mobileMenu').style.display = 'none';
+    });
+});       
     </script>
 </body>
 </html>
