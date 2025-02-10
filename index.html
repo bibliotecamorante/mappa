@@ -750,7 +750,44 @@ body, html {
     transform: scale(0.95);
 }
 
-        
+@media (max-width: 768px) {
+    .sidebar-expanded {
+        width: 100%;
+        height: 50%; /* Il pannello occupa metà schermo */
+        bottom: -50%; /* Posizione iniziale fuori dallo schermo */
+        top: auto;
+        left: 0;
+        right: 0;
+        transition: bottom 0.3s ease;
+        border-radius: 20px 20px 0 0; /* Bordi arrotondati nella parte superiore */
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Ombra nella parte superiore */
+    }
+
+    .sidebar-expanded.open {
+        bottom: 0; /* Mostra il pannello */
+    }
+
+    .sidebar-close-icon {
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        padding: 5px;
+    }
+
+    .search-container {
+        padding: 10px;
+    }
+
+    .search-input-wrapper {
+        width: 100%;
+    }
+
+    #search-results {
+        max-height: calc(100% - 120px); /* Altezza massima per i risultati */
+        overflow-y: auto;
+    }
+}        
     </style>
 </head>
 <body>
@@ -944,10 +981,15 @@ let removedRomeLibraries = [];
 let removedFederatedLibraries = [];
 
       // Funzione per aprire/chiudere la seconda barra laterale
-        function toggleExpandedSidebar() {
-            const expandedSidebar = document.getElementById('expandedSidebar');
-            expandedSidebar.classList.toggle('open');
-        }
+function toggleExpandedSidebar() {
+    const expandedSidebar = document.getElementById('expandedSidebar');
+    expandedSidebar.classList.toggle('open');
+    if (expandedSidebar.classList.contains('open')) {
+        document.body.style.overflow = 'hidden'; // Disabilita lo scroll del body
+    } else {
+        document.body.style.overflow = 'auto'; // Riabilita lo scroll del body
+    }
+}
 
 // Add this new function for legend toggle
 function toggleLegendSidebar() {
@@ -972,9 +1014,11 @@ function toggleLegendSidebar() {
     // Gestisco l'apertura/chiusura del pannello legenda
     legendSidebar.classList.toggle('open');
     if (legendSidebar.classList.contains('open')) {
+         document.body.style.overflow = 'hidden'; // Disabilita lo scroll del body
         legendBtn.classList.add('active');
     } else {
         legendBtn.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Riabilita lo scroll del body
     }
 }
 
@@ -1172,8 +1216,10 @@ function toggleFederateSidebar() {
     federateSidebar.classList.toggle('open');
     if (federateSidebar.classList.contains('open')) {
         federateBtn.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Disabilita lo scroll del body
     } else {
         federateBtn.classList.remove('active');
+        document.body.style.overflow = 'auto'; // Riabilita lo scroll del body
     }
 }
 
@@ -2104,7 +2150,20 @@ function resetLegend() {
         });
     }
 }
-        
+ function closeAllSidebars() {
+    const expandedSidebar = document.getElementById('expandedSidebar');
+    const legendSidebar = document.getElementById('legendSidebar');
+    const federateSidebar = document.getElementById('federateSidebar');
+    
+    expandedSidebar.classList.remove('open');
+    legendSidebar.classList.remove('open');
+    federateSidebar.classList.remove('open');
+    
+    document.body.style.overflow = 'auto'; // Riabilita lo scroll del body
+}       
+        document.querySelectorAll('.sidebar-close-icon').forEach(icon => {
+    icon.addEventListener('click', closeAllSidebars);
+});
     </script>
 </body>
 </html>
