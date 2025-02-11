@@ -800,26 +800,29 @@ body, html {
 /* Stili per il menu hamburger */
 .hamburger-menu {
     display: none; /* Nascosto di default */
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
     width: 40px;
     height: 40px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     position: fixed;
-    top: 15px; /* <-- Modificato */
+    top: 15px;
     left: 10px;
     z-index: 1001;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.hamburger-icon {
+.menu-icon {
     width: 24px;
-    height: 3px;
-    background-color: var(--primary);
-    border-radius: 2px;
+    height: 24px;
+}
+@media (min-width: 769px) {
+    .hamburger-menu {
+        display: none; /* Nascondi il menu hamburger nella versione desktop */
+    }
 }
 
 /* Stili per il menu mobile */
@@ -883,9 +886,7 @@ body, html {
 
 <!-- Menu Hamburger per mobile -->
 <div class="hamburger-menu" onclick="toggleMobileMenu()">
-    <div class="hamburger-icon"></div>
-    <div class="hamburger-icon"></div>
-    <div class="hamburger-icon"></div>
+    <img src="menu.svg" alt="Menu" class="menu-icon">
 </div>
 
 <!-- Menu Mobile (nascosto di default) -->
@@ -912,8 +913,8 @@ body, html {
 <button id=searchBtn onclick=toggleSearch() data-tooltip="Cerca biblioteca o indirizzo">
 <img src=search-icon.svg alt="Cerca biblioteca o indirizzo">
 </button>
-<button id="legendBtn" onclick="toggleLegendSidebar()" data-tooltip="Mostra/Nascondi legenda">
-    <img src="coliseum-svgrepo.svg" alt="Mostra/Nascondi legenda">
+<button id="legendBtn" onclick="toggleLegendSidebar()" data-tooltip="Biblioteche di Roma">
+    <img src="coliseum-svgrepo.svg" alt="Biblioteche di Roma">
 </button>
 
  <!-- Nuovo bottone con icona federate-icon.svg -->
