@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -944,7 +945,21 @@ body, html {
     top: 15px;
   }
 }        
-        
+/* Stile per il pulsante di geolocalizzazione */
+.mobile-menu button img {
+  width: 24px;
+  height: 24px;
+}
+
+.mobile-menu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}        
     </style>
 </head>
 <body>
@@ -956,18 +971,23 @@ body, html {
 
 <!-- Menu Mobile (nascosto di default) -->
 <div class="mobile-menu" id="mobileMenu">
-    <button onclick="toggleSearch()" data-tooltip="Cerca biblioteca o indirizzo">
-        <img src="search-icon.svg" alt="Cerca biblioteca o indirizzo">
-        <span>Cerca biblioteca</span>
-    </button>
-    <button onclick="toggleLegendSidebar()" data-tooltip="Mostra/Nascondi legenda">
-        <img src="coliseum-svgrepo.svg" alt="Mostra/Nascondi legenda">
-        <span>Biblioteche di Roma</span>
-    </button>
-    <button onclick="toggleFederateSidebar()" data-tooltip="Biblioteche federate">
-        <img src="federate-icon.svg" alt="Biblioteche federate">
-        <span>Biblioteche federate</span>
-    </button>
+  <button onclick="toggleSearch()" data-tooltip="Cerca biblioteca o indirizzo">
+    <img src="search-icon.svg" alt="Cerca biblioteca o indirizzo">
+    <span>Cerca biblioteca</span>
+  </button>
+  <button onclick="toggleLegendSidebar()" data-tooltip="Mostra/Nascondi legenda">
+    <img src="coliseum-svgrepo.svg" alt="Mostra/Nascondi legenda">
+    <span>Biblioteche di Roma</span>
+  </button>
+  <button onclick="toggleFederateSidebar()" data-tooltip="Biblioteche federate">
+    <img src="federate-icon.svg" alt="Biblioteche federate">
+    <span>Biblioteche federate</span>
+  </button>
+  <!-- Aggiungi questo nuovo pulsante per la geolocalizzazione -->
+  <button onclick="locateUser()" data-tooltip="Geolocalizza la mia posizione">
+    <img src="geolocation-phosphoricons.svg" alt="Geolocalizza la mia posizione">
+    <span>Geolocalizza</span>
+  </button>
 </div>
 
     
@@ -2364,7 +2384,40 @@ document.querySelectorAll('.mobile-menu button').forEach(button => {
     button.addEventListener('click', () => {
         document.getElementById('mobileMenu').style.display = 'none';
     });
-});       
+});
+
+// Funzione per geolocalizzare l'utente
+function locateUser() {
+  if (!navigator.geolocation) {
+    alert("La geolocalizzazione non è supportata dal tuo browser.");
+    return;
+  }
+
+  // Mostra un messaggio di caricamento
+  alert("Stiamo cercando la tua posizione...");
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const userCoords = [position.coords.latitude, position.coords.longitude];
+      map.setView(userCoords, 14); // Centra la mappa sulla posizione dell'utente con zoom 14
+
+      // Aggiungi un marker per la posizione dell'utente
+      L.marker(userCoords, {
+        title: "La tua posizione",
+        icon: L.icon({
+          iconUrl: "geolocation-phosphoricons.svg",
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        }),
+      }).addTo(map);
+    },
+    (error) => {
+      alert("Impossibile ottenere la tua posizione. Assicurati di aver concesso i permessi di geolocalizzazione.");
+      console.error("Errore di geolocalizzazione:", error);
+    }
+  );
+}
+        
     </script>
 </body>
 </html>
