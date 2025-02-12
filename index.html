@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -1033,19 +1032,20 @@ body, html {
 
 <!-- Seconda barra laterale (espansione) -->
 <div class="sidebar-expanded" id="expandedSidebar">
-  <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
-  <!-- Contenitore della ricerca -->
-  <div class="search-container" id="searchContainer">
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Elsa Morante">
-        <img src="home.svg" alt="Biblioteca Home" class="icon">
-      </a>
-      <div class="search-input-wrapper" style="flex: 1;">
-        <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions">
-        <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
-      </div>
-    </div>
-    <div id="library-suggestions" class="custom-datalist"></div>
+    <div class="sidebar-close-icon" onclick="toggleExpandedSidebar()"></div>
+    <!-- Contenitore della ricerca -->
+    <div class="search-container" id="searchContainer">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <a href="https://www.bibliotechediroma.it/opac/library/Biblioteca%20Elsa%20Morante/RMBO2" title="Vai alla Biblioteca Elsa Morante">
+                <img src="home.svg" alt="Biblioteca Home" class="icon">
+            </a>
+            <div class="search-input-wrapper" style="flex: 1;">
+                <input id="start-point" placeholder="Inserisci punto di partenza" list="library-suggestions-list">
+                <span id="clear-search" class="clear-search-btn" onclick="clearSearchField()">✕</span>
+            </div>
+        </div>
+        <datalist id="library-suggestions-list"></datalist>
+        <div id="library-suggestions" class="custom-datalist"></div>
     <!-- Contenitore pulsanti -->
     <div style="display: flex; gap: 10px; margin-top: 10px;">
       <button onclick="searchRoute()" style="flex: 1; background-color: var(--primary);">Cerca</button>
