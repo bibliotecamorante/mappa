@@ -216,9 +216,34 @@ body, html {
 }
 
 
+
+/* Stile base per il contenitore della legenda */
 .legend-container {
-    padding: 20px;
-    font-size: 16px; /* Aumentato da 14px */
+    padding: 0; /* Riduci il padding se necessario */
+    font-size: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.legend-container > div:first-child {
+    position: sticky;
+    top: 0;
+    background: #f4f7f0;
+    padding: 0px 20px; /* Riduci il padding superiore */
+    z-index: 2;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0; /* Assicuriamoci che non ci siano margini */
+}
+
+.legend-grid {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 15px; /* Rimuovi completamente il padding superiore */
+    margin-top: 0; /* Rimuovi o riduci il margine negativo */
 }
 
 @media (max-width: 768px) {
@@ -248,9 +273,10 @@ body, html {
 }        
 
 .legend-container h4 {
-    margin: 0 0 15px 0;
+    margin: 0;
     font-size: 18px; /* Aumentato da 16px */
     color: #333;
+    padding: 0;
 }
 
 /* Rimuovere questi stili dalla classe .legend esistente poiché non serviranno più */
