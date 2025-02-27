@@ -47,28 +47,37 @@ body, html {
         
 /* Barra laterale fissa */
 .sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 60px;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 40px; /* Riduci questo valore (era 20px) */
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px; /* Pulsanti abbassati */
+  padding-bottom: 0; /* Rimuoviamo padding-bottom dalla sidebar per controllare tutto dal titolo */
 }
 
+/* Contenitore per i pulsanti */
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Stili esistenti per i pulsanti */
 .sidebar button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-    margin-top: 5px;
-    position: relative;
-    transition: background-color 0.3s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  position: relative;
+  transition: background-color 0.3s ease;
 }
 
 /* Effetto hover sui pulsanti */
@@ -984,7 +993,25 @@ body, html {
   border: none;
   cursor: pointer;
   padding: 5px;
-}        
+}
+
+/* Titolo della sidebar */
+.sidebar-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    margin-top: auto;
+    margin-bottom: 70px; /* Aumentato da 20px a 40px */
+    padding-top: 5px;
+    max-height: 150px;
+    overflow: hidden;
+}
+        
     </style>
 </head>
 <body>
@@ -1030,7 +1057,8 @@ body, html {
  <!-- Nuovo bottone con icona federate-icon.svg -->
     <button id="federateBtn" onclick="toggleFederateSidebar()" data-tooltip="Biblioteche federate">
         <img src="federate-icon.svg" alt="Biblioteche federate">
-    </button>   
+    </button>
+    <div class="sidebar-title">Biblioteche di Roma</div>
 </div>
 
 
@@ -1040,9 +1068,11 @@ body, html {
 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px;">
     <h4 style="margin: 0;">Biblioteche di Roma</h4>
     <div style="display: flex; align-items: center; gap: 10px;">
-        <button onclick="resetLegend()" class="reset-button" style="background: none; border: none; cursor: pointer; padding: 5px; transition: transform 0.2s ease;">
-            <img src="undo-phosphoricons.svg" alt="Reset" class="reset-icon" style="width: 20px; height: 20px; filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%); transition: all 0.2s ease;">
-        </button>
+        
+<button onclick="resetLegend()" class="reset-button" title="Reset" style="background: none; border: none; cursor: pointer; padding: 5px; transition: transform 0.2s ease;">
+    <img src="undo-phosphoricons.svg" alt="Reset" class="reset-icon" style="width: 20px; height: 20px; filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%); transition: all 0.2s ease;">
+</button>
+
         <button onclick="toggleLegendSidebar()" class="close-button" style="background: none; border: none; cursor: pointer; padding: 5px; transition: transform 0.2s ease;">
             <img src="x.svg" alt="Chiudi" class="close-icon" style="width: 24px; height: 24px; filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%); transition: all 0.2s ease;">
         </button>
@@ -1171,21 +1201,21 @@ const municipalityColors = {
 };
 
 const municipalityZones = {
-    1: "Centro storico",
-    2: "Parioli/Nomentano",
+    1: "Centro storico / Testaccio / Esquilino / Trastevere",
+    2: "Salario / Flaminio / Tiburtino",
     3: "Monte Sacro",
-    4: "Tiburtina",
-    5: "Prenestino/Centocelle",
-    6: "Roma Delle Torri",
-    7: "Appio-Latino/Tuscolano/Cinecittà",
-    8: "Appia Antica",
-    9: "EUR",
-    10: "Ostia/Acilia",
-    11: "Arvalia/Portuense",
-    12: "Monte Verde",
-    13: "Aurelia",
-    14: "Monte Mario",
-    15: "Cassia/Flaminia"
+    4: "Pietralata / San Basilio / Tiburtino Sud",
+    5: "Tor Sapienza / Quadraro / Torpignattara",
+    6: "Borghesiana / Tor Bella Monaca",
+    7: "Romanina / Don Bosco / Appio Latino",
+    8: "Ostiense / Grottaperfetta",
+    9: "Spinaceto / EUR",
+    10: "Ostia / Acilia",
+    11: "Corviale / Marconi",
+    12: "Colli Portuensi / Gianicolense /  Villa Pamphilj",
+    13: "Valcannuta",
+    14: "Trionfale / Aurelio",
+    15: "Labaro / Farnesina"
 };
 
         
